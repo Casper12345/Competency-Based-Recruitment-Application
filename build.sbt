@@ -14,3 +14,7 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "6.0.6"
 
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
+
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+
