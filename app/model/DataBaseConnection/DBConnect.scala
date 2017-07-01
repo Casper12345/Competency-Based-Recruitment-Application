@@ -3,7 +3,7 @@ package model.DataBaseConnection
 import java.sql.{Connection, DriverManager, SQLException}
 
 /**
-  * Created by Casper on 30/06/2017.
+  * DataBase methods for Users
   */
 
 object DBConnect {
@@ -56,19 +56,50 @@ object DBConnect {
     }
 
 
-    def insertNewUser(userID: String, userName: String, passWord: String){
+    def getLatestUserId: Int = {
+
+      val selectSQL = "SELECT MAX(UserID) FROM Users"
+
+      val preparedStatement = connection.prepareStatement(selectSQL)
+
+      val rs = preparedStatement.executeQuery()
+
+      var max = 0
+
+
+      while(rs.next()){
+        max = rs.getInt(1)
+
+      }
+      max
+    }
+
+
+    def insertNewUser(userName: String, passWord: String): Boolean ={
 
       //UserID INT, UserName TEXT, PassWord TEXT
 
-      val stmt = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?)")
 
-      stmt.setString(1, userID)
+      if(containsUser(userName)){
 
-      stmt.setString(2, userName)
+        false
 
-      stmt.setString(3, passWord)
+      } else {
 
-      stmt.executeUpdate
+        val maxID = getLatestUserId
+
+        val stmt = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?)")
+
+        stmt.setString(1, (maxID + 1).toString)
+
+        stmt.setString(2, userName)
+
+        stmt.setString(3, passWord)
+
+        stmt.executeUpdate
+
+        true
+      }
 
     }
 

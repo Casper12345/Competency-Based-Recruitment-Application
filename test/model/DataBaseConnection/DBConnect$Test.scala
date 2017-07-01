@@ -38,7 +38,33 @@ class DBConnect$Test extends FunSuite {
 
   }
 
+  test("getLatestUserId"){
+
+    val db = DBConnect
+
+    db.connect()
+
+    assert(db.getLatestUserId == 1)
+
+    assert(db.getLatestUserId != 2)
+
+    db.closeConnection()
+
+
+  }
+
+
   test("insertNewUser"){
+
+    val db = DBConnect
+
+    db.connect()
+
+    assert(!db.insertNewUser("Casper", "123"))
+
+    //assert(db.insertNewUser("John", "123"))
+
+    db.closeConnection()
 
 
   }
