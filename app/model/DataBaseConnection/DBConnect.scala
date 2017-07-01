@@ -106,6 +106,8 @@ object DBConnect {
 
     def checkUser(userName: String, passWord: String): Boolean = {
 
+      connect()
+
       //UserID INT, UserName TEXT, PassWord TEXT
 
       val selectSQL = "SELECT * FROM Users WHERE UserName = ?"
@@ -130,6 +132,8 @@ object DBConnect {
           }
         }
       }
+
+      closeConnection()
 
       isUser
     }

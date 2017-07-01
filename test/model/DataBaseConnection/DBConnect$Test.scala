@@ -13,13 +13,9 @@ class DBConnect$Test extends FunSuite {
 
     val db = DBConnect
 
-    db.connect()
-
     assert(!db.checkUser("jack", "123"))
 
     assert(db.checkUser("Casper", "MyPassword"))
-
-    db.closeConnection()
 
 
   }
@@ -44,9 +40,9 @@ class DBConnect$Test extends FunSuite {
 
     db.connect()
 
-    assert(db.getLatestUserId == 1)
+    assert(db.getLatestUserId == 2)
 
-    assert(db.getLatestUserId != 2)
+    assert(db.getLatestUserId != 3)
 
     db.closeConnection()
 

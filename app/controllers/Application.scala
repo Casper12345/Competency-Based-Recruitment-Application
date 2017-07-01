@@ -1,5 +1,6 @@
 package controllers
 
+import model.DataBaseConnection.DBConnect
 import play.api._
 import play.api.mvc._
 import play.api.data.Forms._
@@ -24,9 +25,11 @@ object Application extends Controller {
 
       val (username, password) = form.bindFromRequest().get
 
+      val db = DBConnect
+
       print(username +" "+ password )
 
-      if(username == "Dadel"){
+      if(db.checkUser(username,password)){
         Redirect("/login")
       }else{
         Redirect("/loginFailure")
@@ -40,7 +43,7 @@ object Application extends Controller {
 
 
   def login = Action{
-    Ok(views.html.login("NotOK")("Really"))
+    Ok(views.html.login("Welcome")("Really"))
   }
 
 
