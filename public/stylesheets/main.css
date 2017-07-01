@@ -2,13 +2,14 @@
 .outer-container{
 
   padding: 7px;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background-image: url("../images/background.jpeg");
   background-size: cover;
   background-position: center;
   opacity: 0.2;
 }
+
 
 #upperbar{
   background-color: #00d4ff;
@@ -28,4 +29,15 @@
   background: linear-gradient(to left, rgba(200, 255, 188,1),rgba(93, 221, 247, 1)); /*Standard*/
 
 }
+
+#loginBox{
+  left: 640px;
+  top: 150px;
+  position: fixed;
+  width: 100%;
+
+
+}
+
+
 
