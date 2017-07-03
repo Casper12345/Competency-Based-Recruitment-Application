@@ -3,13 +3,16 @@
 # ~~~~
 
 # Home page
-GET    /                            controllers.Application.index
+GET    /                                          controllers.Application.index
 
-POST  /                             controllers.Application.submit
+POST  /                                           controllers.Application.submit
 
 # Login page
 
-GET /recruiterMain                          controllers.Application.recruiterMain
+GET /recruiterMain                                controllers.Application.recruiterMain
+
+GET /recruiterMain/createCandidateProfile         controllers.Application.createCandidateProfile
+
 
 
 GET /helper                          controllers.Application.helper

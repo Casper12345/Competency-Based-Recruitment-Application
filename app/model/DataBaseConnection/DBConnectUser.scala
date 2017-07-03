@@ -6,7 +6,7 @@ import java.sql.{Connection, DriverManager, SQLException}
   * DataBase methods for Users
   */
 
-object DBConnect {
+object DBConnectUser extends DBConnectUserTrait {
 
     val driver = "com.mysql.cj.jdbc.Driver"
     val url = "jdbc:mysql://localhost:3306/CandidateDataBase"
@@ -15,7 +15,7 @@ object DBConnect {
     var connection: Connection = _
 
 
-  def connect() {
+  def connect(): Unit = {
 
       try {
         Class.forName(driver)
@@ -132,7 +132,7 @@ object DBConnect {
       isUser
     }
 
-    def closeConnection(){
+    def closeConnection(): Unit ={
       connection.close()
     }
 

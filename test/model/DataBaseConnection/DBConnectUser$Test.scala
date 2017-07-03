@@ -5,13 +5,13 @@ import org.scalatest.FunSuite
 /**
   * Created by Casper on 01/07/2017.
   */
-class DBConnect$Test extends FunSuite {
+class DBConnectUser$Test extends FunSuite {
 
   // Unit test for check user
 
   test("testCheckUser") {
 
-    val db = DBConnect
+    val db = DBConnectUser
 
     assert(!db.checkUser("jack", "123"))
 
@@ -22,7 +22,7 @@ class DBConnect$Test extends FunSuite {
 
   test("containsUser"){
 
-    val db = DBConnect
+    val db = DBConnectUser
 
     db.connect()
 
@@ -36,7 +36,7 @@ class DBConnect$Test extends FunSuite {
 
   test("getLatestUserId"){
 
-    val db = DBConnect
+    val db = DBConnectUser
 
     db.connect()
 
@@ -52,7 +52,7 @@ class DBConnect$Test extends FunSuite {
 
   test("insertNewUser"){
 
-    val db = DBConnect
+    val db = DBConnectUser
 
     db.connect()
 

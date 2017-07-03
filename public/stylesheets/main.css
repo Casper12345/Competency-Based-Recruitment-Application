@@ -47,5 +47,12 @@
 
 }
 
+#candidateForm{
+  left: 100px;
+  position: absolute;
+  width: 100%;
+  top: 130px;
+}
+
 
 

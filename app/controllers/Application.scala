@@ -1,6 +1,6 @@
 package controllers
 
-import model.DataBaseConnection.DBConnect
+import model.DataBaseConnection.DBConnectUser
 import play.api._
 import play.api.mvc._
 import play.api.data.Forms._
@@ -19,13 +19,14 @@ object Application extends Controller {
 
     )
   )
+
   def submit = Action{
 
     implicit request =>
 
       val (username, password) = form.bindFromRequest().get
 
-      val db = DBConnect
+      val db = DBConnectUser
 
       print(username +" "+ password )
 
@@ -41,6 +42,12 @@ object Application extends Controller {
   def recruiterMain = Action{
     Ok(views.html.recruiterMain("Welcome")("Really"))
   }
+
+
+  def createCandidateProfile = Action{
+    Ok(views.html.createCandidateProfile())
+  }
+
 
   def helper = Action {
     Ok(views.html.Helper())
