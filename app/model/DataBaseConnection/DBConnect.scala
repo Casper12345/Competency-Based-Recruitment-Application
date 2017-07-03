@@ -40,18 +40,11 @@ object DBConnect {
 
       val rs = preparedStatement.executeQuery()
 
-      var isUser = false
-
-      while (rs.next()) {
-
-        val user = rs.getString("UserName")
-
-        if(user == userName){
-          isUser = true
-        }
+      if (rs.next()){
+        true
+      }else{
+        false
       }
-
-      isUser
 
     }
 
@@ -132,6 +125,7 @@ object DBConnect {
           }
         }
       }
+
 
       closeConnection()
 

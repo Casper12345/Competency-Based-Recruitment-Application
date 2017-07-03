@@ -30,22 +30,20 @@ object Application extends Controller {
       print(username +" "+ password )
 
       if(db.checkUser(username,password)){
-        Redirect("/login")
+
+        Redirect("/recruiterMain")
       }else{
-        Redirect("/loginFailure")
+        Redirect("/")
       }
-
-  }
-
-  def loginFailure = Action{
-    Ok(views.html.loginFailure())
   }
 
 
-  def login = Action{
-    Ok(views.html.login("Welcome")("Really"))
+  def recruiterMain = Action{
+    Ok(views.html.recruiterMain("Welcome")("Really"))
   }
 
-
+  def helper = Action {
+    Ok(views.html.Helper())
+  }
 
 }

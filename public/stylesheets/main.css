@@ -16,8 +16,16 @@
   border-radius: 0;
   position: fixed;
   top: 10px;
+  height: 50px;
   width: 100%;
   z-index: 100;
+}
+
+#mainMenu{
+  position: absolute;
+  background-color: #00d4ff;
+
+
 }
 
 #lowerbar{
