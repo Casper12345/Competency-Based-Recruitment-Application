@@ -20,7 +20,7 @@ object Application extends Controller {
     )
   )
 
-  def submit = Action{
+  def submit = Action {
 
     implicit request =>
 
@@ -28,29 +28,52 @@ object Application extends Controller {
 
       val db = DBConnectUser
 
-      print(username +" "+ password )
+      print(username + " " + password)
 
-      if(db.checkUser(username,password)){
+      if (db.checkUser(username, password)) {
 
         Redirect("/recruiterMain")
-      }else{
+      } else {
         Redirect("/")
       }
   }
 
 
-  def recruiterMain = Action{
+  def recruiterMain = Action {
     Ok(views.html.recruiterMain("Welcome")("Really"))
   }
 
 
-  def createCandidateProfile = Action{
+  def createCandidateProfile = Action {
     Ok(views.html.createCandidateProfile())
   }
 
 
   def helper = Action {
     Ok(views.html.Helper())
+  }
+
+
+  val candidateForm = Form(
+    tuple(
+      "name" -> text,
+      "education" -> text,
+      "currentJobTitle" -> text,
+      "subject" -> text
+
+    )
+  )
+
+  def candidateFormSubmit = Action {
+    implicit request =>
+      val (name, education, currentJobTitle, subject) = candidateForm.bindFromRequest().get
+      print(name, education)
+      Redirect("/recruiterMain")
+  }
+
+  def myTemplate = Action {
+
+    Ok(views.html.MyTemplate())
   }
 
 }

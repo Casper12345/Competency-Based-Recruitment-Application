@@ -8,133 +8,132 @@ import java.sql.{Connection, DriverManager, SQLException}
 
 object DBConnectUser extends DBConnectUserTrait {
 
-    val driver = "com.mysql.cj.jdbc.Driver"
-    val url = "jdbc:mysql://localhost:3306/CandidateDataBase"
-    val username = "masterUser"
-    val password = "password"
-    var connection: Connection = _
+  val driver = "com.mysql.cj.jdbc.Driver"
+  val url = "jdbc:mysql://localhost:3306/CandidateDataBase"
+  val username = "masterUser"
+  val password = "password"
+  var connection: Connection = _
 
 
   def connect(): Unit = {
 
-      try {
-        Class.forName(driver)
-        connection = DriverManager.getConnection(url, username, password)
+    try {
+      Class.forName(driver)
+      connection = DriverManager.getConnection(url, username, password)
 
-      } catch {
-        case e: SQLException => e.printStackTrace()
-      }
-
+    } catch {
+      case e: SQLException => e.printStackTrace()
     }
 
+  }
 
-    def containsUser(userName: String): Boolean ={
 
-      //UserID INT, UserName TEXT, PassWord TEXT
+  def containsUser(userName: String): Boolean = {
 
-      val selectSQL = "SELECT * FROM Users WHERE UserName = ?"
+    //UserID INT, UserName TEXT, PassWord TEXT
 
-      val preparedStatement = connection.prepareStatement(selectSQL)
+    val selectSQL = "SELECT * FROM Users WHERE UserName = ?"
 
-      preparedStatement.setString(1, userName)
+    val preparedStatement = connection.prepareStatement(selectSQL)
 
-      val rs = preparedStatement.executeQuery()
+    preparedStatement.setString(1, userName)
 
-      if (rs.next()){
-        true
-      }else{
-        false
-      }
+    val rs = preparedStatement.executeQuery()
 
+    if (rs.next()) {
+      true
+    } else {
+      false
     }
 
-
-    def getLatestUserId: Int = {
-
-      val selectSQL = "SELECT MAX(UserID) FROM Users"
-
-      val preparedStatement = connection.prepareStatement(selectSQL)
-
-      val rs = preparedStatement.executeQuery()
-
-      var max = 0
+  }
 
 
-      while(rs.next()){
-        max = rs.getInt(1)
+  def getLatestUserId: Int = {
 
-      }
-      max
-    }
+    val selectSQL = "SELECT MAX(UserID) FROM Users"
 
+    val preparedStatement = connection.prepareStatement(selectSQL)
 
-    def insertNewUser(userName: String, passWord: String): Boolean ={
+    val rs = preparedStatement.executeQuery()
 
-      //UserID INT, UserName TEXT, PassWord TEXT
+    var max = 0
 
 
-      if(containsUser(userName)){
-
-        false
-
-      } else {
-
-        val maxID = getLatestUserId
-
-        val stmt = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?)")
-
-        stmt.setString(1, (maxID + 1).toString)
-
-        stmt.setString(2, userName)
-
-        stmt.setString(3, passWord)
-
-        stmt.executeUpdate
-
-        true
-      }
+    while (rs.next()) {
+      max = rs.getInt(1)
 
     }
+    max
+  }
 
 
-    def checkUser(userName: String, passWord: String): Boolean = {
+  def insertNewUser(userName: String, passWord: String): Boolean = {
 
-      connect()
+    //UserID INT, UserName TEXT, PassWord TEXT
 
-      //UserID INT, UserName TEXT, PassWord TEXT
 
-      val selectSQL = "SELECT * FROM Users WHERE UserName = ?"
+    if (containsUser(userName)) {
 
-      val preparedStatement = connection.prepareStatement(selectSQL)
+      false
 
-      preparedStatement.setString(1, userName)
+    } else {
 
-      val rs = preparedStatement.executeQuery()
+      val maxID = getLatestUserId
 
-      var isUser = false
+      val stmt = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?)")
 
-      while (rs.next()) {
+      stmt.setString(1, (maxID + 1).toString)
 
-        val user = rs.getString("UserName")
+      stmt.setString(2, userName)
 
-        if(user == userName){
-          val pass = rs.getString("PassWord")
+      stmt.setString(3, passWord)
 
-          if(pass == passWord){
-            isUser = true
-          }
+      stmt.executeUpdate
+
+      true
+    }
+
+  }
+
+  def checkUser(userName: String, passWord: String): Boolean = {
+
+    connect()
+
+    //UserID INT, UserName TEXT, PassWord TEXT
+
+    val selectSQL = "SELECT * FROM Users WHERE UserName = ?"
+
+    val preparedStatement = connection.prepareStatement(selectSQL)
+
+    preparedStatement.setString(1, userName)
+
+    val rs = preparedStatement.executeQuery()
+
+    var isUser = false
+
+    while (rs.next()) {
+
+      val user = rs.getString("UserName")
+
+      if (user == userName) {
+        val pass = rs.getString("PassWord")
+
+        if (pass == passWord) {
+          isUser = true
         }
       }
-
-
-      closeConnection()
-
-      isUser
     }
 
-    def closeConnection(): Unit ={
-      connection.close()
-    }
+
+    closeConnection()
+
+    isUser
+  }
+
+  def closeConnection(): Unit = {
+    connection.close()
+  }
 
 
 }
