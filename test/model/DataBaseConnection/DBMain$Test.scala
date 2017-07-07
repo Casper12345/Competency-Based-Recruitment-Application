@@ -244,4 +244,65 @@ class DBMain$Test extends FunSuite {
   }
 
 
+  test("getJobProfileByID"){
+
+    val db = DBMain
+
+    val jobProfile = db.getJobProfileByID(1)
+
+    val ID = jobProfile.head
+
+    val name  = jobProfile(1)
+
+
+    assert(ID == "1")
+
+    assert(name == "Programmer")
+
+    jobProfile.foreach(a => println(a))
+
+
+  }
+
+  // JobProfileCompetency Tests
+
+  test("addJobProfileCompetency"){
+
+    val db = DBMain
+
+    db.addJobProfileCompetency(1,1)
+
+    //val competency = db.getSkillByID(1)
+
+    //assert(competency(1) == "Leadership")
+
+  }
+
+  // JobProfileSkill Test
+  test("addJobProfileSkill"){
+
+    val db = DBMain
+
+    db.addJobProfileSkill(1,1)
+
+    //val competency = db.getSkillByID(1)
+
+    //assert(competency(1) == "Leadership")
+
+  }
+
+  // getAllSkills Test
+
+  test("getAllSkill"){
+    val db = DBMain
+
+    val skills = db.getAllSkills()
+
+    skills.foreach(a => println(a))
+
+  }
+
+
+
+
 }

@@ -40,7 +40,7 @@ object Application extends Controller {
 
 
   def recruiterMain = Action {
-    Ok(views.html.recruiterMain("Welcome")("Really"))
+    Ok(views.html.recruiter.recruiterMain("Welcome")("Really"))
   }
 
 
@@ -50,7 +50,7 @@ object Application extends Controller {
 
 
   def helper = Action {
-    Ok(views.html.Helper())
+    Ok(views.html.Helper(List[String]("a","b","c","d","e","f","g")))
   }
 
 
@@ -75,5 +75,7 @@ object Application extends Controller {
 
     Ok(views.html.MyTemplate())
   }
+
+
 
 }

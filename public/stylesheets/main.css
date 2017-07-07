@@ -45,15 +45,30 @@
 }
 
 #candidateForm {
-  left: 100px;
   position: absolute;
+  left: 50px;
+  top: 100px;
   width: 100%;
-  top: 130px;
 }
+
 
 #candidateProfileText {
   position: absolute;
-  left: 350px;
-  bottom: 310px;
+  left: 40px;
+  bottom: 10px;
+}
+
+
+
+
+#scrollList{
+  height: 200px !important;
+  overflow: scroll;
+  position: absolute;
+  left: 500px;
+  top: 100px;
+  width: 500px;
+  text-align: center;
+  word-wrap: break-word;
 }
 

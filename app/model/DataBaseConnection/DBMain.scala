@@ -8,11 +8,11 @@ import java.sql.{Connection, DriverManager, SQLException}
 
 object DBMain {
 
-  val driver = "com.mysql.cj.jdbc.Driver"
-  val url = "jdbc:mysql://localhost:3306/CandidateDataBase"
-  val username = "masterUser"
-  val password = "password"
-  var connection: Connection = _
+  private val driver = "com.mysql.cj.jdbc.Driver"
+  private val url = "jdbc:mysql://localhost:3306/CandidateDataBase"
+  private val username = "masterUser"
+  private val password = "password"
+  private var connection: Connection = _
 
 
   def connect(): Unit = {
@@ -44,11 +44,6 @@ object DBMain {
       case "ExperienceLevel" => "SELECT MAX(ExperienceLevelID) FROM ExperienceLevel"
       case "JobProfile" => "SELECT MAX(JobProfileID) FROM JobProfile"
 
-      /*
-      case "CandidateCompetency" => "SELECT MAX(CompetencyID) FROM CandidateCompetency"
-      case "CandidateSkill" => "SELECT MAX(SkillID) FROM CandidateSkill"
-      case "CandidateSkill" => "SELECT MAX(SkillID) FROM CandidateSkill"
-      */
     }
 
     val selectSQL = candidateStringFactory(table)
@@ -386,7 +381,6 @@ object DBMain {
 
     //  JobProfile(JobProfileID INT, Name TEXT)
 
-
     connect()
 
     val maxID = getLatestId("JobProfile")
@@ -403,8 +397,107 @@ object DBMain {
 
   }
 
+  def getJobProfileByID(SkillID: Int): List[String] = {
+
+    var toReturn: List[String] = Nil
+
+    connect()
+
+    val selectSQL = "SELECT * FROM JobProfile WHERE JobProfileID = ?"
+
+    val preparedStatement = connection.prepareStatement(selectSQL)
+
+    preparedStatement.setInt(1, SkillID)
+
+    val rs = preparedStatement.executeQuery()
+
+    while (rs.next()) {
+
+      toReturn = toReturn :+ rs.getString("JobProfileID")
+      toReturn = toReturn :+ rs.getString("Name")
+
+    }
+
+    closeConnection()
+
+    toReturn
+
+  }
+
+  // JobProfileCompetency DB methods
+
+  def addJobProfileCompetency(competencyID: Int, jobProfileID: Int): Unit ={
+
+    // JobProfileCompetency(CompetencyID INT, JobProfileID INT);
+
+    connect()
+
+    val stmt = connection.prepareStatement("INSERT INTO JobProfileCompetency VALUES (?,?)")
+
+    stmt.setString(1, competencyID.toString)
+
+    stmt.setString(2, jobProfileID.toString)
+
+    stmt.executeUpdate
+
+    closeConnection()
+
+  }
+
+  // JobProfileSkill DB methods
+
+  def addJobProfileSkill(skillID: Int, jobProfileID: Int): Unit ={
+
+    // JobProfileSkill(SkillID INT, JobProfileID INT);
+
+    connect()
+
+    val stmt = connection.prepareStatement("INSERT INTO JobProfileSkill VALUES (?,?)")
+
+    stmt.setString(1, skillID.toString)
+
+    stmt.setString(2, jobProfileID.toString)
+
+    stmt.executeUpdate
+
+    closeConnection()
+
+  }
 
 
+  // get all skills
+
+  def getAllSkills(): List[String] ={
+
+    var toReturn: List[String] = Nil
+
+    connect()
+
+    val selectSQL = "SELECT * FROM Skill"
+
+    val preparedStatement = connection.prepareStatement(selectSQL)
+
+    val rs = preparedStatement.executeQuery()
+
+    while (rs.next()) {
+
+      toReturn = toReturn :+ rs.getString("Name")
+
+    }
+
+    closeConnection()
+
+    toReturn
+
+  }
+
+  // add competency to candidate
+
+  def addCompetencyToCandidate(candidateID: Int, competencyID: Int, rating: Int): Unit ={
+
+
+
+  }
 
 
 }
