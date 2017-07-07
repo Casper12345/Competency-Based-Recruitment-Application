@@ -36,11 +36,13 @@ object DBMain {
   def getLatestId(table: String): Int = {
 
     def candidateStringFactory(table: String): String = table match {
+
       case "Candidate" => "SELECT MAX(CandidateID) FROM Candidate"
       case "Competency"=> "SELECT MAX(CompetencyID) FROM Competency"
       case "Skill"=> "SELECT MAX(SkillID) FROM Skill"
       case "EducationLevel" => "SELECT MAX(EducationLevelID) FROM EducationLevel"
       case "ExperienceLevel" => "SELECT MAX(ExperienceLevelID) FROM ExperienceLevel"
+      case "JobProfile" => "SELECT MAX(JobProfileID) FROM JobProfile"
 
       /*
       case "CandidateCompetency" => "SELECT MAX(CompetencyID) FROM CandidateCompetency"
@@ -333,6 +335,76 @@ object DBMain {
     toReturn
 
   }
+
+  // CandidateCompetency DB methods
+
+  def addCandidateCompetency(competencyID: Int, rating: Int, candidateID: Int): Unit ={
+
+    // CandidateCompetency(CompetencyID INT, Rating INT, CandidateID INT);
+
+    connect()
+
+    val stmt = connection.prepareStatement("INSERT INTO CandidateCompetency VALUES (?,?,?)")
+
+    stmt.setString(1, competencyID.toString)
+
+    stmt.setString(2, rating.toString)
+
+    stmt.setString(3, candidateID.toString)
+
+    stmt.executeUpdate
+
+    closeConnection()
+
+  }
+
+  // CandidateSkill DB methods
+
+  def addCandidateSkill(skillID: Int, rating: Int, candidateID: Int): Unit ={
+
+    // CandidateSkill(SkillID INT, Rating INT, CandidateID INT);
+
+    connect()
+
+    val stmt = connection.prepareStatement("INSERT INTO CandidateSkill VALUES (?,?,?)")
+
+    stmt.setString(1, skillID.toString)
+
+    stmt.setString(2, rating.toString)
+
+    stmt.setString(3, skillID.toString)
+
+    stmt.executeUpdate
+
+    closeConnection()
+
+  }
+
+  // JobProfile DB methods
+
+  def addJobProfile(name: String): Unit ={
+
+    //  JobProfile(JobProfileID INT, Name TEXT)
+
+
+    connect()
+
+    val maxID = getLatestId("JobProfile")
+
+    val stmt = connection.prepareStatement("INSERT INTO JobProfile VALUES (?,?)")
+
+    stmt.setString(1, (maxID + 1).toString)
+
+    stmt.setString(2, name)
+
+    stmt.executeUpdate
+
+    closeConnection()
+
+  }
+
+
+
 
 
 }

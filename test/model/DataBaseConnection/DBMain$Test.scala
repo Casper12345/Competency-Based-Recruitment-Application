@@ -109,7 +109,7 @@ class DBMain$Test extends FunSuite {
 
     val competency = db.getSkillByID(1)
 
-    assert(competency(1) == "Leadership")
+    assert(competency(1) == "C++")
 
   }
 
@@ -200,5 +200,48 @@ class DBMain$Test extends FunSuite {
 
 
   }
+
+  // CandidateCompetency Test
+
+  test("addCandidateCompetency"){
+
+    val db = DBMain
+
+    db.addCandidateCompetency(1, 2, 1)
+
+    //val competency = db.getSkillByID(1)
+
+    //assert(competency(1) == "Leadership")
+
+  }
+
+  // CandidateSkill Tests
+
+  test("addCandidateSkill"){
+
+    val db = DBMain
+
+    db.addCandidateSkill(1, 5, 1)
+
+    //val competency = db.getSkillByID(1)
+
+    //assert(competency(1) == "Leadership")
+
+  }
+
+  // JobProfile Tests
+
+  test("addJobProfile"){
+
+    val db = DBMain
+
+    db.addJobProfile("Programmer")
+
+    //val competency = db.getSkillByID(1)
+
+    //assert(competency(1) == "Leadership")
+
+  }
+
 
 }
