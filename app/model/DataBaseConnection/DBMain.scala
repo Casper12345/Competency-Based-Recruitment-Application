@@ -2,6 +2,7 @@ package model.DataBaseConnection
 
 import java.sql.{Connection, DriverManager, SQLException}
 
+
 /**
   * Created by Casper on 06/07/2017.
   */
@@ -9,7 +10,7 @@ import java.sql.{Connection, DriverManager, SQLException}
 object DBMain {
 
   private val driver = "com.mysql.cj.jdbc.Driver"
-  private val url = "jdbc:mysql://localhost:3306/CandidateDataBase"
+  private val url = "jdbc:mysql://localhost:3306/CandidateDataBase?autoReconnect=true&useSSL=false"
   private val username = "masterUser"
   private val password = "password"
   private var connection: Connection = _
@@ -30,7 +31,6 @@ object DBMain {
   def closeConnection(): Unit = {
     connection.close()
   }
-
 
 
   def getLatestId(table: String): Int = {
@@ -63,14 +63,14 @@ object DBMain {
 
   // methods for Candidate table
 
-  def addCandidate(name: String, surname: String, currentJobTitle: String,
+  def addCandidate(name: String, surname: String, educationName: String, currentJobTitle: String,
                    educationLevelID: String, experienceLevelID: String): Unit ={
 
     connect()
 
     val maxID = getLatestId("Candidate")
 
-    val stmt = connection.prepareStatement("INSERT INTO Candidate VALUES (?,?,?,?,?,?)")
+    val stmt = connection.prepareStatement("INSERT INTO Candidate VALUES (?,?,?,?,?,?,?)")
 
 
     stmt.setString(1, (maxID + 1).toString)
@@ -79,11 +79,13 @@ object DBMain {
 
     stmt.setString(3, surname)
 
-    stmt.setString(4, currentJobTitle)
+    stmt.setString(4, educationName)
 
-    stmt.setString(5, educationLevelID)
+    stmt.setString(5, currentJobTitle)
 
-    stmt.setString(6, experienceLevelID)
+    stmt.setString(6, educationLevelID)
+
+    stmt.setString(7, experienceLevelID)
 
     stmt.executeUpdate
 
@@ -111,6 +113,7 @@ object DBMain {
       toReturn =  toReturn :+ rs.getString("CandidateID")
       toReturn =  toReturn :+ rs.getString("Name")
       toReturn =  toReturn :+ rs.getString("Surname")
+      toReturn =  toReturn :+ rs.getString("EducationName")
       toReturn =  toReturn :+ rs.getString("CurrentJobTitle")
       toReturn =  toReturn :+ rs.getString("EducationLevelID")
       toReturn =  toReturn :+ rs.getString("ExperienceLevelID")
@@ -490,6 +493,33 @@ object DBMain {
     toReturn
 
   }
+
+  // get all Competencies
+
+  def getAllCompetencies(): List[String] ={
+
+    var toReturn: List[String] = Nil
+
+    connect()
+
+    val selectSQL = "SELECT * FROM Competency"
+
+    val preparedStatement = connection.prepareStatement(selectSQL)
+
+    val rs = preparedStatement.executeQuery()
+
+    while (rs.next()) {
+
+      toReturn = toReturn :+ rs.getString("Name")
+
+    }
+
+    closeConnection()
+
+    toReturn
+
+  }
+
 
   // add competency to candidate
 

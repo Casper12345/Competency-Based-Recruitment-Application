@@ -30,7 +30,7 @@ class DBMain$Test extends FunSuite {
 
     val db = DBMain
 
-    db.addCandidate("Paul", "Larson", "Programmer", "4", "2")
+    db.addCandidate("Paul", "Larson", "Programmer","ComputerScience", "4", "2")
 
     val getCandidate = db.getCandidateByID(2)
 
@@ -302,6 +302,14 @@ class DBMain$Test extends FunSuite {
 
   }
 
+  test("getAllCompetency"){
+    val db = DBMain
+
+    val skills = db.getAllCompetencies()
+
+    skills.foreach(a => println(a))
+
+  }
 
 
 

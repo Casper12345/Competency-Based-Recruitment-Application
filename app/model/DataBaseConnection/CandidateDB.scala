@@ -11,7 +11,7 @@ class CandidateDB {
   def createCandidate(name: String, surname: String,
                       currentJobTitle: String, educationLevel: Int, experienceLevel: Int): Unit ={
 
-    db.addCandidate(name, surname, currentJobTitle, educationLevel.toString, experienceLevel.toString)
+    //db.addCandidate(name, surname, currentJobTitle, educationLevel.toString, experienceLevel.toString)
 
   }
 

@@ -44,31 +44,5 @@
 
 }
 
-#candidateForm {
-  position: absolute;
-  left: 50px;
-  top: 100px;
-  width: 100%;
-}
 
-
-#candidateProfileText {
-  position: absolute;
-  left: 40px;
-  bottom: 10px;
-}
-
-
-
-
-#scrollList{
-  height: 200px !important;
-  overflow: scroll;
-  position: absolute;
-  left: 500px;
-  top: 100px;
-  width: 500px;
-  text-align: center;
-  word-wrap: break-word;
-}
 

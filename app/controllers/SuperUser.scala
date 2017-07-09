@@ -1,9 +1,7 @@
 package controllers
 
-import controllers.Application.Redirect
 import model.DataBaseConnection.{DBConnectUser, DBMain}
 import play.api.data.Form
-import play.api.data.Forms.tuple
 import play.api.mvc.{Action, Controller}
 import play.api.data.Forms._
 
@@ -26,15 +24,15 @@ object SuperUser extends Controller{
     Ok(views.html.superUser.addSkill(allSkill))
   }
 
-  val form = Form(
+  val skillForm = Form(
     "name" -> text
   )
 
-  def submit = Action {
+  def submitSkill = Action {
 
     implicit request =>
 
-      val name = form.bindFromRequest().get
+      val name = skillForm.bindFromRequest().get
 
       println(name)
 
@@ -42,11 +40,37 @@ object SuperUser extends Controller{
 
       db.addSkill(name)
 
-      Redirect("/superUserMain")
-
-
+      Redirect("/superUserMain/addSkill")
 
   }
 
+  val competencyForm = Form(
+    "name" -> text
+  )
+
+  def addCompetency = Action {
+
+    val db = DBMain
+
+    val allCompetency = db.getAllCompetencies()
+
+    Ok(views.html.superUser.addCompetency(allCompetency))
+  }
+
+  def submitCompetency = Action {
+
+    implicit request =>
+
+      val name = competencyForm.bindFromRequest().get
+
+      println(name)
+
+      val db = DBMain
+
+      db.addCompetency(name)
+
+      Redirect("/superUserMain/addCompetency")
+
+  }
 
 }

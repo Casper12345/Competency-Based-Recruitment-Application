@@ -1,4 +1,8 @@
 package model.DataBaseConnection
+import play.api.db._
+import play.api.Play.current
+import play.api.mvc._
+import play.api.db._
 
 import java.sql.{Connection, DriverManager, SQLException}
 
@@ -9,11 +13,10 @@ import java.sql.{Connection, DriverManager, SQLException}
 object DBConnectUser extends DBConnectUserTrait {
 
   val driver = "com.mysql.cj.jdbc.Driver"
-  val url = "jdbc:mysql://localhost:3306/CandidateDataBase"
+  val url = "jdbc:mysql://localhost:3306/CandidateDataBase?autoReconnect=true&useSSL=false"
   val username = "masterUser"
   val password = "password"
   var connection: Connection = _
-
 
   def connect(): Unit = {
 
@@ -59,21 +62,23 @@ object DBConnectUser extends DBConnectUserTrait {
 
     var max = 0
 
-
     while (rs.next()) {
       max = rs.getInt(1)
-
     }
     max
   }
 
 
-  def insertNewUser(userName: String, passWord: String): Boolean = {
+  def insertNewUser(userName: String, passWord: String, userPrivilege: String): Boolean = {
 
-    //UserID INT, UserName TEXT, PassWord TEXT
+    //UserID INT, UserName TEXT, PassWord TEXT UserPrivilege TEXT
+
+    connect()
 
 
     if (containsUser(userName)) {
+
+      closeConnection()
 
       false
 
@@ -81,7 +86,7 @@ object DBConnectUser extends DBConnectUserTrait {
 
       val maxID = getLatestUserId
 
-      val stmt = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?)")
+      val stmt = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)")
 
       stmt.setString(1, (maxID + 1).toString)
 
@@ -89,10 +94,15 @@ object DBConnectUser extends DBConnectUserTrait {
 
       stmt.setString(3, passWord)
 
+      stmt.setString(4, userPrivilege)
+
       stmt.executeUpdate
+
+      closeConnection()
 
       true
     }
+
 
   }
 
@@ -129,6 +139,30 @@ object DBConnectUser extends DBConnectUserTrait {
     closeConnection()
 
     isUser
+  }
+
+  def getPrivilege(userID: Int): String = {
+
+    var toReturn: String = ""
+
+    connect()
+
+    val selectSQL = "SELECT UserPrivilege FROM Users WHERE UserID = ?"
+
+    val preparedStatement = connection.prepareStatement(selectSQL)
+
+    preparedStatement.setString(1, userID.toString)
+
+    val rs = preparedStatement.executeQuery()
+
+    while (rs.next()) {
+      toReturn = rs.getString("UserPrivilege")
+    }
+
+    closeConnection()
+
+    toReturn
+
   }
 
   def closeConnection(): Unit = {

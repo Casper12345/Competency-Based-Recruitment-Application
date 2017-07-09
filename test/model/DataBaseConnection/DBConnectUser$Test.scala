@@ -49,19 +49,28 @@ class DBConnectUser$Test extends FunSuite {
 
   }
 
-
   test("insertNewUser"){
 
     val db = DBConnectUser
 
     db.connect()
 
-    assert(!db.insertNewUser("Casper", "123"))
+    assert(!db.insertNewUser("Casper", "123", "SuperUser"))
 
     //assert(db.insertNewUser("John", "123"))
 
     db.closeConnection()
 
-
   }
+
+  test("getPrivilege"){
+
+    val db = DBConnectUser
+
+    val privilege = db.getPrivilege(1)
+
+    assert(privilege == "SuperUser")
+  }
+
+
 }

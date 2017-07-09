@@ -1,0 +1,20 @@
+#candidateForm {
+  position: absolute;
+  left: 50px;
+  top: 100px;
+  width: 100%;
+}
+
+
+#candidateProfileText {
+  position: absolute;
+  left: 40px;
+  bottom: 10px;
+}
+
+#dropForm{
+  position: absolute;
+  left: 600px;
+  top: 100px;
+  width: 396px;
+}

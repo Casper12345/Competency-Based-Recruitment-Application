@@ -3,11 +3,15 @@
 # ~~~~
 
 # Home page
-GET         /                                            controllers.Application.index
+GET         /                                            controllers.MainApp.index
 
-POST        /                                            controllers.Application.submit
+POST        /                                            controllers.MainApp.submit
+
+# Helper
+GET         /helper                                      controllers.MainApp.helper
 
 # Map static resources from the /public folder to the /assets URL path
+
 GET         /assets/*file                                controllers.Assets.at(path="/public", file)
 
 
@@ -15,27 +19,21 @@ GET         /assets/*file                                controllers.Assets.at(p
 
 GET         /superUserMain                               controllers.SuperUser.superUserMain
 
+
 GET         /superUserMain/addSkill                      controllers.SuperUser.addSkill
 
-POST        /superUserMain/addSkill                      controllers.SuperUser.submit
+POST        /superUserMain/addSkill                      controllers.SuperUser.submitSkill
+
+
+GET         /superUserMain/addCompetency                 controllers.SuperUser.addCompetency
+
+POST        /superUserMain/addCompetency                controllers.SuperUser.submitCompetency
 
 
 # Recruiter Main
 
-GET         /recruiterMain                               controllers.Application.recruiterMain
+GET         /recruiterMain                               controllers.Recruiter.recruiterMain
 
-GET         /recruiterMain/createCandidateProfile        controllers.Application.createCandidateProfile
+GET         /recruiterMain/createCandidateProfile        controllers.Recruiter.createCandidateProfile
 
-POST        /recruiterMain/createCandidateProfile        controllers.Application.candidateFormSubmit
-
-
-
-
-
-# Helper
-GET         /helper                                      controllers.Application.helper
-
-
-
-
-GET         /myTemplate                                   controllers.Application.myTemplate
+POST        /recruiterMain/createCandidateProfile        controllers.Recruiter.candidateFormSubmit

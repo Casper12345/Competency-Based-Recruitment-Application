@@ -11,7 +11,7 @@ trait DBConnectUserTrait {
 
   def getLatestUserId: Int
 
-  def insertNewUser(userName: String, passWord: String): Boolean
+  def insertNewUser(userName: String, passWord: String, userPrivilege: String): Boolean
 
   def checkUser(userName: String, passWord: String): Boolean
 
