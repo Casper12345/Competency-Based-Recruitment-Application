@@ -39,8 +39,18 @@ object MainApp extends Controller {
   }
 
   def helper = Action {
-    Ok(views.html.Helper())
+
+    implicit request =>
+
+      val name: Option[String] = request.getQueryString("name")
+      val age: Option[String] = request.getQueryString("age")
+
+      println(name.get + age.get)
+
+      Ok(views.html.Helper())
+
   }
+
 
 
 }

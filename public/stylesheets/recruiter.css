@@ -18,3 +18,48 @@
   top: 100px;
   width: 396px;
 }
+
+#scrollTableCandidates{
+  position: absolute;
+  left: 300px;
+  top: 100px;
+  width: 600px;
+
+}
+
+#candidateDescription{
+  position: absolute;
+  left: 100px;
+  top: 100px;
+  width: 1000px;
+
+}
+
+#candidateSkill{
+  position: absolute;
+  left: 100px;
+  top: 200px;
+  width: 1000px;
+  height: 100px !important;
+
+}
+
+#candidateCompetency{
+  height: 50px !important;
+  position: absolute;
+  left: 100px;
+  top: 300px;
+  width: 1000px;
+}
+
+
+.scrollHead{
+  display:table;
+  width:100%;
+  table-layout:fixed;
+}
+
+.scrollBody{
+  overflow-y: scroll;
+}
+

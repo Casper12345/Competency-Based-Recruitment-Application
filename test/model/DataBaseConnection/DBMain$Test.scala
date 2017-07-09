@@ -30,20 +30,14 @@ class DBMain$Test extends FunSuite {
 
     val db = DBMain
 
-    db.addCandidate("Paul", "Larson", "Programmer","ComputerScience", "4", "2")
+    db.addCandidate("Paul", "Larson", "ComputerScience","Programmer", "4", "2")
 
-    val getCandidate = db.getCandidateByID(2)
+    val candidate = db.getCandidateByID(1).get
 
-    val name = getCandidate(1)
-
-    val surname = getCandidate(2)
-
-    val currrentJobTitle = getCandidate(3)
-
-
-    assert(name == "Paul")
-    assert(surname == "Larson")
-    assert(currrentJobTitle == "Programmer")
+    assert(candidate.name == "Paul")
+    assert(candidate.surname == "Larson")
+    assert(candidate.currentJobTitle == "Programmer")
+    assert(candidate.educationLevel == "Masters Level")
 
 
   }
@@ -52,18 +46,13 @@ class DBMain$Test extends FunSuite {
 
     val db = DBMain
 
-    val candidate = db.getCandidateByID(2)
+    val candidate = db.getCandidateByID(1).get
 
-    val name = candidate(1)
 
-    val surname = candidate(2)
-
-    val currentJobTitle = candidate(3)
-
-    assert(name == "Paul")
-    assert(surname == "Larson")
-    assert(currentJobTitle == "Programmer")
-
+    assert(candidate.name == "Paul")
+    assert(candidate.surname == "Larson")
+    assert(candidate.currentJobTitle == "Programmer")
+    println(candidate.educationLevel)
   }
 
   // Competency tests
@@ -133,18 +122,19 @@ class DBMain$Test extends FunSuite {
   }
 
   // EducationLevel tests
-
+  /*
   test("addEducationLevel"){
 
     val db = DBMain
 
-    db.addEducationLevel("0", "No Formal Education")
+    db.addEducationLevel("1", "No Formal Education")
 
     //val competency = db.getSkillByID(1)
 
     //assert(competency(1) == "Leadership")
 
   }
+  */
 
   test("getEducationLevelByID"){
 
@@ -159,7 +149,7 @@ class DBMain$Test extends FunSuite {
 
     assert(level == "0")
 
-    assert(name == "No Formal Education")
+    assert(name == "No Education")
 
     educationLevel.foreach(a => println(a))
 
@@ -168,7 +158,7 @@ class DBMain$Test extends FunSuite {
 
 
   // ExperienceLevel Tests
-
+  /*
   test("addExperienceLevel"){
 
     val db = DBMain
@@ -180,6 +170,7 @@ class DBMain$Test extends FunSuite {
     //assert(competency(1) == "Leadership")
 
   }
+  */
 
   test("getExperienceLevelByID"){
 

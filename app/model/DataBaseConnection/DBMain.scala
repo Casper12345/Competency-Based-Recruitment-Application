@@ -2,6 +2,8 @@ package model.DataBaseConnection
 
 import java.sql.{Connection, DriverManager, SQLException}
 
+import model.DataBaseConnection.Objects.Candidate
+
 
 /**
   * Created by Casper on 06/07/2017.
@@ -93,13 +95,18 @@ object DBMain {
 
   }
 
-  def getCandidateByID(CandidateID: Int): List[String] ={
-
-    var toReturn: List[String] = Nil
+  def getCandidateByID(CandidateID: Int): Option[Candidate] ={
 
     connect()
 
-    val selectSQL = "SELECT * FROM Candidate WHERE CandidateID = ?"
+    //mysql> select * from Candidate join EducationLevel using (EducationLevelID) join ExperienceLevel using(ExperienceLevelID);
+
+
+    val selectSQL =
+      """SELECT *
+        |FROM Candidate JOIN EducationLevel USING(EducationLevelID)
+        |JOIN ExperienceLevel USING(ExperienceLevelID)
+        |WHERE CandidateID = ?""".stripMargin
 
     val preparedStatement = connection.prepareStatement(selectSQL)
 
@@ -107,17 +114,20 @@ object DBMain {
 
     val rs = preparedStatement.executeQuery()
 
+    var toReturn: Option[Candidate] = None
 
     while (rs.next()) {
 
-      toReturn =  toReturn :+ rs.getString("CandidateID")
-      toReturn =  toReturn :+ rs.getString("Name")
-      toReturn =  toReturn :+ rs.getString("Surname")
-      toReturn =  toReturn :+ rs.getString("EducationName")
-      toReturn =  toReturn :+ rs.getString("CurrentJobTitle")
-      toReturn =  toReturn :+ rs.getString("EducationLevelID")
-      toReturn =  toReturn :+ rs.getString("ExperienceLevelID")
+      val ID = rs.getString("CandidateID")
+      val name = rs.getString("Name")
+      val surname = rs.getString("Surname")
+      val educationName = rs.getString("EducationName")
+      val currentJobTitle = rs.getString("CurrentJobTitle")
+      val educationLevel = rs.getString("EducationLevel.Name")
+      val experienceLevel = rs.getString("ExperienceLevel.Name")
 
+      toReturn = Some(Candidate(ID.toInt, name, surname,
+        educationName, currentJobTitle, educationLevel, experienceLevel))
     }
 
 
@@ -526,6 +536,78 @@ object DBMain {
   def addCompetencyToCandidate(candidateID: Int, competencyID: Int, rating: Int): Unit ={
 
 
+
+  }
+  /*
+  def getCandidateList(): List[Candidate] ={
+
+    var toReturn: List[Candidate] = Nil
+
+    connect()
+
+    val selectSQL = "SELECT * FROM Candidate"
+
+
+    val preparedStatement = connection.prepareStatement(selectSQL)
+
+    val rs = preparedStatement.executeQuery()
+
+    while (rs.next()) {
+
+      val ID = rs.getString("CanidateID")
+
+      val name = rs.getString("Name")
+
+      val
+
+    }
+
+
+    toReturn
+
+
+  }
+  */
+
+
+  def getAllCandidates(): List[Candidate] ={
+
+    var toReturn: List[Candidate] = Nil
+
+    connect()
+
+    val selectSQL = """SELECT *
+                      |FROM Candidate JOIN EducationLevel USING(EducationLevelID)
+                      |JOIN ExperienceLevel USING(ExperienceLevelID)
+                      |ORDER BY CandidateID""".stripMargin
+
+    val preparedStatement = connection.prepareStatement(selectSQL)
+
+    val rs = preparedStatement.executeQuery()
+
+
+    while (rs.next()) {
+
+      val ID =  rs.getString("CandidateID")
+      val name = rs.getString("Name")
+      val surname =  rs.getString("Surname")
+      val educationName = rs.getString("EducationName")
+      val currentJobTitle =  rs.getString("CurrentJobTitle")
+      val educationLevel =  rs.getString("EducationLevel.Name")
+      val experienceLevel =  rs.getString("ExperienceLevel.Name")
+
+      val candidate = Candidate(ID.toInt, name, surname,
+        educationName, currentJobTitle, educationLevel,
+        experienceLevel)
+
+      toReturn = toReturn :+ candidate
+
+    }
+
+
+    closeConnection()
+
+    toReturn
 
   }
 

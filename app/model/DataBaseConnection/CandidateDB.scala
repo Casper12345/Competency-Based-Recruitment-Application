@@ -9,7 +9,7 @@ class CandidateDB {
   val db = DBMain
 
   def createCandidate(name: String, surname: String,
-                      currentJobTitle: String, educationLevel: Int, experienceLevel: Int): Unit ={
+                      currentJobTitle: String, educationLevel: String, experienceLevel: String): Unit ={
 
     //db.addCandidate(name, surname, currentJobTitle, educationLevel.toString, experienceLevel.toString)
 

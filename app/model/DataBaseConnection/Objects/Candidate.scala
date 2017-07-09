@@ -8,11 +8,10 @@ case class Candidate(
      ID: Int,
      name: String,
      surname: String,
+     educationName: String,
      currentJobTitle: String,
-     educationLevel: Int,
-     experienceLevel: Int,
-     competencySet: List[Int],
-     skillSet: List[Int]
+     educationLevel: String,
+     experienceLevel: String
                               )
 
 

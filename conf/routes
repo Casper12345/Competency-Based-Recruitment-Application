@@ -8,7 +8,12 @@ GET         /                                            controllers.MainApp.ind
 POST        /                                            controllers.MainApp.submit
 
 # Helper
-GET         /helper                                      controllers.MainApp.helper
+
+
+#GET         /helper                                      controllers.MainApp.helper
+
+GET  /helper         controllers.MainApp.helper
+
 
 # Map static resources from the /public folder to the /assets URL path
 
@@ -37,3 +42,8 @@ GET         /recruiterMain                               controllers.Recruiter.r
 GET         /recruiterMain/createCandidateProfile        controllers.Recruiter.createCandidateProfile
 
 POST        /recruiterMain/createCandidateProfile        controllers.Recruiter.candidateFormSubmit
+
+GET         /recruiterMain/viewCandidate                 controllers.Recruiter.viewCandidate
+
+GET         /recruiterMain/candidate                     controllers.Recruiter.candidate
+
