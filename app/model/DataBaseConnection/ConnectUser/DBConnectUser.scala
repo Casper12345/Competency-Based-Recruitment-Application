@@ -1,8 +1,4 @@
-package model.DataBaseConnection
-import play.api.db._
-import play.api.Play.current
-import play.api.mvc._
-import play.api.db._
+package model.DataBaseConnection.ConnectUser
 
 import java.sql.{Connection, DriverManager, SQLException}
 

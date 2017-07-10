@@ -1,4 +1,4 @@
-package model.DataBaseConnection
+package model.DataBaseConnection.ConnectUser
 
 /**
   * Trait for DBConnectUser

@@ -1,4 +1,4 @@
-#scrollList{
+#scrollList {
 
   height: 300px !important;
   overflow: scroll;
@@ -11,7 +11,7 @@
 
 }
 
-#addSkill{
+#addSkill {
   position: absolute;
   top: 100px;
   width: 100%;

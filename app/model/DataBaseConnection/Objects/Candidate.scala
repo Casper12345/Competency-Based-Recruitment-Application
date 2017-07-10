@@ -5,14 +5,14 @@ package model.DataBaseConnection.Objects
   */
 case class Candidate(
 
-     ID: Int,
-     name: String,
-     surname: String,
-     educationName: String,
-     currentJobTitle: String,
-     educationLevel: String,
-     experienceLevel: String
-                              )
+                      ID: Int,
+                      name: String,
+                      surname: String,
+                      educationName: String,
+                      currentJobTitle: String,
+                      educationLevel: String,
+                      experienceLevel: String
+                    )
 
 
 

@@ -12,7 +12,7 @@ POST        /                                            controllers.MainApp.sub
 
 #GET         /helper                                      controllers.MainApp.helper
 
-GET  /helper         controllers.MainApp.helper
+GET         /helper                                      controllers.MainApp.helper
 
 
 # Map static resources from the /public folder to the /assets URL path
@@ -32,7 +32,7 @@ POST        /superUserMain/addSkill                      controllers.SuperUser.s
 
 GET         /superUserMain/addCompetency                 controllers.SuperUser.addCompetency
 
-POST        /superUserMain/addCompetency                controllers.SuperUser.submitCompetency
+POST        /superUserMain/addCompetency                 controllers.SuperUser.submitCompetency
 
 
 # Recruiter Main
@@ -46,4 +46,6 @@ POST        /recruiterMain/createCandidateProfile        controllers.Recruiter.c
 GET         /recruiterMain/viewCandidate                 controllers.Recruiter.viewCandidate
 
 GET         /recruiterMain/candidate                     controllers.Recruiter.candidate
+
+GET         /recruiterMain/candidate/addSkill            controllers.Recruiter.addSkillCandidate
 

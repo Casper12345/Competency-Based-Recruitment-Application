@@ -1,6 +1,6 @@
 package controllers
 
-import model.DataBaseConnection.DBConnectUser
+import model.DataBaseConnection.ConnectUser.DBConnectUser
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
@@ -14,7 +14,7 @@ object MainApp extends Controller {
 
   val form = Form(
     tuple("username" -> text,
-          "password" -> text
+      "password" -> text
 
     )
   )
@@ -40,17 +40,9 @@ object MainApp extends Controller {
 
   def helper = Action {
 
-    implicit request =>
-
-      val name: Option[String] = request.getQueryString("name")
-      val age: Option[String] = request.getQueryString("age")
-
-      println(name.get + age.get)
-
-      Ok(views.html.Helper())
+    Ok(views.html.Helper())
 
   }
-
 
 
 }

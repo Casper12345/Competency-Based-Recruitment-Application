@@ -1,5 +1,6 @@
 package model.DataBaseConnection
 
+import model.DataBaseConnection.ConnectUser.DBConnectUser
 import org.scalatest.FunSuite
 
 /**

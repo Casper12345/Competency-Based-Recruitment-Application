@@ -5,29 +5,29 @@
   width: 100%;
 }
 
-
 #candidateProfileText {
   position: absolute;
   left: 40px;
   bottom: 10px;
 }
 
-#dropForm{
+#dropForm {
   position: absolute;
   left: 600px;
   top: 100px;
   width: 396px;
 }
 
-#scrollTableCandidates{
+#scrollTableCandidates {
+  height: 400px !important;
   position: absolute;
   left: 300px;
   top: 100px;
   width: 600px;
-
+  overflow: scroll;
 }
 
-#candidateDescription{
+#candidateDescription {
   position: absolute;
   left: 100px;
   top: 100px;
@@ -35,7 +35,7 @@
 
 }
 
-#candidateSkill{
+#candidateSkill {
   position: absolute;
   left: 100px;
   top: 200px;
@@ -44,7 +44,7 @@
 
 }
 
-#candidateCompetency{
+#candidateCompetency {
   height: 50px !important;
   position: absolute;
   left: 100px;
@@ -52,14 +52,13 @@
   width: 1000px;
 }
 
-
-.scrollHead{
-  display:table;
-  width:100%;
-  table-layout:fixed;
+.scrollHead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
-.scrollBody{
+.scrollBody {
   overflow-y: scroll;
 }
 

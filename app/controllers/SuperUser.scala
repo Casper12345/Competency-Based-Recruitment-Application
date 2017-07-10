@@ -1,6 +1,8 @@
 package controllers
 
-import model.DataBaseConnection.{DBConnectUser, DBMain}
+import model.DataBaseConnection.ConnectCompetency.DBCompetency
+import model.DataBaseConnection.ConnectSkill.DBSkill
+import model.DataBaseConnection.DBMain
 import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import play.api.data.Forms._
@@ -8,7 +10,7 @@ import play.api.data.Forms._
 /**
   * Created by Casper on 07/07/2017.
   */
-object SuperUser extends Controller{
+object SuperUser extends Controller {
 
   def superUserMain = Action {
 
@@ -17,7 +19,7 @@ object SuperUser extends Controller{
 
   def addSkill = Action {
 
-    val db = DBMain
+    val db = DBSkill
 
     val allSkill = db.getAllSkills()
 
@@ -36,7 +38,7 @@ object SuperUser extends Controller{
 
       println(name)
 
-      val db = DBMain
+      val db = DBSkill
 
       db.addSkill(name)
 
@@ -50,7 +52,7 @@ object SuperUser extends Controller{
 
   def addCompetency = Action {
 
-    val db = DBMain
+    val db = DBCompetency
 
     val allCompetency = db.getAllCompetencies()
 
@@ -65,7 +67,7 @@ object SuperUser extends Controller{
 
       println(name)
 
-      val db = DBMain
+      val db = DBCompetency
 
       db.addCompetency(name)
 
