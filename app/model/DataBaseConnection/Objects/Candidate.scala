@@ -11,7 +11,9 @@ case class Candidate(
                       educationName: String,
                       currentJobTitle: String,
                       educationLevel: String,
-                      experienceLevel: String
+                      experienceLevel: String,
+                      skills: List[CandidateSkill],
+                      competencies: List[CandidateCompetency]
                     )
 
 

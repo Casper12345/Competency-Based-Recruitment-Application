@@ -12,9 +12,9 @@ class DBCandidate$Test extends FunSuite {
 
   val db = DBCandidate
 
-  test("addCandidate"){
+  test("addCandidate") {
 
-    db.addCandidate("Paul", "Larson", "ComputerScience","Programmer", "4", "2")
+    db.addCandidate("Paul", "Larson", "ComputerScience", "Programmer", "4", "2")
 
     val candidate = db.getCandidateByID(1).get
 
@@ -26,7 +26,7 @@ class DBCandidate$Test extends FunSuite {
 
   }
 
-  test("getCandidateByID"){
+  test("getCandidateByID") {
 
     val candidate = db.getCandidateByID(1).get
 
@@ -34,7 +34,30 @@ class DBCandidate$Test extends FunSuite {
     assert(candidate.name == "Paul")
     assert(candidate.surname == "Larson")
     assert(candidate.currentJobTitle == "Programmer")
-    println(candidate.educationLevel)
+    candidate.skills.foreach(a => println(a.name))
+  }
+
+  test("candidateGetSkills") {
+
+    val candidate = db.candidateGetSkills(1)
+    candidate.foreach(a => println(a.name))
+
+  }
+
+  test("candidateGetCompetencies") {
+
+    val candidate = db.candidateGetCompetencies(1)
+    candidate.foreach(a => println(a.name))
+
+  }
+
+  test("getAllCandidates") {
+
+    val candidates = db.getAllCandidates()
+
+    candidates.foreach(a => println(a.name))
+
+    candidates.foreach(a => a.competencies.foreach(b => println(b)))
   }
 
 }

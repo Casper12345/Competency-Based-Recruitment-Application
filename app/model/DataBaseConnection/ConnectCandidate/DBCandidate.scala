@@ -1,7 +1,7 @@
 package model.DataBaseConnection.ConnectCandidate
 
 import model.DataBaseConnection.DBMain
-import model.DataBaseConnection.Objects.Candidate
+import model.DataBaseConnection.Objects.{Candidate, CandidateCompetency, CandidateSkill, Skill}
 
 /**
   * Created by Casper on 10/07/2017.
@@ -42,12 +42,82 @@ object DBCandidate {
 
   }
 
+
+  def candidateGetSkills(CandidateID: Int): List[CandidateSkill] = {
+    db.connect()
+
+    val selectSQL =
+      """SELECT CandidateSkill.SkillID, CandidateSkill.Rating, Skill.Name
+        |FROM Candidate
+        |JOIN CandidateSkill USING(CandidateID)
+        |JOIN Skill USING (SkillID)
+        |WHERE CandidateID = ?""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    preparedStatement.setInt(1, CandidateID)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn: List[CandidateSkill] = Nil
+
+    while (rs.next()) {
+
+      val ID = rs.getString("CandidateSkill.SkillID")
+      val name = rs.getString("Skill.Name")
+      val rating = rs.getString("CandidateSkill.Rating")
+
+      toReturn = toReturn :+ CandidateSkill(ID.toInt, name, rating.toInt)
+    }
+
+
+    db.closeConnection()
+
+    toReturn
+
+
+  }
+
+
+  def candidateGetCompetencies(CandidateID: Int): List[CandidateCompetency] = {
+    db.connect()
+
+    val selectSQL =
+      """SELECT CandidateCompetency.CompetencyID, CandidateCompetency.Rating, Competency.Name
+        |FROM Candidate
+        |JOIN CandidateCompetency USING(CandidateID)
+        |JOIN Competency USING (CompetencyID)
+        |WHERE CandidateID = ?""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    preparedStatement.setInt(1, CandidateID)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn: List[CandidateCompetency] = Nil
+
+    while (rs.next()) {
+
+      val ID = rs.getString("CandidateCompetency.CompetencyID")
+      val name = rs.getString("Competency.Name")
+      val rating = rs.getString("CandidateCompetency.Rating")
+
+      toReturn = toReturn :+ CandidateCompetency(ID.toInt, name, rating.toInt)
+    }
+
+
+    db.closeConnection()
+
+    toReturn
+
+
+  }
+
+
   def getCandidateByID(CandidateID: Int): Option[Candidate] = {
 
     db.connect()
-
-    //mysql> select * from Candidate join EducationLevel using (EducationLevelID) join ExperienceLevel using(ExperienceLevelID);
-
 
     val selectSQL =
       """SELECT *
@@ -63,6 +133,10 @@ object DBCandidate {
 
     var toReturn: Option[Candidate] = None
 
+    val candidateSkills = candidateGetSkills(CandidateID)
+
+    val candidateCompetencies = candidateGetCompetencies(CandidateID)
+
     while (rs.next()) {
 
       val ID = rs.getString("CandidateID")
@@ -74,7 +148,8 @@ object DBCandidate {
       val experienceLevel = rs.getString("ExperienceLevel.Name")
 
       toReturn = Some(Candidate(ID.toInt, name, surname,
-        educationName, currentJobTitle, educationLevel, experienceLevel))
+        educationName, currentJobTitle, educationLevel, experienceLevel,
+        candidateSkills, candidateCompetencies))
     }
 
 
@@ -111,9 +186,12 @@ object DBCandidate {
       val educationLevel = rs.getString("EducationLevel.Name")
       val experienceLevel = rs.getString("ExperienceLevel.Name")
 
+      val candidateSkills = candidateGetSkills(ID.toInt)
+      val candidateCompetencies = candidateGetCompetencies(ID.toInt)
+
       val candidate = Candidate(ID.toInt, name, surname,
         educationName, currentJobTitle, educationLevel,
-        experienceLevel)
+        experienceLevel, candidateSkills, candidateCompetencies)
 
       toReturn = toReturn :+ candidate
 

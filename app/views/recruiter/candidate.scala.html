@@ -69,8 +69,6 @@
             <td>@item.currentJobTitle</td>
             <td>@item.educationLevel</td>
             <td>@item.experienceLevel</td>
-
-
           </tr>
         </tbody>
 
@@ -81,24 +79,25 @@
 
   </div>
 
-  <div id="candidateSkill" class="container">
+  <div id="candidateSkill" class="container scrollBody">
     <table class="table table-inverse table-sm">
 
       <thead>
         <tr>
           <th>Skill</th>
           <th>Rating</th>
-
         </tr>
       </thead>
 
-      <tbody class="scrollBody">
+      <tbody class="">
+      @for(i <- item.skills) {
         <tr>
-          <td>Something</td>
-          <td>5</td>
-
+          <td>@i.name</td>
+          <td>@i.rating</td>
         </tr>
+      }
       </tbody>
+
 
     </table>
 
@@ -116,38 +115,12 @@
       </thead>
 
       <tbody class="scrollBody">
+      @for(i <- item.competencies) {
         <tr>
-          <td>Leadership</td>
-          <td>1</td>
+          <td>@i.name</td>
+          <td>@i.rating</td>
         </tr>
-        <tr>
-          <td>Leadership</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Leadership</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Leadership</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Leadership</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Leadership</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Leadership</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Leadership</td>
-          <td>1</td>
-        </tr>
+      }
       </tbody>
     </table>
 
