@@ -40,7 +40,23 @@ object MainApp extends Controller {
 
   def helper = Action {
 
-    Ok(views.html.Helper())
+    Ok(views.html.Helper(List[String]("a","b","c","d","e","f","g","h")))
+
+  }
+
+  val helperForm = Form{
+    tuple("skillID" -> text,
+          "skillLevel" -> text
+    )
+  }
+
+  def helperPost = Action {
+    implicit request =>
+
+      val (skillID, skillLevel) = helperForm.bindFromRequest().get
+
+      println(skillID +" " + skillLevel)
+      Ok(views.html.Helper(List[String]("a","b","c","d","e","f","g","h")))
 
   }
 

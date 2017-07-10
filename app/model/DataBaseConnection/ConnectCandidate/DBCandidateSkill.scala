@@ -23,7 +23,7 @@ object DBCandidateSkill {
 
     stmt.setString(2, rating.toString)
 
-    stmt.setString(3, skillID.toString)
+    stmt.setString(3, candidateID.toString)
 
     stmt.executeUpdate
 

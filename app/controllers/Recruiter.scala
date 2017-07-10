@@ -1,7 +1,8 @@
 package controllers
 
 import controllers.MainApp.Ok
-import model.DataBaseConnection.ConnectCandidate.DBCandidate
+import model.DataBaseConnection.ConnectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
+import model.DataBaseConnection.ConnectCompetency.DBCompetency
 import model.DataBaseConnection.ConnectSkill.DBSkill
 import model.DataBaseConnection.DBMain
 import model.DataBaseConnection.Objects.Candidate
@@ -80,28 +81,84 @@ object Recruiter extends Controller {
       Ok(views.html.recruiter.candidate(candidate))
   }
 
-  var addSkillID: Option[(Int, Int)] = None
-
   def addSkillCandidate() = Action {
 
     implicit request =>
 
       val candidateID: Option[String] = request.getQueryString("CandidateID")
-      val skillID: Option[String] = request.getQueryString("SkillID")
 
       val db = DBSkill
 
       val skills = db.getAllSkills()
 
-      if (skillID.isEmpty) {
-        Ok(views.html.recruiter.addSkillRecruiter(skills)(candidateID.get.toInt)(0))
-      } else {
+      Ok(views.html.recruiter.addSkillRecruiter(skills)(candidateID.get.toInt))
 
-        println(skillID)
-
-        Ok(views.html.recruiter.addSkillRecruiter(skills)(candidateID.get.toInt)(skillID.get.toInt))
-      }
 
   }
+
+  val skillAddForm = Form {
+    tuple("skillID" -> text,
+      "rating" -> text,
+      "candidateID" -> text
+    )
+  }
+
+
+  def addSkillCandidatePost() = Action {
+
+    implicit request =>
+
+      val (skillID, rating, candidateID) = skillAddForm.bindFromRequest().get
+
+      val db = DBCandidateSkill
+
+      println(skillID + " " + rating + " " + candidateID)
+
+      db.addCandidateSkill(skillID.toInt, rating.toInt, candidateID.toInt)
+
+      Redirect(s"/recruiterMain/candidate?id=$candidateID")
+
+  }
+
+
+  def addCompetencyCandidate() = Action {
+
+    implicit request =>
+
+      val candidateID: Option[String] = request.getQueryString("CandidateID")
+
+      val db = DBCompetency
+
+      val competencies = db.getAllCompetencies()
+
+      Ok(views.html.recruiter.addCompetencyRecruiter(competencies)(candidateID.get.toInt))
+
+
+  }
+
+  val competencyAddForm = Form {
+    tuple("competencyID" -> text,
+      "rating" -> text,
+      "candidateID" -> text
+    )
+  }
+
+
+  def addCompetencyCandidatePost() = Action {
+
+    implicit request =>
+
+      val (competencyID, rating, candidateID) = competencyAddForm.bindFromRequest().get
+
+      val db = DBCandidateCompetency
+
+      println(competencyID + " " + rating + " " + candidateID)
+
+      db.addCandidateCompetency(competencyID.toInt, rating.toInt, candidateID.toInt)
+
+      Redirect(s"/recruiterMain/candidate?id=$candidateID")
+
+  }
+
 
 }

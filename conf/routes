@@ -3,49 +3,60 @@
 # ~~~~
 
 # Home page
-GET         /                                            controllers.MainApp.index
+GET         /                                             controllers.MainApp.index
 
-POST        /                                            controllers.MainApp.submit
+POST        /                                             controllers.MainApp.submit
 
 # Helper
 
 
 #GET         /helper                                      controllers.MainApp.helper
 
-GET         /helper                                      controllers.MainApp.helper
+GET         /helper                                       controllers.MainApp.helper
+
+POST        /helper                                       controllers.MainApp.helperPost
 
 
 # Map static resources from the /public folder to the /assets URL path
 
-GET         /assets/*file                                controllers.Assets.at(path="/public", file)
+GET         /assets/*file                                 controllers.Assets.at(path="/public", file)
 
 
 # SuperUser Main
 
-GET         /superUserMain                               controllers.SuperUser.superUserMain
+GET         /superUserMain                                controllers.SuperUser.superUserMain
 
 
-GET         /superUserMain/addSkill                      controllers.SuperUser.addSkill
+GET         /superUserMain/addSkill                       controllers.SuperUser.addSkill
 
-POST        /superUserMain/addSkill                      controllers.SuperUser.submitSkill
+POST        /superUserMain/addSkill                       controllers.SuperUser.submitSkill
 
 
-GET         /superUserMain/addCompetency                 controllers.SuperUser.addCompetency
+GET         /superUserMain/addCompetency                  controllers.SuperUser.addCompetency
 
-POST        /superUserMain/addCompetency                 controllers.SuperUser.submitCompetency
+POST        /superUserMain/addCompetency                  controllers.SuperUser.submitCompetency
 
 
 # Recruiter Main
 
-GET         /recruiterMain                               controllers.Recruiter.recruiterMain
+GET         /recruiterMain                                controllers.Recruiter.recruiterMain
 
-GET         /recruiterMain/createCandidateProfile        controllers.Recruiter.createCandidateProfile
+GET         /recruiterMain/createCandidateProfile         controllers.Recruiter.createCandidateProfile
 
-POST        /recruiterMain/createCandidateProfile        controllers.Recruiter.candidateFormSubmit
+POST        /recruiterMain/createCandidateProfile         controllers.Recruiter.candidateFormSubmit
 
-GET         /recruiterMain/viewCandidate                 controllers.Recruiter.viewCandidate
+GET         /recruiterMain/viewCandidate                  controllers.Recruiter.viewCandidate
 
-GET         /recruiterMain/candidate                     controllers.Recruiter.candidate
+GET         /recruiterMain/candidate                      controllers.Recruiter.candidate
 
-GET         /recruiterMain/candidate/addSkill            controllers.Recruiter.addSkillCandidate
 
+# add Skill candidate
+
+GET         /recruiterMain/candidate/addSkill             controllers.Recruiter.addSkillCandidate
+
+POST        /recruiterMain/candidate/addSkill             controllers.Recruiter.addSkillCandidatePost
+
+# add Competency candidate
+GET         /recruiterMain/candidate/addCompetency        controllers.Recruiter.addCompetencyCandidate
+
+POST        /recruiterMain/candidate/addCompetency        controllers.Recruiter.addCompetencyCandidatePost
