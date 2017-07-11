@@ -60,3 +60,18 @@ POST        /recruiterMain/candidate/addSkill             controllers.Recruiter.
 GET         /recruiterMain/candidate/addCompetency        controllers.Recruiter.addCompetencyCandidate
 
 POST        /recruiterMain/candidate/addCompetency        controllers.Recruiter.addCompetencyCandidatePost
+
+
+# HR Manager Main
+
+GET         /hrManagerMain                                controllers.HRManager.hrManagerMain
+
+GET         /hrManagerMain/createJobDescription           controllers.HRManager.createJobDescription
+
+POST        /hrManagerMain/createJobDescription           controllers.HRManager.jobDescriptionPost
+
+
+GET         /hrManagerMain/viewJobDescription             controllers.HRManager.viewJobDescription
+
+
+GET         /hrManagerMain/jobDescription                 controllers.HRManager.jobDescription

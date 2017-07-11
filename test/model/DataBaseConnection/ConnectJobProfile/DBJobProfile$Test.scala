@@ -1,6 +1,5 @@
 package model.DataBaseConnection.ConnectJobProfile
 
-import model.DataBaseConnection.DBMain
 import org.scalatest.FunSuite
 
 /**
@@ -12,37 +11,34 @@ class DBJobProfile$Test extends FunSuite {
 
   val db = DBJobProfile
 
-  test("addJobProfile"){
+  test("addJobProfile") {
 
-
-    db.addJobProfile("Programmer")
-
-    //val competency = db.getSkillByID(1)
-
-    //assert(competency(1) == "Leadership")
+    db.addJobProfile("Programmer", "Biology", "1", "1")
 
   }
 
 
-  test("getJobProfileByID"){
+  test("getJobProfileByID") {
 
 
-    val jobProfile = db.getJobProfileByID(1)
-
-    val ID = jobProfile.head
-
-    val name  = jobProfile(1)
+    val jobProfile = db.getJobProfileByID(1).get
 
 
-    assert(ID == "1")
+    assert(jobProfile.jobTitle == "Programmer")
 
-    assert(name == "Programmer")
+    assert(jobProfile.educationName == "Biology")
 
-    jobProfile.foreach(a => println(a))
+    println(jobProfile.educationLevel)
+    println(jobProfile.experienceLevel)
 
 
   }
 
+  test("getAllJobDescriptions") {
 
 
+    val jobProfile = db.getAllJobDescriptions()
+
+    jobProfile.foreach(a => println(a.jobTitle))
+  }
 }

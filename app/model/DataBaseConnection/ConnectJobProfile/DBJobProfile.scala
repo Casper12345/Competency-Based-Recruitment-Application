@@ -1,6 +1,7 @@
 package model.DataBaseConnection.ConnectJobProfile
 
 import model.DataBaseConnection.DBMain
+import model.DataBaseConnection.Objects.{Candidate, JobProfile}
 
 /**
   * Created by Casper on 10/07/2017.
@@ -11,19 +12,27 @@ object DBJobProfile {
 
   val db = DBMain
 
-  def addJobProfile(name: String): Unit = {
+  def addJobProfile(jobTitle: String, educationName: String,
+                    educationLevelID: String, experienceLevelID: String): Unit = {
 
-    //  JobProfile(JobProfileID INT, Name TEXT)
+    //  JobProfile(JobProfileID INT, JobTitle TEXT, EducationName TEXT, EducationLevelID INT, ExperienceLevelID INT);
 
     db.connect()
 
     val maxID = db.getLatestId("JobProfile")
 
-    val stmt = db.connection.prepareStatement("INSERT INTO JobProfile VALUES (?,?)")
+    val stmt = db.connection.prepareStatement("INSERT INTO JobProfile VALUES (?,?,?,?,?)")
 
     stmt.setString(1, (maxID + 1).toString)
 
-    stmt.setString(2, name)
+    stmt.setString(2, jobTitle)
+
+    stmt.setString(3, educationName)
+
+    stmt.setString(4, educationLevelID)
+
+    stmt.setString(5, experienceLevelID)
+
 
     stmt.executeUpdate
 
@@ -31,24 +40,67 @@ object DBJobProfile {
 
   }
 
-  def getJobProfileByID(SkillID: Int): List[String] = {
+  def getJobProfileByID(jobProfilID: Int): Option[JobProfile] = {
 
-    var toReturn: List[String] = Nil
+    var toReturn: Option[JobProfile] = None
 
     db.connect()
 
-    val selectSQL = "SELECT * FROM JobProfile WHERE JobProfileID = ?"
+    val selectSQL =
+      """SELECT *
+        |FROM JobProfile JOIN EducationLevel USING(EducationLevelID)
+        |JOIN ExperienceLevel USING(ExperienceLevelID)
+        |WHERE JobProfileID = ?""".stripMargin
 
     val preparedStatement = db.connection.prepareStatement(selectSQL)
 
-    preparedStatement.setInt(1, SkillID)
+    preparedStatement.setInt(1, jobProfilID)
 
     val rs = preparedStatement.executeQuery()
 
     while (rs.next()) {
 
-      toReturn = toReturn :+ rs.getString("JobProfileID")
-      toReturn = toReturn :+ rs.getString("Name")
+      val ID = rs.getString("JobProfileID")
+      val jobTitle = rs.getString("JobTitle")
+      val educationName = rs.getString("EducationName")
+      val educationLevel = rs.getString("EducationLevel.Name")
+      val experienceLevel = rs.getString("ExperienceLevel.Name")
+
+      toReturn = Some(JobProfile(ID.toInt, jobTitle, educationName, educationLevel, experienceLevel))
+
+    }
+
+    db.closeConnection()
+
+    toReturn
+
+  }
+
+  def getAllJobDescriptions(): List[JobProfile] = {
+
+    var toReturn: List[JobProfile] = Nil
+
+    db.connect()
+
+    val selectSQL =
+      """SELECT *
+        |FROM JobProfile JOIN EducationLevel USING(EducationLevelID)
+        |JOIN ExperienceLevel USING(ExperienceLevelID)""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    val rs = preparedStatement.executeQuery()
+
+
+    while (rs.next()) {
+
+      val ID = rs.getString("JobProfileID")
+      val jobTitle = rs.getString("JobTitle")
+      val educationName = rs.getString("EducationName")
+      val educationLevel = rs.getString("EducationLevel.Name")
+      val experienceLevel = rs.getString("ExperienceLevel.Name")
+
+      toReturn = toReturn :+ JobProfile(ID.toInt, jobTitle, educationName, educationLevel, experienceLevel)
 
     }
 

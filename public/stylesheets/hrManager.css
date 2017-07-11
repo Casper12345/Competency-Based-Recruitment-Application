@@ -1,0 +1,19 @@
+#hrManagerMainMenu {
+  position: absolute;
+  background-color: #00d4ff;
+  width: 190px;
+
+}
+
+#jobForm {
+  position: absolute;
+  left: 50px;
+  top: 100px;
+  width: 100%;
+}
+
+#jobTitleInput {
+  position: absolute;
+  top: 55px;
+  width: 100%;
+}
