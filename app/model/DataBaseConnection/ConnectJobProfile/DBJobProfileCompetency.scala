@@ -11,17 +11,19 @@ object DBJobProfileCompetency {
 
   val db = DBMain
 
-  def addJobProfileCompetency(competencyID: Int, jobProfileID: Int): Unit = {
+  def addJobProfileCompetency(competencyID: Int, rating: Int, jobProfileID: Int): Unit = {
 
-    // JobProfileCompetency(CompetencyID INT, JobProfileID INT);
+    // JobProfileCompetency(CompetencyID INT, Rating INT, JobProfileID INT);
 
     db.connect()
 
-    val stmt = db.connection.prepareStatement("INSERT INTO JobProfileCompetency VALUES (?,?)")
+    val stmt = db.connection.prepareStatement("INSERT INTO JobProfileCompetency VALUES (?,?,?)")
 
     stmt.setString(1, competencyID.toString)
 
-    stmt.setString(2, jobProfileID.toString)
+    stmt.setString(2, rating.toString)
+
+    stmt.setString(3, jobProfileID.toString)
 
     stmt.executeUpdate
 

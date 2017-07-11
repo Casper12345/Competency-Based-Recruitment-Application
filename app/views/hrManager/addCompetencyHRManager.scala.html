@@ -1,7 +1,7 @@
-@import model.DataBaseConnection.Objects.Skill
-@(list: List[Skill])(candidateID: Int)
+@import model.DataBaseConnection.Objects.Competency
+@(list: List[Competency])(candidateID: Int)
 
-@main("Add Skill") {
+@main("Add Competency") {
 
   <header>
 
@@ -38,15 +38,15 @@
       <ul class=" form-group ">
         <li id="skillCompSelectList" class="list-group-item ">@item.name</li>
       </ul>
-      <label for="skillLevel"></label>
-      <select id="skillLevel" name="rating" class="selectpicker form-control list-group-item list-group-item-action" >
+      <label for="compLevel"></label>
+      <select id="compLevel" name="rating" class="selectpicker form-control list-group-item list-group-item-action" >
         <option>1</option>
         <option>2</option>
         <option>3</option>
         <option>4</option>
         <option>5</option>
       </select>
-      <input type="hidden" name="skillID" value="@item.skillID" />
+      <input type="hidden" name="competencyID" value="@item.competencyID" />
       <input type="hidden" name="candidateID" value="@candidateID" />
       <div class="form-group" >
         <input type="submit" class="form-control list-group-item list-group-item-action" value="Add">

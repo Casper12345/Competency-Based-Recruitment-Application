@@ -1,5 +1,5 @@
-@import model.DataBaseConnection.Objects.JobProfile
-@(item: JobProfile)
+@import model.DataBaseConnection.Objects.JobDescription
+@(item: JobDescription)
 
 @main("Job Description") {
 
@@ -10,7 +10,7 @@
       <div class="container-fluid">
 
         <div class="navbar-header">
-          <div class="navbar-brand">Candidate Profile</div>
+          <div class="navbar-brand">Job Description</div>
         </div>
 
         <ul class="nav navbar-nav">
@@ -23,8 +23,9 @@
               Menu<span class="caret"></span></a>
 
             <ul id="mainMenu" class="dropdown-menu">
-              <li><a href="/recruiterMain/candidate/addSkill?CandidateID=@item.ID">Add Skill</a></li>
-              <li><a href="/recruiterMain/candidate/addCompetency?CandidateID=@item.ID">
+              <li><a href="/hrManagerMain/jobDescription/addSkill?CandidateID=@item.ID">
+                Add Skill</a></li>
+              <li><a href="/hrManagerMain/jobDescription/addCompetency?CandidateID=@item.ID">
                 Add Competency</a></li>
             </ul>
 
@@ -85,11 +86,12 @@
       </thead>
 
       <tbody class="">
+      @for(i <- item.skills) {
         <tr>
-          <td>d</td>
-          <td>d</td>
+          <td>@i.name</td>
+          <td>@i.rating</td>
         </tr>
-
+      }
       </tbody>
 
 
@@ -109,12 +111,12 @@
       </thead>
 
       <tbody class="scrollBody">
-
+      @for(i <- item.competencies) {
         <tr>
-          <td>a</td>
-          <td>b</td>
+          <td>@i.name</td>
+          <td>@i.rating</td>
         </tr>
-
+      }
       </tbody>
     </table>
 

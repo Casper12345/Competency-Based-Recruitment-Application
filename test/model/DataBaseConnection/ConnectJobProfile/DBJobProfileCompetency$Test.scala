@@ -14,7 +14,7 @@ class DBJobProfileCompetency$Test extends FunSuite {
 
     val db = DBJobProfileCompetency
 
-    db.addJobProfileCompetency(1,1)
+    db.addJobProfileCompetency(1,1,1)
 
     //val competency = db.getSkillByID(1)
 

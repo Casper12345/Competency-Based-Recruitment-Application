@@ -1,7 +1,7 @@
 package model.DataBaseConnection.ConnectJobProfile
 
 import model.DataBaseConnection.DBMain
-import model.DataBaseConnection.Objects.{Candidate, JobProfile}
+import model.DataBaseConnection.Objects._
 
 /**
   * Created by Casper on 10/07/2017.
@@ -40,9 +40,83 @@ object DBJobProfile {
 
   }
 
-  def getJobProfileByID(jobProfilID: Int): Option[JobProfile] = {
 
-    var toReturn: Option[JobProfile] = None
+  def jobDescriptionGetSkills(CandidateID: Int): List[JobDescriptionSkill] = {
+
+    db.connect()
+
+    val selectSQL =
+      """SELECT JobProfileSkill.SkillID, JobProfileSkill.Rating, Skill.Name
+        |FROM JobProfile
+        |JOIN JobProfileSkill USING(JobProfileID)
+        |JOIN Skill USING (SkillID)
+        |WHERE JobProfileID = ?""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    preparedStatement.setInt(1, CandidateID)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn: List[JobDescriptionSkill] = Nil
+
+    while (rs.next()) {
+
+      val ID = rs.getString("JobProfileSkill.SkillID")
+      val name = rs.getString("Skill.Name")
+      val rating = rs.getString("JobProfileSkill.Rating")
+
+      toReturn = toReturn :+ JobDescriptionSkill(ID.toInt, name, rating.toInt)
+    }
+
+
+    db.closeConnection()
+
+    toReturn
+
+
+  }
+
+
+  def jobDescriptionGetCompetencies(CandidateID: Int): List[JobDescriptionCompetency] = {
+    db.connect()
+
+    val selectSQL =
+      """SELECT JobProfileCompetency.CompetencyID, JobProfileCompetency.Rating, Competency.Name
+        |FROM JobProfile
+        |JOIN JobProfileCompetency USING(JobProfileID)
+        |JOIN Competency USING (CompetencyID)
+        |WHERE JobProfileID = ?""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    preparedStatement.setInt(1, CandidateID)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn: List[JobDescriptionCompetency] = Nil
+
+    while (rs.next()) {
+
+      val ID = rs.getString("JobProfileCompetency.CompetencyID")
+      val name = rs.getString("Competency.Name")
+      val rating = rs.getString("JobProfileCompetency.Rating")
+
+      toReturn = toReturn :+ JobDescriptionCompetency(ID.toInt, name, rating.toInt)
+    }
+
+
+    db.closeConnection()
+
+    toReturn
+
+
+  }
+
+
+  def getJobProfileByID(jobProfileID: Int): Option[JobDescription] = {
+
+    var toReturn: Option[JobDescription] = None
 
     db.connect()
 
@@ -54,9 +128,13 @@ object DBJobProfile {
 
     val preparedStatement = db.connection.prepareStatement(selectSQL)
 
-    preparedStatement.setInt(1, jobProfilID)
+    preparedStatement.setInt(1, jobProfileID)
 
     val rs = preparedStatement.executeQuery()
+
+    val skills = jobDescriptionGetSkills(jobProfileID)
+
+    val competencies = jobDescriptionGetCompetencies(jobProfileID)
 
     while (rs.next()) {
 
@@ -66,7 +144,8 @@ object DBJobProfile {
       val educationLevel = rs.getString("EducationLevel.Name")
       val experienceLevel = rs.getString("ExperienceLevel.Name")
 
-      toReturn = Some(JobProfile(ID.toInt, jobTitle, educationName, educationLevel, experienceLevel))
+      toReturn = Some(JobDescription(ID.toInt, jobTitle, educationName, educationLevel, experienceLevel,
+        skills, competencies))
 
     }
 
@@ -76,9 +155,9 @@ object DBJobProfile {
 
   }
 
-  def getAllJobDescriptions(): List[JobProfile] = {
+  def getAllJobDescriptions(): List[JobDescription] = {
 
-    var toReturn: List[JobProfile] = Nil
+    var toReturn: List[JobDescription] = Nil
 
     db.connect()
 
@@ -100,7 +179,12 @@ object DBJobProfile {
       val educationLevel = rs.getString("EducationLevel.Name")
       val experienceLevel = rs.getString("ExperienceLevel.Name")
 
-      toReturn = toReturn :+ JobProfile(ID.toInt, jobTitle, educationName, educationLevel, experienceLevel)
+      val skills = jobDescriptionGetSkills(ID.toInt)
+
+      val competencies = jobDescriptionGetCompetencies(ID.toInt)
+
+      toReturn = toReturn :+ JobDescription(ID.toInt, jobTitle,
+        educationName, educationLevel, experienceLevel, skills, competencies)
 
     }
 
