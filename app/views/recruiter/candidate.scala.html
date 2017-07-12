@@ -1,7 +1,7 @@
 @import model.DataBaseConnection.Objects.Candidate
 @(item: Candidate)
 
-@main("Main") {
+@main("helper") {
 
   <header>
 
@@ -42,6 +42,7 @@
 
   </div>
 
+
   <div id="candidateDescription" class="container">
 
     <div class="list-group">
@@ -73,58 +74,53 @@
         </tbody>
 
       </table>
-
-
     </div>
-
   </div>
 
-  <div id="candidateSkill" class="container scrollBody">
+  <link rel="stylesheet" type="text/css" href="@routes.Assets.at("/stylesheets/scrolltable.css")" >
+
+  <div id="candidateSkill" class="container">
     <table class="table table-inverse table-sm">
 
-      <thead>
-        <tr>
-          <th>Skill</th>
-          <th>Rating</th>
+      <thead id="a">
+        <tr id="b">
+          <th id="c">Skills</th>
+          <th id="c">Rating</th>
         </tr>
       </thead>
 
-      <tbody class="">
+      <tbody id="d">
       @for(i <- item.skills) {
-        <tr>
-          <td>@i.name</td>
-          <td>@i.rating</td>
+        <tr id="b">
+          <td id="e">@i.name</td>
+          <td id="e">@i.rating</td>
         </tr>
       }
       </tbody>
 
-
     </table>
 
   </div>
-
   <div id="candidateCompetency" class="container">
     <table class="table table-inverse table-sm">
 
-      <thead class="scrollHead">
-        <tr>
-          <th>Competency</th>
-          <th>Rating</th>
-
+      <thead id="a">
+        <tr id="b">
+          <th id="c">Competencies</th>
+          <th id="c">Rating</th>
         </tr>
       </thead>
 
-      <tbody class="scrollBody">
+      <tbody id="d">
       @for(i <- item.competencies) {
-        <tr>
-          <td>@i.name</td>
-          <td>@i.rating</td>
+        <tr id="b">
+          <td id="e">@i.name</td>
+          <td id="e">@i.rating</td>
         </tr>
       }
       </tbody>
+
     </table>
 
   </div>
-
-
 }

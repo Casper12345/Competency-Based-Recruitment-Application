@@ -9,6 +9,7 @@ import model.DataBaseConnection.Objects.{Candidate, CandidateCompetency, Candida
 object DBCandidate {
 
   // methods for Candidate table
+  // returns canidate comptencies and candidate skills and candidates
 
   var db = DBMain
 

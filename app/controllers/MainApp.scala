@@ -1,6 +1,8 @@
 package controllers
 
+import model.DataBaseConnection.ConnectCandidate.DBCandidate
 import model.DataBaseConnection.ConnectUser.DBConnectUser
+import model.DataBaseConnection.Objects.Candidate
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
@@ -40,25 +42,14 @@ object MainApp extends Controller {
 
   def helper = Action {
 
-    Ok(views.html.Helper(List[String]("a", "b", "c", "d", "e", "f", "g", "h")))
+    val db = DBCandidate
+
+
+    Ok(views.html.Helper(db.getCandidateByID(1).get))
 
   }
 
-  val helperForm = Form {
-    tuple("skillID" -> text,
-      "skillLevel" -> text
-    )
-  }
 
-  def helperPost = Action {
-    implicit request =>
-
-      val (skillID, skillLevel) = helperForm.bindFromRequest().get
-
-      println(skillID + " " + skillLevel)
-      Ok(views.html.Helper(List[String]("a", "b", "c", "d", "e", "f", "g", "h")))
-
-  }
 
 
 }

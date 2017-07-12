@@ -14,8 +14,6 @@ POST        /                                                  controllers.MainA
 
 GET         /helper                                            controllers.MainApp.helper
 
-POST        /helper                                            controllers.MainApp.helperPost
-
 
 # Map static resources from the /public folder to the /assets URL path
 
