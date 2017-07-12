@@ -2,10 +2,10 @@ package controllers
 
 import model.DataBaseConnection.ConnectCandidate.DBCandidate
 import model.DataBaseConnection.ConnectUser.DBConnectUser
-import model.DataBaseConnection.Objects.Candidate
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
+import views.html.defaultpages.notFound
 
 
 object MainApp extends Controller {
@@ -29,11 +29,29 @@ object MainApp extends Controller {
 
       val db = DBConnectUser
 
-      print(username + " " + password)
-
       if (db.checkUser(username, password)) {
 
-        Redirect("/recruiterMain")
+        val privilege = db.getPrivilegeByName(username)
+
+        privilege match {
+          case "Recruiter" =>
+            Redirect("/recruiterMain").withSession(
+              "privilege" -> privilege,
+              "username" -> username)
+
+          case "HRManager" =>
+            Redirect("/hrManagerMain").withSession(
+              "privilege" -> privilege,
+              "username" -> username)
+
+          case "SuperUser" =>
+            Redirect("/superUserMain").withSession(
+              "privilege" -> privilege,
+              "username" -> username)
+
+          case _ =>
+            NotFound
+        }
 
       } else {
         Redirect("/")
@@ -48,8 +66,6 @@ object MainApp extends Controller {
     Ok(views.html.Helper(db.getCandidateByID(1).get))
 
   }
-
-
 
 
 }

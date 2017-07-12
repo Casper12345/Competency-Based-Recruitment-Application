@@ -1,7 +1,5 @@
 package controllers
 
-import controllers.Recruiter.{Ok, Redirect}
-import model.DataBaseConnection.ConnectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
 import model.DataBaseConnection.ConnectCompetency.DBCompetency
 import model.DataBaseConnection.ConnectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
 import model.DataBaseConnection.ConnectSkill.DBSkill
@@ -16,7 +14,12 @@ import play.api.mvc.{Action, Controller}
 object HRManager extends Controller {
 
   def hrManagerMain = Action {
-    Ok(views.html.hrManager.hrManagerMain())
+    implicit request =>
+      val userName = request.session.get("username")
+      //println(userName.get)
+
+      Ok(views.html.hrManager.hrManagerMain(userName.get))
+
   }
 
   def createJobDescription() = Action {
@@ -61,8 +64,6 @@ object HRManager extends Controller {
     implicit request =>
 
       val id: Option[String] = request.getQueryString("id")
-
-      println(id + "more")
 
       val db = DBJobProfile
 
@@ -138,8 +139,6 @@ object HRManager extends Controller {
       val (competencyID, rating, candidateID) = competencyAddForm.bindFromRequest().get
 
       val db = DBJobProfileCompetency
-
-      println(competencyID + " " + rating + " " + candidateID)
 
       db.addJobProfileCompetency(competencyID.toInt, rating.toInt, candidateID.toInt)
 

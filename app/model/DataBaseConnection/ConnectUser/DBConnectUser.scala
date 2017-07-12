@@ -137,17 +137,17 @@ object DBConnectUser extends DBConnectUserTrait {
     isUser
   }
 
-  def getPrivilege(userID: Int): String = {
+  def getPrivilegeByName(userName: String): String = {
 
     var toReturn: String = ""
 
     connect()
 
-    val selectSQL = "SELECT UserPrivilege FROM Users WHERE UserID = ?"
+    val selectSQL = "SELECT UserPrivilege FROM Users WHERE UserName = ?"
 
     val preparedStatement = connection.prepareStatement(selectSQL)
 
-    preparedStatement.setString(1, userID.toString)
+    preparedStatement.setString(1, userName)
 
     val rs = preparedStatement.executeQuery()
 

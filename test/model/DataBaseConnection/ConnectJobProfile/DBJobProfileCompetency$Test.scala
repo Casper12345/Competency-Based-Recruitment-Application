@@ -1,6 +1,5 @@
 package model.DataBaseConnection.ConnectJobProfile
 
-import model.DataBaseConnection.DBMain
 import org.scalatest.FunSuite
 
 /**

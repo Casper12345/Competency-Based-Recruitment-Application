@@ -64,11 +64,11 @@ class DBConnectUser$Test extends FunSuite {
 
   }
 
-  test("getPrivilege"){
+  test("getPrivilegeByName"){
 
     val db = DBConnectUser
 
-    val privilege = db.getPrivilege(1)
+    val privilege = db.getPrivilegeByName("Casper")
 
     assert(privilege == "SuperUser")
   }

@@ -2,7 +2,6 @@ package controllers
 
 import model.DataBaseConnection.ConnectCompetency.DBCompetency
 import model.DataBaseConnection.ConnectSkill.DBSkill
-import model.DataBaseConnection.DBMain
 import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import play.api.data.Forms._

@@ -1,10 +1,8 @@
 package controllers
 
-import controllers.MainApp.Ok
 import model.DataBaseConnection.ConnectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
 import model.DataBaseConnection.ConnectCompetency.DBCompetency
 import model.DataBaseConnection.ConnectSkill.DBSkill
-import model.DataBaseConnection.DBMain
 import model.DataBaseConnection.Objects.Candidate
 import play.api.data.Form
 import play.api.data.Forms.tuple
