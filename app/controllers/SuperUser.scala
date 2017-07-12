@@ -12,17 +12,37 @@ import play.api.data.Forms._
 object SuperUser extends Controller {
 
   def superUserMain = Action {
+    implicit request =>
 
-    Ok(views.html.superUser.superUserMain())
+      val userName = request.session.get("username")
+      val priv = request.session.get("privilege")
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("SuperUser") =>
+          Ok(views.html.superUser.superUserMain())
+        case _ =>
+          Redirect("/")
+      }
+
   }
 
   def addSkill = Action {
+    implicit request =>
+      val priv = request.session.get("privilege")
 
-    val db = DBSkill
+      val db = DBSkill
 
-    val allSkill = db.getAllSkills()
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("SuperUser") =>
+          Ok(views.html.superUser.addSkill(db.getAllSkills()))
+        case _ =>
+          Redirect("/")
+      }
 
-    Ok(views.html.superUser.addSkill(allSkill))
   }
 
   val skillForm = Form(
@@ -34,8 +54,6 @@ object SuperUser extends Controller {
     implicit request =>
 
       val name = skillForm.bindFromRequest().get
-
-      println(name)
 
       val db = DBSkill
 
@@ -50,12 +68,20 @@ object SuperUser extends Controller {
   )
 
   def addCompetency = Action {
+    implicit request =>
+      val priv = request.session.get("privilege")
 
-    val db = DBCompetency
+      val db = DBCompetency
 
-    val allCompetency = db.getAllCompetencies()
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("SuperUser") =>
+          Ok(views.html.superUser.addCompetency(db.getAllCompetencies()))
+        case _ =>
+          Redirect("/")
+      }
 
-    Ok(views.html.superUser.addCompetency(allCompetency))
   }
 
   def submitCompetency = Action {
@@ -63,8 +89,6 @@ object SuperUser extends Controller {
     implicit request =>
 
       val name = competencyForm.bindFromRequest().get
-
-      println(name)
 
       val db = DBCompetency
 

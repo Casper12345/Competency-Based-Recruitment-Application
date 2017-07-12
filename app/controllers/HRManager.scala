@@ -16,14 +16,35 @@ object HRManager extends Controller {
   def hrManagerMain = Action {
     implicit request =>
       val userName = request.session.get("username")
-      //println(userName.get)
+      val priv = request.session.get("privilege")
 
-      Ok(views.html.hrManager.hrManagerMain(userName.get))
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("HRManager") =>
+          Ok(views.html.hrManager.hrManagerMain(userName.get))
+        case Some("SuperUser") =>
+          Ok(views.html.hrManager.hrManagerMain(userName.get))
+        case _ =>
+          Redirect("/")
+      }
 
   }
 
   def createJobDescription() = Action {
-    Ok(views.html.hrManager.createJobDescription())
+    implicit request =>
+      val priv = request.session.get("privilege")
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("HRManager") =>
+          Ok(views.html.hrManager.createJobDescription())
+        case Some("SuperUser") =>
+          Ok(views.html.hrManager.createJobDescription())
+        case _ =>
+          Redirect("/")
+      }
 
   }
 
@@ -50,12 +71,23 @@ object HRManager extends Controller {
   }
 
   def viewJobDescription() = Action {
+    implicit request =>
+      val priv = request.session.get("privilege")
 
-    val db = DBJobProfile
+      val db = DBJobProfile
 
-    val jobDescriptions: List[JobDescription] = db.getAllJobDescriptions()
+      val jobDescriptions: List[JobDescription] = db.getAllJobDescriptions()
 
-    Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("HRManager") =>
+          Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
+        case Some("SuperUser") =>
+          Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
+        case _ =>
+          Redirect("/")
+      }
 
   }
 
@@ -64,26 +96,54 @@ object HRManager extends Controller {
     implicit request =>
 
       val id: Option[String] = request.getQueryString("id")
+      val priv = request.session.get("privilege")
 
       val db = DBJobProfile
 
-      val jobProfile: JobDescription = db.getJobProfileByID(id.get.toInt).get
+      if (id.isDefined) {
 
-      Ok(views.html.hrManager.jobDescription(jobProfile))
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("HRManager") =>
+            Ok(views.html.hrManager.jobDescription(db.getJobProfileByID(id.get.toInt).get))
+          case Some("SuperUser") =>
+            Ok(views.html.hrManager.jobDescription(db.getJobProfileByID(id.get.toInt).get))
+          case _ =>
+            Redirect("/")
+        }
+
+      } else {
+        Forbidden
+      }
+
+
   }
 
   def addSkillJobDescription() = Action {
 
     implicit request =>
-
+      val priv = request.session.get("privilege")
       val candidateID: Option[String] = request.getQueryString("CandidateID")
 
       val db = DBSkill
 
-      val skills = db.getAllSkills()
+      if (candidateID.isDefined) {
 
-      Ok(views.html.hrManager.addSkillHRManager(skills)(candidateID.get.toInt))
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("HRManager") =>
+            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(candidateID.get.toInt))
+          case Some("SuperUser") =>
+            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(candidateID.get.toInt))
+          case _ =>
+            Redirect("/")
+        }
 
+      } else {
+        Forbidden
+      }
   }
 
   val skillAddForm = Form {
@@ -112,15 +172,28 @@ object HRManager extends Controller {
   def addCompetencyJobDescription() = Action {
 
     implicit request =>
-
+      val priv = request.session.get("privilege")
       val candidateID: Option[String] = request.getQueryString("CandidateID")
 
       val db = DBCompetency
 
-      val competencies = db.getAllCompetencies()
+      if (candidateID.isDefined) {
 
-      Ok(views.html.hrManager.addCompetencyHRManager(competencies)(candidateID.get.toInt))
-
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("HRManager") =>
+            Ok(views.html.hrManager.addCompetencyHRManager
+            (db.getAllCompetencies())(candidateID.get.toInt))
+          case Some("SuperUser") =>
+            Ok(views.html.hrManager.addCompetencyHRManager
+            (db.getAllCompetencies())(candidateID.get.toInt))
+          case _ =>
+            Redirect("/")
+        }
+      } else {
+        Forbidden
+      }
 
   }
 
@@ -145,6 +218,5 @@ object HRManager extends Controller {
       Redirect(s"/hrManagerMain/jobDescription?id=$candidateID")
 
   }
-
 
 }

@@ -3,7 +3,6 @@ package controllers
 import model.DataBaseConnection.ConnectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
 import model.DataBaseConnection.ConnectCompetency.DBCompetency
 import model.DataBaseConnection.ConnectSkill.DBSkill
-import model.DataBaseConnection.Objects.Candidate
 import play.api.data.Form
 import play.api.data.Forms.tuple
 import play.api.mvc.{Action, Controller}
@@ -17,12 +16,38 @@ import play.api.data.Forms._
 object Recruiter extends Controller {
 
   def recruiterMain = Action {
-    Ok(views.html.recruiter.recruiterMain())
+    implicit request =>
+      val userName = request.session.get("username")
+      val priv = request.session.get("privilege")
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("Recruiter") =>
+          Ok(views.html.recruiter.recruiterMain())
+        case Some("SuperUser") =>
+          Ok(views.html.recruiter.recruiterMain())
+        case _ =>
+          Redirect("/")
+      }
+
   }
 
 
   def createCandidateProfile = Action {
-    Ok(views.html.recruiter.createCandidateProfile())
+    implicit request =>
+      val priv = request.session.get("privilege")
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("Recruiter") =>
+          Ok(views.html.recruiter.createCandidateProfile())
+        case Some("SuperUser") =>
+          Ok(views.html.recruiter.createCandidateProfile())
+        case _ =>
+          Redirect("/")
+      }
   }
 
 
@@ -55,43 +80,72 @@ object Recruiter extends Controller {
   }
 
   def viewCandidate() = Action {
-
-    val db = DBCandidate
-
-    val candidates: List[Candidate] = db.getAllCandidates()
-
-    Ok(views.html.recruiter.viewCandiate(candidates))
-
-  }
-
-  def candidate() = Action {
-
     implicit request =>
-
-      val id: Option[String] = request.getQueryString("id")
-
-      println(id + "more")
+      val priv = request.session.get("privilege")
 
       val db = DBCandidate
 
-      val candidate: Candidate = db.getCandidateByID(id.get.toInt).get
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("Recruiter") =>
+          Ok(views.html.recruiter.viewCandiate(db.getAllCandidates()))
+        case Some("SuperUser") =>
+          Ok(views.html.recruiter.viewCandiate(db.getAllCandidates()))
+        case _ =>
+          Redirect("/")
+      }
+  }
 
-      Ok(views.html.recruiter.candidate(candidate))
+  def candidate() = Action {
+    implicit request =>
+      val priv = request.session.get("privilege")
+      val id: Option[String] = request.getQueryString("id")
+
+      val db = DBCandidate
+
+      if (id.isDefined) {
+
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("Recruiter") =>
+            Ok(views.html.recruiter.candidate(db.getCandidateByID(id.get.toInt).get))
+          case Some("SuperUser") =>
+            Ok(views.html.recruiter.candidate(db.getCandidateByID(id.get.toInt).get))
+          case _ =>
+            Redirect("/")
+        }
+
+      } else {
+        Forbidden
+      }
   }
 
   def addSkillCandidate() = Action {
 
     implicit request =>
-
+      val priv = request.session.get("privilege")
       val candidateID: Option[String] = request.getQueryString("CandidateID")
 
       val db = DBSkill
 
-      val skills = db.getAllSkills()
+      if (candidateID.isDefined) {
 
-      Ok(views.html.recruiter.addSkillRecruiter(skills)(candidateID.get.toInt))
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("Recruiter") =>
+            Ok(views.html.recruiter.addSkillRecruiter(db.getAllSkills())(candidateID.get.toInt))
+          case Some("SuperUser") =>
+            Ok(views.html.recruiter.addSkillRecruiter(db.getAllSkills())(candidateID.get.toInt))
+          case _ =>
+            Redirect("/")
+        }
 
-
+      } else {
+        Forbidden
+      }
   }
 
   val skillAddForm = Form {
@@ -122,15 +176,27 @@ object Recruiter extends Controller {
   def addCompetencyCandidate() = Action {
 
     implicit request =>
-
+      val priv = request.session.get("privilege")
       val candidateID: Option[String] = request.getQueryString("CandidateID")
 
       val db = DBCompetency
 
-      val competencies = db.getAllCompetencies()
+      if (candidateID.isDefined) {
 
-      Ok(views.html.recruiter.addCompetencyRecruiter(competencies)(candidateID.get.toInt))
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("Recruiter") =>
+            Ok(views.html.recruiter.addCompetencyRecruiter(db.getAllCompetencies())(candidateID.get.toInt))
+          case Some("SuperUser") =>
+            Ok(views.html.recruiter.addCompetencyRecruiter(db.getAllCompetencies())(candidateID.get.toInt))
+          case _ =>
+            Redirect("/")
+        }
 
+      } else {
+        Forbidden
+      }
 
   }
 
@@ -155,8 +221,6 @@ object Recruiter extends Controller {
       db.addCandidateCompetency(competencyID.toInt, rating.toInt, candidateID.toInt)
 
       Redirect(s"/recruiterMain/candidate?id=$candidateID")
-
   }
-
 
 }

@@ -7,6 +7,9 @@ GET         /                                                  controllers.MainA
 
 POST        /                                                  controllers.MainApp.submit
 
+# logout
+GET         /logout                                            controllers.MainApp.logout
+
 # Helper
 
 

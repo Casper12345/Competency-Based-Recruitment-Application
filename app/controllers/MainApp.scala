@@ -5,7 +5,6 @@ import model.DataBaseConnection.ConnectUser.DBConnectUser
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
-import views.html.defaultpages.notFound
 
 
 object MainApp extends Controller {
@@ -58,10 +57,15 @@ object MainApp extends Controller {
       }
   }
 
+  def logout = Action{
+
+    Redirect("/").withNewSession
+
+  }
+
   def helper = Action {
 
     val db = DBCandidate
-
 
     Ok(views.html.Helper(db.getCandidateByID(1).get))
 
