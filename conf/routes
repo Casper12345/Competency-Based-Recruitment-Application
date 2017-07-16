@@ -89,3 +89,8 @@ POST        /hrManagerMain/jobDescription/addSkill             controllers.HRMan
 GET         /hrManagerMain/jobDescription/addCompetency        controllers.HRManager.addCompetencyJobDescription
 
 POST        /hrManagerMain/jobDescription/addCompetency        controllers.HRManager.addCompetencyJobDescriptionPost
+
+# matching main
+
+GET         /hrManagerMain/jobDescription/matchingMain         controllers.HRManager.matchingMain
+

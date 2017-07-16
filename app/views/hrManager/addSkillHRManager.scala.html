@@ -1,5 +1,5 @@
-@import model.DataBaseConnection.Objects.Skill
-@(list: List[Skill])(candidateID: Int)
+@import persistenceAPI.DataBaseConnection.Objects.Skill
+@(list: List[Skill])(jobDescriptionID: Int)
 
 @main("Add Skill") {
 
@@ -47,7 +47,7 @@
         <option>5</option>
       </select>
       <input type="hidden" name="skillID" value="@item.skillID" />
-      <input type="hidden" name="candidateID" value="@candidateID" />
+      <input type="hidden" name="jobDescriptionID" value="@jobDescriptionID" />
       <div class="form-group" >
         <input type="submit" class="form-control list-group-item list-group-item-action" value="Add">
       </div>

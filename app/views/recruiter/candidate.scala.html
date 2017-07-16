@@ -1,4 +1,4 @@
-@import model.DataBaseConnection.Objects.Candidate
+@import persistenceAPI.DataBaseConnection.Objects.Candidate
 @(item: Candidate)
 
 @main("helper") {
@@ -26,7 +26,9 @@
               <li><a href="/recruiterMain/candidate/addSkill?CandidateID=@item.ID">Add Skill</a></li>
               <li><a href="/recruiterMain/candidate/addCompetency?CandidateID=@item.ID">
                 Add Competency</a></li>
+              <li><a href="/recruiterMain/candidate/addSkill?CandidateID=@item.ID">Delete Skill</a></li>
             </ul>
+
 
           </li>
 

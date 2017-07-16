@@ -1,8 +1,8 @@
 package controllers
 
-import model.DataBaseConnection.ConnectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
-import model.DataBaseConnection.ConnectCompetency.DBCompetency
-import model.DataBaseConnection.ConnectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.ConnectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
+import persistenceAPI.DataBaseConnection.ConnectCompetency.DBCompetency
+import persistenceAPI.DataBaseConnection.ConnectSkill.DBSkill
 import play.api.data.Form
 import play.api.data.Forms.tuple
 import play.api.mvc.{Action, Controller}
@@ -222,5 +222,7 @@ object Recruiter extends Controller {
 
       Redirect(s"/recruiterMain/candidate?id=$candidateID")
   }
+
+  //def deleteSkillCandidate: Action = ???
 
 }

@@ -1,125 +1,129 @@
-@import model.DataBaseConnection.Objects.JobDescription
+@import persistenceAPI.DataBaseConnection.Objects.JobDescription
 @(item: JobDescription)
 
-@main("Job Description") {
+  @main("Job Description") {
 
-  <header>
+    <header>
 
-    <nav id="upperbar" class="navbar navbar-inverse">
+      <nav id="upperbar" class="navbar navbar-inverse">
 
-      <div class="container-fluid">
+        <div class="container-fluid">
 
-        <div class="navbar-header">
-          <div class="navbar-brand">Job Description</div>
+          <div class="navbar-header">
+            <div class="navbar-brand">Job Description</div>
+          </div>
+
+          <ul class="nav navbar-nav">
+
+            <li class="nav-item nav-link"><a href="/hrManagerMain">Home</a></li>
+
+            <li class="nav-item nav-link dropdown">
+
+              <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                Menu<span class="caret"></span></a>
+
+              <ul id="hrManagerJD" class="dropdown-menu">
+                <li><a href="/hrManagerMain/jobDescription/addSkill?jobDescriptionID=@item.ID">
+                  Add Skill</a></li>
+                <li><a href="/hrManagerMain/jobDescription/addCompetency?jobDescriptionID=@item.ID">
+                  Add Competency</a></li>
+
+                <li><a href="/hrManagerMain/jobDescription/matchingMain?jobDescriptionID=@item.ID">
+                  Match Against Candidates</a></li>
+              </ul>
+
+
+            </li>
+
+            <li class="nav-item nav-link"><a href="/logout">Log Out</a></li>
+          </ul>
         </div>
+      </nav>
 
-        <ul class="nav navbar-nav">
+    </header>
 
-          <li class="nav-item nav-link"><a href="/hrManagerMain">Home</a></li>
 
-          <li class="nav-item nav-link dropdown">
+    <div class="outer-container container-fluid">
 
-            <a class="dropdown-toggle" data-toggle="dropdown" href="">
-              Menu<span class="caret"></span></a>
+    </div>
 
-            <ul id="mainMenu" class="dropdown-menu">
-              <li><a href="/hrManagerMain/jobDescription/addSkill?CandidateID=@item.ID">
-                Add Skill</a></li>
-              <li><a href="/hrManagerMain/jobDescription/addCompetency?CandidateID=@item.ID">
-                Add Competency</a></li>
-            </ul>
+    <div id="candidateDescription" class="container">
 
-          </li>
+      <div class="list-group">
 
-          <li class="nav-item nav-link"><a href="/logout">Log Out</a></li>
-        </ul>
+        <table class="table table-inverse">
+
+          <thead>
+            <tr>
+              <th>Job Title</th>
+              <th>Education Name</th>
+              <th>Education Level</th>
+              <th>Experience Level</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>@item.jobTitle</td>
+              <td>@item.educationName</td>
+              <td>@item.educationLevel</td>
+              <td>@item.experienceLevel</td>
+
+            </tr>
+          </tbody>
+
+        </table>
+
+
       </div>
-    </nav>
 
-  </header>
+    </div>
 
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("/stylesheets/scrolltable.css")" >
 
-  <div class="outer-container container-fluid">
+    <div id="candidateSkill" class="container">
+      <table class="table table-inverse table-sm">
 
-  </div>
-
-  <div id="candidateDescription" class="container">
-
-    <div class="list-group">
-
-      <table class="table table-inverse">
-
-        <thead>
-          <tr>
-            <th>Job Title</th>
-            <th>Education Name</th>
-            <th>Education Level</th>
-            <th>Experience Level</th>
+        <thead id="a">
+          <tr id="b">
+            <th id="c">Skills</th>
+            <th id="c">Rating</th>
           </tr>
         </thead>
 
-        <tbody>
-          <tr>
-            <td>@item.jobTitle</td>
-            <td>@item.educationName</td>
-            <td>@item.educationLevel</td>
-            <td>@item.experienceLevel</td>
-
+        <tbody id="d">
+        @for(i <- item.skills) {
+          <tr id="b">
+            <td id="e">@i.name</td>
+            <td id="e">@i.rating</td>
           </tr>
+        }
         </tbody>
 
       </table>
 
+    </div>
+    <div id="candidateCompetency" class="container">
+      <table class="table table-inverse table-sm">
+
+        <thead id="a">
+          <tr id="b">
+            <th id="c">Competencies</th>
+            <th id="c">Rating</th>
+          </tr>
+        </thead>
+
+        <tbody id="d">
+        @for(i <- item.competencies) {
+          <tr id="b">
+            <td id="e">@i.name</td>
+            <td id="e">@i.rating</td>
+          </tr>
+        }
+        </tbody>
+
+      </table>
 
     </div>
 
-  </div>
-
-  <link rel="stylesheet" type="text/css" href="@routes.Assets.at("/stylesheets/scrolltable.css")" >
-
-  <div id="candidateSkill" class="container">
-    <table class="table table-inverse table-sm">
-
-      <thead id="a">
-        <tr id="b">
-          <th id="c">Skills</th>
-          <th id="c">Rating</th>
-        </tr>
-      </thead>
-
-      <tbody id="d">
-      @for(i <- item.skills) {
-        <tr id="b">
-          <td id="e">@i.name</td>
-          <td id="e">@i.rating</td>
-        </tr>
-      }
-      </tbody>
-
-    </table>
-
-  </div>
-  <div id="candidateCompetency" class="container">
-    <table class="table table-inverse table-sm">
-
-      <thead id="a">
-        <tr id="b">
-          <th id="c">Competencies</th>
-          <th id="c">Rating</th>
-        </tr>
-      </thead>
-
-      <tbody id="d">
-      @for(i <- item.competencies) {
-        <tr id="b">
-          <td id="e">@i.name</td>
-          <td id="e">@i.rating</td>
-        </tr>
-      }
-      </tbody>
-
-    </table>
-
-  </div>
-
-}
+  }

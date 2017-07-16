@@ -1,9 +1,9 @@
 package controllers
 
-import model.DataBaseConnection.ConnectCompetency.DBCompetency
-import model.DataBaseConnection.ConnectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
-import model.DataBaseConnection.ConnectSkill.DBSkill
-import model.DataBaseConnection.Objects.JobDescription
+import persistenceAPI.DataBaseConnection.ConnectCompetency.DBCompetency
+import persistenceAPI.DataBaseConnection.ConnectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
+import persistenceAPI.DataBaseConnection.ConnectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.Objects.JobDescription
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{Action, Controller}
@@ -124,19 +124,19 @@ object HRManager extends Controller {
 
     implicit request =>
       val priv = request.session.get("privilege")
-      val candidateID: Option[String] = request.getQueryString("CandidateID")
+      val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
 
       val db = DBSkill
 
-      if (candidateID.isDefined) {
+      if (jobDescriptionID.isDefined) {
 
         priv match {
           case None =>
             Redirect("/")
           case Some("HRManager") =>
-            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(candidateID.get.toInt))
+            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(jobDescriptionID.get.toInt))
           case Some("SuperUser") =>
-            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(candidateID.get.toInt))
+            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(jobDescriptionID.get.toInt))
           case _ =>
             Redirect("/")
         }
@@ -149,7 +149,7 @@ object HRManager extends Controller {
   val skillAddForm = Form {
     tuple("skillID" -> text,
       "rating" -> text,
-      "candidateID" -> text
+      "jobDescriptionID" -> text
     )
   }
 
@@ -157,15 +157,15 @@ object HRManager extends Controller {
 
     implicit request =>
 
-      val (skillID, rating, candidateID) = skillAddForm.bindFromRequest().get
+      val (skillID, rating, jobDescriptionID) = skillAddForm.bindFromRequest().get
 
       val db = DBJobProfileSkill
 
-      println(skillID + " " + rating + " " + candidateID)
+      println(skillID + " " + rating + " " + jobDescriptionID)
 
-      db.addJobProfileSkill(skillID.toInt, rating.toInt, candidateID.toInt)
+      db.addJobProfileSkill(skillID.toInt, rating.toInt, jobDescriptionID.toInt)
 
-      Redirect(s"/hrManagerMain/jobDescription?id=$candidateID")
+      Redirect(s"/hrManagerMain/jobDescription?id=$jobDescriptionID")
 
   }
 
@@ -173,21 +173,21 @@ object HRManager extends Controller {
 
     implicit request =>
       val priv = request.session.get("privilege")
-      val candidateID: Option[String] = request.getQueryString("CandidateID")
+      val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
 
       val db = DBCompetency
 
-      if (candidateID.isDefined) {
+      if (jobDescriptionID.isDefined) {
 
         priv match {
           case None =>
             Redirect("/")
           case Some("HRManager") =>
             Ok(views.html.hrManager.addCompetencyHRManager
-            (db.getAllCompetencies())(candidateID.get.toInt))
+            (db.getAllCompetencies())(jobDescriptionID.get.toInt))
           case Some("SuperUser") =>
             Ok(views.html.hrManager.addCompetencyHRManager
-            (db.getAllCompetencies())(candidateID.get.toInt))
+            (db.getAllCompetencies())(jobDescriptionID.get.toInt))
           case _ =>
             Redirect("/")
         }
@@ -200,7 +200,7 @@ object HRManager extends Controller {
   val competencyAddForm = Form {
     tuple("competencyID" -> text,
       "rating" -> text,
-      "candidateID" -> text
+      "jobDescriptionID" -> text
     )
   }
 
@@ -209,14 +209,34 @@ object HRManager extends Controller {
 
     implicit request =>
 
-      val (competencyID, rating, candidateID) = competencyAddForm.bindFromRequest().get
+      val (competencyID, rating, jobDescriptionID) = competencyAddForm.bindFromRequest().get
 
       val db = DBJobProfileCompetency
 
-      db.addJobProfileCompetency(competencyID.toInt, rating.toInt, candidateID.toInt)
+      db.addJobProfileCompetency(competencyID.toInt, rating.toInt, jobDescriptionID.toInt)
 
-      Redirect(s"/hrManagerMain/jobDescription?id=$candidateID")
+      Redirect(s"/hrManagerMain/jobDescription?id=$jobDescriptionID")
 
   }
 
+  def matchingMain() = Action {
+    implicit request =>
+      val priv = request.session.get("privilege")
+      val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
+
+      if (jobDescriptionID.isDefined) {
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("HRManager") =>
+            Ok(views.html.hrManager.matchingMain())
+          case Some("SuperUser") =>
+            Ok(views.html.hrManager.matchingMain())
+          case _ =>
+            Redirect("/")
+        }
+      }else{
+        Forbidden
+      }
+  }
 }

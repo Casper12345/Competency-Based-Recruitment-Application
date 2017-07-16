@@ -1,7 +1,7 @@
 package controllers
 
-import model.DataBaseConnection.ConnectCandidate.DBCandidate
-import model.DataBaseConnection.ConnectUser.DBConnectUser
+import persistenceAPI.DataBaseConnection.ConnectCandidate.DBCandidate
+import persistenceAPI.DataBaseConnection.ConnectUser.DBConnectUser
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._

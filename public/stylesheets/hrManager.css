@@ -18,3 +18,9 @@
   width: 100%;
 }
 
+#hrManagerJD{
+  position: absolute;
+  background-color: #00d4ff;
+  width: 210px;
+
+}

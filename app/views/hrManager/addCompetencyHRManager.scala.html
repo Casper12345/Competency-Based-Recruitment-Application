@@ -1,5 +1,5 @@
-@import model.DataBaseConnection.Objects.Competency
-@(list: List[Competency])(candidateID: Int)
+@import persistenceAPI.DataBaseConnection.Objects.Competency
+@(list: List[Competency])(jobDescriptionID: Int)
 
 @main("Add Competency") {
 
@@ -47,7 +47,7 @@
         <option>5</option>
       </select>
       <input type="hidden" name="competencyID" value="@item.competencyID" />
-      <input type="hidden" name="candidateID" value="@candidateID" />
+      <input type="hidden" name="jobDescriptionID" value="@jobDescriptionID" />
       <div class="form-group" >
         <input type="submit" class="form-control list-group-item list-group-item-action" value="Add">
       </div>

@@ -29,16 +29,16 @@
 
 #candidateDescription {
   position: absolute;
-  left: 100px;
-  top: 100px;
+  left: 80px;
+  top: 90px;
   width: 1000px;
 
 }
 
 #candidateSkill {
   position: absolute;
-  left: 100px;
-  top: 200px;
+  left: 80px;
+  top: 215px;
   width: 1000px;
   height: 40px !important;
 
@@ -47,8 +47,8 @@
 #candidateCompetency {
   height: 50px !important;
   position: absolute;
-  left: 100px;
-  top: 325px;
+  left: 80px;
+  top: 353px;
   width: 1000px;
 }
 /*
