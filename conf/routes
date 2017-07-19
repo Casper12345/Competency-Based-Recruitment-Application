@@ -96,4 +96,4 @@ GET         /hrManagerMain/jobDescription/matchingMain                controller
 
 POST        /hrManagerMain/jobDescription/matchingMain                controllers.HRManager.matchingMainPost
 
-GET         /hrManagerMain/jobDescription/viewMatchedCandidate        controllers.HRManager.viewMatchedCandidates()
+GET         /hrManagerMain/jobDescription/viewMatchedCandidate        controllers.HRManager.viewMatchedCandidates
