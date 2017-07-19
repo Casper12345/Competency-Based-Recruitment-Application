@@ -5,9 +5,9 @@ package model
   */
 object similarityAlgorithm {
 
-  private def maxDistCal(v: List[Int]): Double = math.sqrt(math.pow(5, 2) * v.size)
+   def maxDistCal(v: List[Int]): Double = math.sqrt(math.pow(5, 2) * v.size)
 
-  private def euclideanDistance(vector1: List[Int], vector2: List[Int]): Double = {
+   def euclideanDistance(vector1: List[Int], vector2: List[Int]): Double = {
 
     var subCal = 0.0
 

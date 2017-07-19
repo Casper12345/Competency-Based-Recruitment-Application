@@ -3,94 +3,97 @@
 # ~~~~
 
 # Home page
-GET         /                                                  controllers.MainApp.index
+GET         /                                                         controllers.MainApp.index
 
-POST        /                                                  controllers.MainApp.submit
+POST        /                                                         controllers.MainApp.submit
 
 # logout
-GET         /logout                                            controllers.MainApp.logout
+GET         /logout                                                   controllers.MainApp.logout
 
 # Helper
 
 
 #GET         /helper                                      controllers.MainApp.helper
 
-GET         /helper                                            controllers.MainApp.helper
+GET         /helper                                                   controllers.MainApp.helper
 
 
 # Map static resources from the /public folder to the /assets URL path
 
-GET         /assets/*file                                      controllers.Assets.at(path="/public", file)
+GET         /assets/*file                                             controllers.Assets.at(path="/public", file)
 
 
 # SuperUser Main
 
-GET         /superUserMain                                     controllers.SuperUser.superUserMain
+GET         /superUserMain                                            controllers.SuperUser.superUserMain
 
 
-GET         /superUserMain/addSkill                            controllers.SuperUser.addSkill
+GET         /superUserMain/addSkill                                   controllers.SuperUser.addSkill
 
-POST        /superUserMain/addSkill                            controllers.SuperUser.submitSkill
+POST        /superUserMain/addSkill                                   controllers.SuperUser.submitSkill
 
 
-GET         /superUserMain/addCompetency                       controllers.SuperUser.addCompetency
+GET         /superUserMain/addCompetency                              controllers.SuperUser.addCompetency
 
-POST        /superUserMain/addCompetency                       controllers.SuperUser.submitCompetency
+POST        /superUserMain/addCompetency                              controllers.SuperUser.submitCompetency
 
 
 # Recruiter Main
 
-GET         /recruiterMain                                     controllers.Recruiter.recruiterMain
+GET         /recruiterMain                                            controllers.Recruiter.recruiterMain
 
-GET         /recruiterMain/createCandidateProfile              controllers.Recruiter.createCandidateProfile
+GET         /recruiterMain/createCandidateProfile                     controllers.Recruiter.createCandidateProfile
 
-POST        /recruiterMain/createCandidateProfile              controllers.Recruiter.candidateFormSubmit
+POST        /recruiterMain/createCandidateProfile                     controllers.Recruiter.candidateFormSubmit
 
-GET         /recruiterMain/viewCandidate                       controllers.Recruiter.viewCandidate
+GET         /recruiterMain/viewCandidate                              controllers.Recruiter.viewCandidate
 
-GET         /recruiterMain/candidate                           controllers.Recruiter.candidate
+GET         /recruiterMain/candidate                                  controllers.Recruiter.candidate
 
 
 # add Skill candidate
 
-GET         /recruiterMain/candidate/addSkill                  controllers.Recruiter.addSkillCandidate
+GET         /recruiterMain/candidate/addSkill                         controllers.Recruiter.addSkillCandidate
 
-POST        /recruiterMain/candidate/addSkill                  controllers.Recruiter.addSkillCandidatePost
+POST        /recruiterMain/candidate/addSkill                         controllers.Recruiter.addSkillCandidatePost
 
 # add Competency candidate
-GET         /recruiterMain/candidate/addCompetency             controllers.Recruiter.addCompetencyCandidate
+GET         /recruiterMain/candidate/addCompetency                    controllers.Recruiter.addCompetencyCandidate
 
-POST        /recruiterMain/candidate/addCompetency             controllers.Recruiter.addCompetencyCandidatePost
+POST        /recruiterMain/candidate/addCompetency                    controllers.Recruiter.addCompetencyCandidatePost
 
 
 # HR Manager Main
 
-GET         /hrManagerMain                                     controllers.HRManager.hrManagerMain
+GET         /hrManagerMain                                            controllers.HRManager.hrManagerMain
 
-GET         /hrManagerMain/createJobDescription                controllers.HRManager.createJobDescription
+GET         /hrManagerMain/createJobDescription                       controllers.HRManager.createJobDescription
 
-POST        /hrManagerMain/createJobDescription                controllers.HRManager.jobDescriptionPost
-
-
-GET         /hrManagerMain/viewJobDescription                  controllers.HRManager.viewJobDescription
+POST        /hrManagerMain/createJobDescription                       controllers.HRManager.jobDescriptionPost
 
 
-GET         /hrManagerMain/jobDescription                      controllers.HRManager.jobDescription
+GET         /hrManagerMain/viewJobDescription                         controllers.HRManager.viewJobDescription
+
+
+GET         /hrManagerMain/jobDescription                             controllers.HRManager.jobDescription
 
 
 # add Skill jobDescription
 
-GET         /hrManagerMain/jobDescription/addSkill             controllers.HRManager.addSkillJobDescription
+GET         /hrManagerMain/jobDescription/addSkill                    controllers.HRManager.addSkillJobDescription
 
-POST        /hrManagerMain/jobDescription/addSkill             controllers.HRManager.addSkillJobDescriptionPost
+POST        /hrManagerMain/jobDescription/addSkill                    controllers.HRManager.addSkillJobDescriptionPost
 
 # add Competency jobDescription
 
-GET         /hrManagerMain/jobDescription/addCompetency        controllers.HRManager.addCompetencyJobDescription
+GET         /hrManagerMain/jobDescription/addCompetency               controllers.HRManager.addCompetencyJobDescription
 
-POST        /hrManagerMain/jobDescription/addCompetency        controllers.HRManager.addCompetencyJobDescriptionPost
+POST        /hrManagerMain/jobDescription/addCompetency               controllers.HRManager.addCompetencyJobDescriptionPost
 
 # matching main
 
-GET         /hrManagerMain/jobDescription/matchingMain         controllers.HRManager.matchingMain
+GET         /hrManagerMain/jobDescription/matchingMain                controllers.HRManager.matchingMain
 
+POST        /hrManagerMain/jobDescription/matchingMain                controllers.HRManager.matchingMainPost
+
+GET         /hrManagerMain/jobDescription/viewMatchedCandidate        controllers.HRManager.viewMatchedCandidates()

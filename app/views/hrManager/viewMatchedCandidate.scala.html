@@ -1,6 +1,6 @@
 @import persistenceAPI.DataBaseConnection.Objects.Candidate
 
-@(item: Candidate)
+@(item: Candidate)(d1: Double)(d2: Double)(d3: Double)(jobDescriptionID: Int)
 
 @main("helper") {
 
@@ -16,7 +16,12 @@
 
         <ul class="nav navbar-nav">
 
-          <li class="nav-item nav-link"><a href="/recruiterMain">Home</a></li>
+          <li class="nav-item nav-link"><a href="/hrManagerMain">Home</a></li>
+
+          <li class="nav-item nav-link">
+            <a href="/hrManagerMain/jobDescription/matchingMain?jobDescriptionID=@jobDescriptionID&called=yes">
+            Back to Results</a></li>
+
 
           <li class="nav-item nav-link dropdown">
 
@@ -24,10 +29,10 @@
               Menu<span class="caret"></span></a>
 
             <ul id="mainMenu" class="dropdown-menu">
-              <li><a href="/recruiterMain/candidate/addSkill?CandidateID=@item.ID">Add Skill</a></li>
-              <li><a href="/recruiterMain/candidate/addCompetency?CandidateID=@item.ID">
+              <li><a href="#">Add Skill</a></li>
+              <li><a href="#">
                 Add Competency</a></li>
-              <li><a href="/recruiterMain/candidate/addSkill?CandidateID=@item.ID">
+              <li><a href="#">
                 Delete Skill</a></li>
             </ul>
 
@@ -132,9 +137,9 @@
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <link rel="stylesheet" type="text/css" href="@routes.Assets.at("/stylesheets/radial.css")" >
 
-  <div id="per1" hidden>0.12</div>
-  <div id="per2" hidden>0.80</div>
-  <div id="per3" hidden>1</div>
+  <div id="per1" hidden>@d1</div>
+  <div id="per2" hidden>@d2</div>
+  <div id="per3" hidden>@d3</div>
 
   <div id="meters" class="container">
     <div class="container" id="content"></div>

@@ -1,6 +1,6 @@
 @import persistenceAPI.DataBaseConnection.Objects.Candidate
 
-@(list: List[Candidate])
+@(list: List[(Candidate, Double, Double, Double)])(jobDescriptionID: Int)
 
 @main("Matching Algorithm") {
 
@@ -53,15 +53,16 @@
 
     @for(item <- list) {
 
-      <a href="candidate?id=@item.ID.toString" class="list-group-item list-group-item-action">
+      <a href="viewMatchedCandidate?id=@item._1.ID.toString&d1=@item._2&d2=@item._3&d3=@item._4&jobDescriptionID=@jobDescriptionID
+      " class="list-group-item list-group-item-action">
 
         <table class="table">
 
           <tr>
-            <td>@item.name</td>
-            <td>@item.surname</td>
-            <td>@item.educationName</td>
-            <td>@item.currentJobTitle</td>
+            <td>@item._1.name</td>
+            <td>@item._1.surname</td>
+            <td>@item._1.educationName</td>
+            <td>@item._1.currentJobTitle</td>
           </tr>
 
         </table>
@@ -74,6 +75,14 @@
 
   </div>
 
+  <form id="matchingButton" class="form-inline" role="form" method="post">
 
+    <div class="form-group">
+      <input type="hidden" name="candidate" value="@jobDescriptionID"/>
+    </div>
+
+    <input type="submit" name="submit" value="Match Job Descriptions" class="btn btn-primary pull-right">
+
+  </form>
 
 }

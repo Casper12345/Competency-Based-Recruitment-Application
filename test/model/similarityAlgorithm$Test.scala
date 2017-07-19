@@ -30,7 +30,7 @@ class similarityAlgorithm$Test extends FunSuite {
 
     //println(similarity.distSim(List(1,2,3,4,5,1,2,3,4,5,1,2,3,4,5), List(1,2,3,4,5,2,2,3,4,5,1,2,3,4,5)))
 
-    println(similarity.distSim(List(1,1,1,1,1), List(5,2,3,4,5)))
+    println(similarity.distSim(List(1,1,1,1,1), List(0,0,0,0,0)))
   }
 
 

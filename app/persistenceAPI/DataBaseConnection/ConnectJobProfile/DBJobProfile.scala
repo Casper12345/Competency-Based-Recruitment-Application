@@ -164,7 +164,8 @@ object DBJobProfile {
     val selectSQL =
       """SELECT *
         |FROM JobProfile JOIN EducationLevel USING(EducationLevelID)
-        |JOIN ExperienceLevel USING(ExperienceLevelID)""".stripMargin
+        |JOIN ExperienceLevel USING(ExperienceLevelID)
+        |ORDER BY JobProfileID""".stripMargin
 
     val preparedStatement = db.connection.prepareStatement(selectSQL)
 

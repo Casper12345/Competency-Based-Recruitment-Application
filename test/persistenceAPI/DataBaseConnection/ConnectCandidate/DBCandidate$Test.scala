@@ -46,7 +46,7 @@ class DBCandidate$Test extends FunSuite {
 
   test("candidateGetCompetencies") {
 
-    val candidate = db.candidateGetCompetencies(1)
+    val candidate = db.candidateGetCompetencies(3)
     candidate.foreach(a => println(a.name))
 
   }
