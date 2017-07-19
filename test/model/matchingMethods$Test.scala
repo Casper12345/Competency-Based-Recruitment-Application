@@ -7,7 +7,7 @@ import org.scalatest.FunSuite
   */
 class matchingMethods$Test extends FunSuite {
 
-  val matchingMethods = new matchingMethods(1)
+  val matchingMethods = new matchingMethods(6)
 
   test("matchingOnOneSkillSorted"){
 

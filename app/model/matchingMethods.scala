@@ -288,7 +288,7 @@ class matchingMethods(jobDescriptionID: Int) {
 
     }
 
-    toReturn
+    toReturn.sortWith(_._2 > _._2)
 
   }
 

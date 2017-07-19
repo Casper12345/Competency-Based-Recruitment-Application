@@ -12,7 +12,7 @@ class matchingMethodsFacade$Test extends FunSuite {
 
     val m = matchingMethodsFacade
 
-    println(m.getListOfMachingCandidatesFromDB(1))
+    println(m.getListOfMachingCandidatesFromDB(6))
 
 
   }
