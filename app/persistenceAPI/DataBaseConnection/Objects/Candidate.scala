@@ -1,7 +1,7 @@
 package persistenceAPI.DataBaseConnection.Objects
 
 /**
-  * Created by Casper on 06/07/2017.
+  * Case class for representation of candidate
   */
 case class Candidate(
 

@@ -3,17 +3,19 @@ package persistenceAPI.DataBaseConnection.ConnectCandidate
 import persistenceAPI.DataBaseConnection.DBMain
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for CandidateSkill table and handling request to CandidateSkill table.
   */
 object DBCandidateSkill {
 
-  // CandidateSkill DB methods
-
+  /**
+    * Method for inserting into table CandidateSkill
+    * SQL - CandidateSkill(SkillID INT, Rating INT, CandidateID INT);
+    *
+    */
   val db = DBMain
 
-  def addCandidateSkill(skillID: Int, rating: Int, candidateID: Int): Unit ={
+  def addCandidateSkill(skillID: Int, rating: Int, candidateID: Int): Unit = {
 
-    // CandidateSkill(SkillID INT, Rating INT, CandidateID INT);
 
     db.connect()
 

@@ -4,16 +4,11 @@
   font-weight: bold;
 }
 
-.progress-meter text2 {
-
-}
-
 #meters {
   position: absolute;
   top: 85px;
   left: 990px;
 }
-
 
 .ssv-small-label {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

@@ -4,17 +4,22 @@ import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.Objects.Competency
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for Competency table and handling request to Competency table.
   */
 object DBCompetency {
 
-  // Competency DB methods
-
+  /**
+    * Connection to main DB
+    */
   val db = DBMain
 
+  /**
+    * Method for inserting into Competency table
+    * SQL - Competency(CompetencyID INT, Name TEXT)
+    *
+    * @param name
+    */
   def addCompetency(name: String): Unit = {
-
-    //Competency(CompetencyID INT, Name TEXT);
 
     db.connect()
 
@@ -34,6 +39,12 @@ object DBCompetency {
 
   }
 
+  /**
+    * Method for getting Competency by ID
+    *
+    * @param CompetencyID
+    * @return option of Competency
+    */
   def getCompetencyByID(CompetencyID: Int): Option[Competency] = {
 
     db.connect()
@@ -63,8 +74,11 @@ object DBCompetency {
 
   }
 
-  // get all Competencies
-
+  /**
+    * Method for getting all Competencies
+    *
+    * @return list of all competencies in table
+    */
   def getAllCompetencies(): List[Competency] = {
 
     var toReturn: List[Competency] = Nil

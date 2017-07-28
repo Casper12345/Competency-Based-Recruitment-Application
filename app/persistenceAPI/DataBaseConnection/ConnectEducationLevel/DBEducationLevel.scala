@@ -3,12 +3,21 @@ package persistenceAPI.DataBaseConnection.ConnectEducationLevel
 import persistenceAPI.DataBaseConnection.DBMain
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for EducationLevel table and handling request to EducationLevel table.
   */
 object DBEducationLevel {
 
+  /**
+    * Connect to main DB
+    */
   var db = DBMain
 
+  /**
+    * Method for inserting into EducationLevel table.
+    *
+    * @param level
+    * @param name
+    */
   def addEducationLevel(level: String, name: String): Unit = {
 
     //EducationLevel(EducationLevelID INT, Level INT, Name TEXT);
@@ -31,6 +40,12 @@ object DBEducationLevel {
 
   }
 
+  /**
+    * Method for getting EducationLevel by ID
+    *
+    * @param SkillID
+    * @return List of educationLevel as String
+    */
   def getEducationLevelByID(SkillID: Int): List[String] = {
 
     var toReturn: List[String] = Nil

@@ -1,6 +1,6 @@
 package persistenceAPI.DataBaseConnection.Objects
 
 /**
-  * Created by Casper on 10/07/2017.
+  * Case class to represent generic skill
   */
 case class Skill(skillID: Int, name: String)

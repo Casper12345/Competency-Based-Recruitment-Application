@@ -1,7 +1,7 @@
 package persistenceAPI.DataBaseConnection.Objects
 
 /**
-  * Created by Casper on 09/07/2017.
+  * Case class for skill pertaining to specific candidate.
   */
 
 case class CandidateSkill(skillID: Int, name: String, rating: Int)

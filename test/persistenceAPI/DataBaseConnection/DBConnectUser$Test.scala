@@ -10,43 +10,31 @@ class DBConnectUser$Test extends FunSuite {
 
   // Unit test for check user
 
+  val mainDB = DBMain
+
   test("testCheckUser") {
 
     val db = DBConnectUser
 
     assert(!db.checkUser("jack", "123"))
 
-    assert(db.checkUser("Casper", "MyPassword"))
+    assert(db.checkUser("Casper", "123"))
 
 
   }
 
   test("containsUser"){
 
+
     val db = DBConnectUser
 
-    db.connect()
+    mainDB.connect()
 
     assert(!db.containsUser("Jim"))
 
     assert(db.containsUser("Casper"))
 
-    db.closeConnection()
-
-  }
-
-  test("getLatestUserId"){
-
-    val db = DBConnectUser
-
-    db.connect()
-
-    assert(db.getLatestUserId == 2)
-
-    assert(db.getLatestUserId != 3)
-
-    db.closeConnection()
-
+    mainDB.closeConnection()
 
   }
 
@@ -54,13 +42,13 @@ class DBConnectUser$Test extends FunSuite {
 
     val db = DBConnectUser
 
-    db.connect()
+    mainDB.connect()
 
     assert(!db.insertNewUser("Casper", "123", "SuperUser"))
 
-    //assert(db.insertNewUser("John", "123"))
+    assert(db.insertNewUser("Finn", "123456", "SuperUser"))
 
-    db.closeConnection()
+    mainDB.closeConnection()
 
   }
 

@@ -3,17 +3,25 @@ package persistenceAPI.DataBaseConnection.ConnectJobProfile
 import persistenceAPI.DataBaseConnection.DBMain
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for JobProfileCompetency table and handling request to JobProfileCompetency table
   */
 object DBJobProfileCompetency {
 
-  // JobProfileCompetency DB methods
-
+  /**
+    * Connect to main DB
+    */
   val db = DBMain
 
+  /**
+    * Method for inserting values into JobProfileCompetency table
+    * SQL- JobProfileCompetency(CompetencyID INT, Rating INT, JobProfileID INT);
+    *
+    * @param competencyID
+    * @param rating
+    * @param jobProfileID
+    */
   def addJobProfileCompetency(competencyID: Int, rating: Int, jobProfileID: Int): Unit = {
 
-    // JobProfileCompetency(CompetencyID INT, Rating INT, JobProfileID INT);
 
     db.connect()
 

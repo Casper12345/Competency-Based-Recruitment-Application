@@ -1,6 +1,7 @@
 
-#a,#d, #b, #e, #c {
-  display: block; }
+#a, #d, #b, #e, #c {
+  display: block;
+}
 
 #b:after {
   content: ' ';

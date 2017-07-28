@@ -7,10 +7,15 @@ import play.api.mvc.{Action, Controller}
 import play.api.data.Forms._
 
 /**
-  * Created by Casper on 07/07/2017.
+  * Controller methods for superUser part of the application.
   */
 object SuperUser extends Controller {
 
+  /**
+    * Action for rendering superUserMain template
+    *
+    * @return
+    */
   def superUserMain = Action {
     implicit request =>
 
@@ -28,6 +33,11 @@ object SuperUser extends Controller {
 
   }
 
+  /**
+    * Action for rendering addSkill
+    *
+    * @return
+    */
   def addSkill = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -45,10 +55,18 @@ object SuperUser extends Controller {
 
   }
 
+  /**
+    * Form for addSkill post request
+    */
   val skillForm = Form(
     "name" -> text
   )
 
+  /**
+    * post request for addSkill
+    *
+    * @return
+    */
   def submitSkill = Action {
 
     implicit request =>
@@ -63,10 +81,19 @@ object SuperUser extends Controller {
 
   }
 
+  /**
+    * Form for addCompetency request
+    *
+    */
   val competencyForm = Form(
     "name" -> text
   )
 
+  /**
+    * Action for rendering addCompetency template
+    *
+    * @return
+    */
   def addCompetency = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -84,6 +111,11 @@ object SuperUser extends Controller {
 
   }
 
+  /**
+    * Form request for addCompetency.
+    *
+    * @return
+    */
   def submitCompetency = Action {
 
     implicit request =>

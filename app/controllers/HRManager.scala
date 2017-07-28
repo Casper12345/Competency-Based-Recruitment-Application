@@ -11,10 +11,15 @@ import play.api.data.Forms._
 import play.api.mvc.{Action, Controller}
 
 /**
-  * Created by Casper on 11/07/2017.
+  * Controller Methods for HR manager part of the Application.
   */
 object HRManager extends Controller {
 
+  /**
+    * Action for hrManagerMain
+    * Renders hrManagerMain template
+    *
+    */
   def hrManagerMain = Action {
     implicit request =>
       val userName = request.session.get("username")
@@ -33,6 +38,12 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Action for createJobDescription
+    * Renders createJobDescription template.
+    *
+    * @return
+    */
   def createJobDescription() = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -40,9 +51,7 @@ object HRManager extends Controller {
       priv match {
         case None =>
           Redirect("/")
-        case Some("HRManager") =>
-          Ok(views.html.hrManager.createJobDescription())
-        case Some("SuperUser") =>
+        case Some("HRManager") | Some("SuperUser") =>
           Ok(views.html.hrManager.createJobDescription())
         case _ =>
           Redirect("/")
@@ -50,6 +59,9 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Form for post request from create jobDescription form
+    */
   val jobDescriptionForm = Form {
     tuple("jobTitle" -> text,
       "educationName" -> text,
@@ -58,6 +70,11 @@ object HRManager extends Controller {
     )
   }
 
+  /**
+    * Action for create jobDescription post form
+    *
+    * @return
+    */
   def jobDescriptionPost() = Action {
     implicit request =>
 
@@ -72,6 +89,11 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Action for rendering the viewJobDescription template
+    *
+    * @return
+    */
   def viewJobDescription() = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -83,9 +105,7 @@ object HRManager extends Controller {
       priv match {
         case None =>
           Redirect("/")
-        case Some("HRManager") =>
-          Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
-        case Some("SuperUser") =>
+        case Some("HRManager") | Some("SuperUser") =>
           Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
         case _ =>
           Redirect("/")
@@ -93,6 +113,11 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Action for rendering jobDescription template.
+    *
+    * @return
+    */
   def jobDescription() = Action {
 
     implicit request =>
@@ -107,9 +132,7 @@ object HRManager extends Controller {
         priv match {
           case None =>
             Redirect("/")
-          case Some("HRManager") =>
-            Ok(views.html.hrManager.jobDescription(db.getJobProfileByID(id.get.toInt).get))
-          case Some("SuperUser") =>
+          case Some("HRManager") | Some("SuperUser") =>
             Ok(views.html.hrManager.jobDescription(db.getJobProfileByID(id.get.toInt).get))
           case _ =>
             Redirect("/")
@@ -122,6 +145,11 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Action for rendering the addSkillJobDescription template
+    *
+    * @return
+    */
   def addSkillJobDescription() = Action {
 
     implicit request =>
@@ -135,9 +163,7 @@ object HRManager extends Controller {
         priv match {
           case None =>
             Redirect("/")
-          case Some("HRManager") =>
-            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(jobDescriptionID.get.toInt))
-          case Some("SuperUser") =>
+          case Some("HRManager") | Some("SuperUser") =>
             Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(jobDescriptionID.get.toInt))
           case _ =>
             Redirect("/")
@@ -148,6 +174,9 @@ object HRManager extends Controller {
       }
   }
 
+  /**
+    * Form for post request for addSkillJobDescription
+    */
   val skillAddForm = Form {
     tuple("skillID" -> text,
       "rating" -> text,
@@ -155,6 +184,11 @@ object HRManager extends Controller {
     )
   }
 
+  /**
+    * Action for post request addSkillJobDescription
+    *
+    * @return
+    */
   def addSkillJobDescriptionPost() = Action {
 
     implicit request =>
@@ -171,6 +205,11 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Action for rendering addCompetencyJobDescription template.
+    *
+    * @return
+    */
   def addCompetencyJobDescription() = Action {
 
     implicit request =>
@@ -184,10 +223,7 @@ object HRManager extends Controller {
         priv match {
           case None =>
             Redirect("/")
-          case Some("HRManager") =>
-            Ok(views.html.hrManager.addCompetencyHRManager
-            (db.getAllCompetencies())(jobDescriptionID.get.toInt))
-          case Some("SuperUser") =>
+          case Some("HRManager") | Some("SuperUser") =>
             Ok(views.html.hrManager.addCompetencyHRManager
             (db.getAllCompetencies())(jobDescriptionID.get.toInt))
           case _ =>
@@ -199,6 +235,9 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Form for post request add Competency
+    */
   val competencyAddForm = Form {
     tuple("competencyID" -> text,
       "rating" -> text,
@@ -206,7 +245,11 @@ object HRManager extends Controller {
     )
   }
 
-
+  /**
+    * Action for addCompetencyJobDescription post form
+    *
+    * @return
+    */
   def addCompetencyJobDescriptionPost() = Action {
 
     implicit request =>
@@ -221,10 +264,11 @@ object HRManager extends Controller {
 
   }
 
-
-  //def matchingMainHelper() =
-
-
+  /**
+    * Action for rendering matchingMain template
+    *
+    * @return
+    */
   def matchingMain() = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -259,10 +303,18 @@ object HRManager extends Controller {
       }
   }
 
+  /**
+    * form for sending jobDescriptionID
+    */
   val matchingMainForm = Form {
     "jobDescriptionID" -> text
   }
 
+  /**
+    * Action for matchingMain post request.
+    *
+    * @return
+    */
   def matchingMainPost() = Action {
     implicit request =>
 
@@ -273,6 +325,10 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Action for rendering viewMatchingCandidates template.
+    * @return
+    */
   def viewMatchedCandidates() = Action {
 
     implicit request =>
@@ -293,7 +349,7 @@ object HRManager extends Controller {
         case Some("HRManager") | Some("SuperUser") =>
           Ok(views.html.hrManager
             .viewMatchedCandidate(db.getCandidateByID(id.get.toInt).get)
-          (d1.get.toDouble)(d2.get.toDouble)(d3.get.toDouble)(jobDescriptionID.get.toInt))
+            (d1.get.toDouble)(d2.get.toDouble)(d3.get.toDouble)(jobDescriptionID.get.toInt))
         case _ =>
           Redirect("/")
       }

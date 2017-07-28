@@ -10,11 +10,16 @@ import play.api.data.Forms._
 
 
 /**
-  * Created by Casper on 08/07/2017.
+  * Controller methods for the recruiter part of the application
   */
 
 object Recruiter extends Controller {
 
+  /**
+    * Actopn for rendering recruiterMain template
+    *
+    * @return
+    */
   def recruiterMain = Action {
     implicit request =>
       val userName = request.session.get("username")
@@ -23,9 +28,7 @@ object Recruiter extends Controller {
       priv match {
         case None =>
           Redirect("/")
-        case Some("Recruiter") =>
-          Ok(views.html.recruiter.recruiterMain())
-        case Some("SuperUser") =>
+        case Some("Recruiter") | Some("SuperUser") =>
           Ok(views.html.recruiter.recruiterMain())
         case _ =>
           Redirect("/")
@@ -33,7 +36,11 @@ object Recruiter extends Controller {
 
   }
 
-
+  /**
+    * Action for rendering createCandidateProfile template
+    *
+    * @return
+    */
   def createCandidateProfile = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -41,16 +48,16 @@ object Recruiter extends Controller {
       priv match {
         case None =>
           Redirect("/")
-        case Some("Recruiter") =>
-          Ok(views.html.recruiter.createCandidateProfile())
-        case Some("SuperUser") =>
+        case Some("Recruiter") | Some("SuperUser") =>
           Ok(views.html.recruiter.createCandidateProfile())
         case _ =>
           Redirect("/")
       }
   }
 
-
+  /**
+    * Form for sending candidate post request
+    */
   val candidateForm = Form(
     tuple(
       "name" -> text,
@@ -62,6 +69,11 @@ object Recruiter extends Controller {
     )
   )
 
+  /**
+    * Action for form request Candidate
+    *
+    * @return
+    */
   def candidateFormSubmit = Action {
     implicit request =>
 
@@ -79,6 +91,11 @@ object Recruiter extends Controller {
 
   }
 
+  /**
+    * Action for rendering viewCandidate template
+    *
+    * @return
+    */
   def viewCandidate() = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -88,15 +105,18 @@ object Recruiter extends Controller {
       priv match {
         case None =>
           Redirect("/")
-        case Some("Recruiter") =>
-          Ok(views.html.recruiter.viewCandiate(db.getAllCandidates()))
-        case Some("SuperUser") =>
+        case Some("Recruiter") | Some("SuperUser") =>
           Ok(views.html.recruiter.viewCandiate(db.getAllCandidates()))
         case _ =>
           Redirect("/")
       }
   }
 
+  /**
+    * Action for rendering candidate template
+    *
+    * @return
+    */
   def candidate() = Action {
     implicit request =>
       val priv = request.session.get("privilege")
@@ -109,9 +129,7 @@ object Recruiter extends Controller {
         priv match {
           case None =>
             Redirect("/")
-          case Some("Recruiter") =>
-            Ok(views.html.recruiter.candidate(db.getCandidateByID(id.get.toInt).get))
-          case Some("SuperUser") =>
+          case Some("Recruiter") | Some("SuperUser") =>
             Ok(views.html.recruiter.candidate(db.getCandidateByID(id.get.toInt).get))
           case _ =>
             Redirect("/")
@@ -122,6 +140,11 @@ object Recruiter extends Controller {
       }
   }
 
+  /**
+    * Action for rendering addSkillCandidate template
+    *
+    * @return
+    */
   def addSkillCandidate() = Action {
 
     implicit request =>
@@ -135,9 +158,7 @@ object Recruiter extends Controller {
         priv match {
           case None =>
             Redirect("/")
-          case Some("Recruiter") =>
-            Ok(views.html.recruiter.addSkillRecruiter(db.getAllSkills())(candidateID.get.toInt))
-          case Some("SuperUser") =>
+          case Some("Recruiter") | Some("SuperUser") =>
             Ok(views.html.recruiter.addSkillRecruiter(db.getAllSkills())(candidateID.get.toInt))
           case _ =>
             Redirect("/")
@@ -148,6 +169,8 @@ object Recruiter extends Controller {
       }
   }
 
+  /* Form for addSkill post request
+   */
   val skillAddForm = Form {
     tuple("skillID" -> text,
       "rating" -> text,
@@ -155,7 +178,11 @@ object Recruiter extends Controller {
     )
   }
 
-
+  /**
+    * Action for addSkillCandidate post request
+    *
+    * @return
+    */
   def addSkillCandidatePost() = Action {
 
     implicit request =>
@@ -172,7 +199,11 @@ object Recruiter extends Controller {
 
   }
 
-
+  /**
+    * Action for rendering addCompetencyCandidate template
+    *
+    * @return
+    */
   def addCompetencyCandidate() = Action {
 
     implicit request =>
@@ -186,9 +217,7 @@ object Recruiter extends Controller {
         priv match {
           case None =>
             Redirect("/")
-          case Some("Recruiter") =>
-            Ok(views.html.recruiter.addCompetencyRecruiter(db.getAllCompetencies())(candidateID.get.toInt))
-          case Some("SuperUser") =>
+          case Some("Recruiter") | Some("SuperUser") =>
             Ok(views.html.recruiter.addCompetencyRecruiter(db.getAllCompetencies())(candidateID.get.toInt))
           case _ =>
             Redirect("/")
@@ -200,6 +229,9 @@ object Recruiter extends Controller {
 
   }
 
+  /**
+    * Form for addCompetency post request
+    */
   val competencyAddForm = Form {
     tuple("competencyID" -> text,
       "rating" -> text,
@@ -207,7 +239,11 @@ object Recruiter extends Controller {
     )
   }
 
-
+  /**
+    * addCompetencyCandidate post request
+    *
+    * @return
+    */
   def addCompetencyCandidatePost() = Action {
 
     implicit request =>
@@ -223,6 +259,5 @@ object Recruiter extends Controller {
       Redirect(s"/recruiterMain/candidate?id=$candidateID")
   }
 
-  //def deleteSkillCandidate: Action = ???
 
 }

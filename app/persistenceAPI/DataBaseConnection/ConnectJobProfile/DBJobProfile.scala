@@ -4,18 +4,27 @@ import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.Objects._
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for JobProfile table and handling request to JobProfile table.
   */
 object DBJobProfile {
 
-  // JobProfile DB methods
-
+  /**
+    * Connect to main DB.
+    */
   val db = DBMain
 
+  /**
+    * Method for inserting into JobProfile table
+    * SQL - jobProfile(JobProfileID INT, JobTitle TEXT, EducationName TEXT, EducationLevelID INT, ExperienceLevelID INT);
+    *
+    * @param jobTitle
+    * @param educationName
+    * @param educationLevelID
+    * @param experienceLevelID
+    */
   def addJobProfile(jobTitle: String, educationName: String,
                     educationLevelID: String, experienceLevelID: String): Unit = {
 
-    //  JobProfile(JobProfileID INT, JobTitle TEXT, EducationName TEXT, EducationLevelID INT, ExperienceLevelID INT);
 
     db.connect()
 
@@ -40,7 +49,13 @@ object DBJobProfile {
 
   }
 
-
+  /**
+    * Method for getting skills pertaining to a specific jobDescription
+    * Used by jobProfile getter methods to aid with joins
+    *
+    * @param CandidateID
+    * @return
+    */
   def jobDescriptionGetSkills(CandidateID: Int): List[JobDescriptionSkill] = {
 
     db.connect()
@@ -77,7 +92,13 @@ object DBJobProfile {
 
   }
 
-
+  /**
+    * Method for getting competencies  pertaining to a specific jobDescription
+    * Used by jobProfile getter methods to aid with joins
+    *
+    * @param CandidateID
+    * @return
+    */
   def jobDescriptionGetCompetencies(CandidateID: Int): List[JobDescriptionCompetency] = {
     db.connect()
 
@@ -113,7 +134,12 @@ object DBJobProfile {
 
   }
 
-
+  /**
+    * Main method for getting jobProfiles by ID
+    *
+    * @param jobProfileID
+    * @return Option of JobDescription
+    */
   def getJobProfileByID(jobProfileID: Int): Option[JobDescription] = {
 
     var toReturn: Option[JobDescription] = None
@@ -132,8 +158,10 @@ object DBJobProfile {
 
     val rs = preparedStatement.executeQuery()
 
+    // gets skills
     val skills = jobDescriptionGetSkills(jobProfileID)
 
+    // gets competencies
     val competencies = jobDescriptionGetCompetencies(jobProfileID)
 
     while (rs.next()) {
@@ -155,6 +183,11 @@ object DBJobProfile {
 
   }
 
+  /**
+    * Main method for getting all jobDescription
+    *
+    * @return Full list of job descriptions
+    */
   def getAllJobDescriptions(): List[JobDescription] = {
 
     var toReturn: List[JobDescription] = Nil

@@ -5,15 +5,26 @@ import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.Objects.{Candidate, CandidateCompetency, CandidateSkill, Skill}
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for Candidate ltable and handling request to Candidate table.
   */
 object DBCandidate {
 
-  // methods for Candidate table
-  // returns canidate comptencies and candidate skills and candidates
-
+  /**
+    * Connecting to main DB
+    */
   var db = DBMain
 
+
+  /**
+    * Method for inserting into table Candidate
+    *
+    * @param name
+    * @param surname
+    * @param educationName
+    * @param currentJobTitle
+    * @param educationLevelID
+    * @param experienceLevelID
+    */
   def addCandidate(name: String, surname: String, educationName: String, currentJobTitle: String,
                    educationLevelID: String, experienceLevelID: String): Unit = {
 
@@ -44,7 +55,13 @@ object DBCandidate {
 
   }
 
-
+  /**
+    * Method for getting skill for specific candidate
+    * Method is used by get candidate methods
+    *
+    * @param CandidateID
+    * @return List of candidate skills
+    */
   def candidateGetSkills(CandidateID: Int): List[CandidateSkill] = {
     db.connect()
 
@@ -80,8 +97,15 @@ object DBCandidate {
 
   }
 
-
+  /**
+    * Method for getting competencies for specific candidates.
+    * Method is used by get candidate methods
+    *
+    * @param CandidateID
+    * @return List of CandidatesCompetencies
+    */
   def candidateGetCompetencies(CandidateID: Int): List[CandidateCompetency] = {
+
     db.connect()
 
     val selectSQL =
@@ -116,7 +140,12 @@ object DBCandidate {
 
   }
 
-
+  /**
+    * Main method for getting candidates by ID.
+    *
+    * @param CandidateID
+    * @return Option of Candidate
+    */
   def getCandidateByID(CandidateID: Int): Option[Candidate] = {
 
     db.connect()
@@ -160,7 +189,11 @@ object DBCandidate {
     toReturn
   }
 
-
+  /**
+    * Main method for getting all canidates from Candidate Table.
+    *
+    * @return List of Candidates
+    */
   def getAllCandidates(): List[Candidate] = {
 
     var toReturn: List[Candidate] = Nil

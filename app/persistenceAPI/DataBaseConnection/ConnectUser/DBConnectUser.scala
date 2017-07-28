@@ -1,38 +1,31 @@
 package persistenceAPI.DataBaseConnection.ConnectUser
 
-import java.sql.{Connection, DriverManager, SQLException}
+import persistenceAPI.DataBaseConnection.DBMain
 
 /**
-  * DataBase methods for Users
+  * DataBase methods for Users table and handling request to Users table
   */
 
 object DBConnectUser extends DBConnectUserTrait {
 
-  val driver = "com.mysql.cj.jdbc.Driver"
-  val url = "jdbc:mysql://localhost:3306/CandidateDataBase?autoReconnect=true&useSSL=false"
-  val username = "masterUser"
-  val password = "password"
-  var connection: Connection = _
+  /**
+    * DBMain through composition
+    */
+  var db = DBMain
 
-  def connect(): Unit = {
-
-    try {
-      Class.forName(driver)
-      connection = DriverManager.getConnection(url, username, password)
-
-    } catch {
-      case e: SQLException => e.printStackTrace()
-    }
-
-  }
-
+  /**
+    * Checks if DB contains UserName to avoid duplicate users
+    *
+    * @param userName
+    * @return boolean
+    */
   def containsUser(userName: String): Boolean = {
 
     //UserID INT, UserName TEXT, PassWord TEXT
 
     val selectSQL = "SELECT * FROM Users WHERE UserName = ?"
 
-    val preparedStatement = connection.prepareStatement(selectSQL)
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
 
     preparedStatement.setString(1, userName)
 
@@ -46,42 +39,32 @@ object DBConnectUser extends DBConnectUserTrait {
 
   }
 
-
-  def getLatestUserId: Int = {
-
-    val selectSQL = "SELECT MAX(UserID) FROM Users"
-
-    val preparedStatement = connection.prepareStatement(selectSQL)
-
-    val rs = preparedStatement.executeQuery()
-
-    var max = 0
-
-    while (rs.next()) {
-      max = rs.getInt(1)
-    }
-    max
-  }
-
-
+  /**
+    * Method for inserting new user into table Users
+    *
+    * @param userName
+    * @param passWord
+    * @param userPrivilege
+    * @return
+    */
   def insertNewUser(userName: String, passWord: String, userPrivilege: String): Boolean = {
 
     //UserID INT, UserName TEXT, PassWord TEXT UserPrivilege TEXT
 
-    connect()
+    db.connect()
 
 
     if (containsUser(userName)) {
 
-      closeConnection()
+      db.closeConnection()
 
       false
 
     } else {
 
-      val maxID = getLatestUserId
+      val maxID = db.getLatestId("Users")
 
-      val stmt = connection.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)")
+      val stmt = db.connection.prepareStatement("INSERT INTO Users VALUES (?,?,?,?)")
 
       stmt.setString(1, (maxID + 1).toString)
 
@@ -93,7 +76,7 @@ object DBConnectUser extends DBConnectUserTrait {
 
       stmt.executeUpdate
 
-      closeConnection()
+      db.closeConnection()
 
       true
     }
@@ -101,15 +84,22 @@ object DBConnectUser extends DBConnectUserTrait {
 
   }
 
+  /**
+    * Method for checking if UserName and Password corresponds on login.
+    *
+    * @param userName
+    * @param passWord
+    * @return
+    */
   def checkUser(userName: String, passWord: String): Boolean = {
 
-    connect()
+    db.connect()
 
     //UserID INT, UserName TEXT, PassWord TEXT
 
     val selectSQL = "SELECT * FROM Users WHERE UserName = ?"
 
-    val preparedStatement = connection.prepareStatement(selectSQL)
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
 
     preparedStatement.setString(1, userName)
 
@@ -131,20 +121,26 @@ object DBConnectUser extends DBConnectUserTrait {
     }
 
 
-    closeConnection()
+    db.closeConnection()
 
     isUser
   }
 
+  /**
+    * Metod for getting privilege by userName
+    *
+    * @param userName
+    * @return returns user privilege as String
+    */
   def getPrivilegeByName(userName: String): String = {
 
     var toReturn: String = ""
 
-    connect()
+    db.connect()
 
     val selectSQL = "SELECT UserPrivilege FROM Users WHERE UserName = ?"
 
-    val preparedStatement = connection.prepareStatement(selectSQL)
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
 
     preparedStatement.setString(1, userName)
 
@@ -154,14 +150,10 @@ object DBConnectUser extends DBConnectUserTrait {
       toReturn = rs.getString("UserPrivilege")
     }
 
-    closeConnection()
+    db.closeConnection()
 
     toReturn
 
-  }
-
-  def closeConnection(): Unit = {
-    connection.close()
   }
 
 

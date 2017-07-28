@@ -7,12 +7,23 @@ import play.api.data.Forms._
 import play.api.data._
 
 
+/**
+  * Controller methods for mainApp entrance point
+  */
 object MainApp extends Controller {
 
+  /**
+    * Action for rendering Index template
+    *
+    * @return
+    */
   def index = Action {
     Ok(views.html.index())
   }
 
+  /**
+    * Form request for sending login form
+    */
   val form = Form(
     tuple("username" -> text,
       "password" -> text
@@ -20,6 +31,11 @@ object MainApp extends Controller {
     )
   )
 
+  /**
+    * Action for submitting login form.
+    *
+    * @return
+    */
   def submit = Action {
 
     implicit request =>
@@ -57,11 +73,18 @@ object MainApp extends Controller {
       }
   }
 
-  def logout = Action{
+  /**
+    * Action for rendering logout template
+    * Erases session cookies
+    *
+    * @return
+    */
+  def logout = Action {
 
     Redirect("/").withNewSession
 
   }
+
 
   def helper = Action {
 

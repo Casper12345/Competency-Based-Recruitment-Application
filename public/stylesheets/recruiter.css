@@ -51,17 +51,7 @@
   top: 353px;
   width: 1000px;
 }
-/*
-.scrollHead {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
 
-.scrollBody {
-  overflow-y: scroll;
-}
-*/
 
 #skillCompSelectList {
   width: 500px;
@@ -81,4 +71,5 @@
   word-wrap: break-word;
 
 }
+
 

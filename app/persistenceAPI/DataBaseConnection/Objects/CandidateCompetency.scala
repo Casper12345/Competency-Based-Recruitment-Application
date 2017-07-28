@@ -1,6 +1,6 @@
 package persistenceAPI.DataBaseConnection.Objects
 
 /**
-  * Created by Casper on 10/07/2017.
+  * Case class for representation of candidate pertaining to a specific candidate
   */
 case class CandidateCompetency(competencyID: Int, name: String, rating: Int)

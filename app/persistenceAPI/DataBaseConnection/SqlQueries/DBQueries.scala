@@ -11,6 +11,11 @@ object DBQueries {
 
   val db = DBMain
 
+  /**
+    *Method for getting candidates that match on at least one skill.
+    * @param jobID
+    * @return List of tuples with candidates and int of how many skills are matching
+    */
   def getMatchingCandidatesOneSkillByJobID(jobID: Int): List[(Candidate, Int)] = {
 
     db.connect()
@@ -48,7 +53,11 @@ object DBQueries {
 
   }
 
-
+  /**
+    * Method for getting candidates that match on at least one competency.
+    * @param jobID
+    * @return List of tuples with candidates and int of how many competencies  are matching
+    */
   def getMatchingCandidatesOneCompetencyByJobID(jobID: Int): List[(Candidate, Int)] = {
 
     db.connect()

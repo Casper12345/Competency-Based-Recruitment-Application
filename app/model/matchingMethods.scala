@@ -6,7 +6,11 @@ import persistenceAPI.DataBaseConnection.SqlQueries.DBQueries
 
 
 /**
-  * Created by Casper on 16/07/2017.
+  * Methods for creating the vectors and using the matching algorithms.
+  *
+  * class takes job description as field.
+  *
+  * Val jobDescription = Int
   */
 class matchingMethods(jobDescriptionID: Int) {
 
@@ -14,7 +18,12 @@ class matchingMethods(jobDescriptionID: Int) {
   var candidatesByOneSkill: List[Candidate] = matchingOnOneSkill(jobDescriptionID)
   var jobProfile: JobDescription = getJobDescriptionByID(jobDescriptionID)
 
-
+  /**
+    * Method for getting all candidates that match on one skill.
+    *
+    * @param jobDescriptionID
+    * @return
+    */
   def matchingOnOneSkill(jobDescriptionID: Int): List[Candidate] = {
 
     val db = DBQueries
@@ -23,7 +32,12 @@ class matchingMethods(jobDescriptionID: Int) {
 
   }
 
-
+  /**
+    * Method for getting jobDescription by ID from Data Base API.
+    *
+    * @param jobDescriptionID
+    * @return
+    */
   def getJobDescriptionByID(jobDescriptionID: Int): JobDescription = {
 
     val db = DBJobProfile
@@ -32,26 +46,50 @@ class matchingMethods(jobDescriptionID: Int) {
 
   }
 
-
-  def doesJobProfilContainSkill: Boolean =
+  /**
+    * Method for checking if JobProfile contains skill
+    *
+    * @return boolean
+    */
+  def doesJobProfileContainSkill: Boolean =
     jobProfile.skills.nonEmpty
 
-  def doesJobProfilContainCompetencies: Boolean =
+  /**
+    * Method for checking if JobProfile contains competencies
+    *
+    * @return
+    */
+  def doesJobProfileContainCompetencies: Boolean =
     jobProfile.competencies.nonEmpty
 
-
-
+  /**
+    * Method for removing possible duplicates from list of JobDescription Skills
+    *
+    * @return
+    */
   def duplicatesRemovedFromJobDescriptionSkills: List[JobDescriptionSkill] = {
     jobProfile.skills.groupBy(_.skillID)
       .map(_._2.head).toList.sortWith(_.skillID < _.skillID)
   }
 
+  /**
+    * Method for removing possible duplicates from list of JobDescription Competencies
+    *
+    * @return
+    */
   def duplicatesRemovedFromJobDescriptionCompetencies: List[JobDescriptionCompetency] = {
     jobProfile.competencies.groupBy(_.competencyID)
       .map(_._2.head).toList.sortWith(_.competencyID < _.competencyID)
 
   }
 
+  /**
+    * Method for matching candidate profile skills with jobDescription skills.
+    *
+    * @return tuple with list of (canidateID, Percentage match)
+    *         list of (prepared vector of skills jobDescription)
+    *         list of (prepared vectors of skills candidate by candidate ID )
+    */
   def skillMatching(): (List[(Int, Double)], List[Int], List[(Int, List[Int])]) = {
 
 
@@ -104,14 +142,20 @@ class matchingMethods(jobDescriptionID: Int) {
           candidateSkillVectorSub = candidateSkillVectorSub :+ i._2(j).rating
 
         } else {
-          candidateSkillVectorSub = candidateSkillVectorSub :+
-            (jobDescriptionVectorReady(j) + 4)
+          candidateSkillVectorSub = candidateSkillVectorSub :+ 0
         }
 
       }
 
       candidateSkillVectorsReady = candidateSkillVectorsReady :+ (i._1, candidateSkillVectorSub)
     }
+
+    println(duplicatesRemovedJobDescription)
+    println(duplicatesRemovedCandidateSkillVectors)
+    println(jobDescriptionVectorReady)
+    println(candidateSkillVectorsReady)
+    println(doesJobProfileContainCompetencies)
+
 
     var listToReturn: List[(Int, Double)] = Nil
 
@@ -129,7 +173,13 @@ class matchingMethods(jobDescriptionID: Int) {
     (listToReturn, jobDescriptionVectorReady, candidateSkillVectorsReady)
   }
 
-
+  /**
+    * Method for matching candidate profile competencies with jobDescription competencies.
+    *
+    * @return tuple with list of (candidateID, Percentage match)
+    *         list of (prepared vector of competencies  jobDescription)
+    *         list of (prepared vectors of competencies candidate by candidate ID )
+    */
   def competencyMatching(): (List[(Int, Double)], List[Int], List[(Int, List[Int])]) = {
 
     val candidateCompetencyVectors: List[(Int, List[CandidateCompetency])] =
@@ -179,8 +229,7 @@ class matchingMethods(jobDescriptionID: Int) {
           candidateCompetencyVectorSub = candidateCompetencyVectorSub :+ i._2(j).rating
 
         } else {
-          candidateCompetencyVectorSub = candidateCompetencyVectorSub :+
-            (jobDescriptionVectorReady(j) + 4)
+          candidateCompetencyVectorSub = candidateCompetencyVectorSub :+ 0
         }
 
       }
@@ -195,7 +244,7 @@ class matchingMethods(jobDescriptionID: Int) {
     println(duplicatesRemovedCandidateCompetencyVectors)
     println(jobDescriptionVectorReady)
     println(candidateCompetencyVectorsReady)
-    println(doesJobProfilContainCompetencies)
+    println(doesJobProfileContainCompetencies)
     */
 
     var listToReturn: List[(Int, Double)] = Nil
@@ -215,14 +264,22 @@ class matchingMethods(jobDescriptionID: Int) {
 
   }
 
-
+  /**
+    * Method creates combined vector of skills and competencies
+    *
+    * Auxiliary method for overAll Matching Method
+    *
+    * @param candidateSkillsVector
+    * @param candidateCompetenciesVector
+    * @return list of skills and competency vectors by candidate ID
+    */
   def combineCandidateVectors
   (candidateSkillsVector: List[(Int, List[Int])],
-   candidateCompetenciesVector: List[(Int, List[Int])]): List[(Int, List[Int])] ={
+   candidateCompetenciesVector: List[(Int, List[Int])]): List[(Int, List[Int])] = {
 
     var toReturn: List[(Int, List[Int])] = Nil
 
-    for(i <- candidateSkillsVector.indices){
+    for (i <- candidateSkillsVector.indices) {
 
       toReturn = toReturn :+ (candidateSkillsVector(i)._1,
         candidateSkillsVector(i)._2 ++ candidateCompetenciesVector(i)._2)
@@ -232,7 +289,11 @@ class matchingMethods(jobDescriptionID: Int) {
     toReturn
   }
 
-
+  /**
+    * Method for matching the combined skills and competency vectors of candidates.
+    *
+    * @return list of matches by candidate ID's
+    */
   def overAllMatching(): List[(Int, Double)] = {
 
     val skillsToMatch = skillMatching()
@@ -266,20 +327,26 @@ class matchingMethods(jobDescriptionID: Int) {
 
   }
 
-  def returnAllResults(): List[(Int, Double, Double, Double)] ={
+  /**
+    * Method for creating matches on skills, competencies and the combined vector
+    *
+    * @return List of the three mathing values by candidate ID,
+    *         Sorted by overAll matching percentage
+    */
+  def returnAllResults(): List[(Int, Double, Double, Double)] = {
 
-    var matchingBySkill = skillMatching()
-    var matchingByCompetency = competencyMatching()
-    var matchingOverAll = overAllMatching()
+    val matchingBySkill = skillMatching()
+    val matchingByCompetency = competencyMatching()
+    val matchingOverAll = overAllMatching()
 
     var toReturn: List[(Int, Double, Double, Double)] = Nil
-    if(doesJobProfilContainCompetencies) {
+    if (doesJobProfileContainCompetencies) {
       for (i <- matchingOverAll.indices) {
         toReturn = toReturn :+ (matchingOverAll(i)._1, matchingOverAll(i)._2, matchingBySkill._1(i)._2,
           matchingByCompetency._1(i)._2)
 
       }
-    }else{
+    } else {
 
       for (i <- matchingOverAll.indices) {
         toReturn = toReturn :+ (matchingOverAll(i)._1, matchingOverAll(i)._2, matchingBySkill._1(i)._2, 0.0)

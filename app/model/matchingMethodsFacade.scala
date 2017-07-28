@@ -4,11 +4,16 @@ import persistenceAPI.DataBaseConnection.ConnectCandidate.DBCandidate
 import persistenceAPI.DataBaseConnection.Objects.Candidate
 
 /**
-  * Created by Casper on 19/07/2017.
+  * Methods for matching using a facade pattern.
   */
 object matchingMethodsFacade {
 
-
+  /**
+    * Method that returns all matching candidates from Matching methods
+    *
+    * @param jobDescriptionID
+    * @return List of matching by overall, skill, competency with candidate ID's
+    */
   def pullMatchingCandidatesByJobDescriptionID(jobDescriptionID: Int):
   List[(Int, Double, Double, Double)] = {
 
@@ -18,6 +23,13 @@ object matchingMethodsFacade {
 
   }
 
+  /**
+    * Method for getting matching candidates from the DB
+    * Method replaces candidate ID with candidate object pulled from the DB
+    *
+    * @param jobDescriptionID
+    * @return
+    */
   def getListOfMachingCandidatesFromDB(jobDescriptionID: Int):
   List[(Candidate, Double, Double, Double)] = {
 
@@ -28,7 +40,7 @@ object matchingMethodsFacade {
 
     var db = DBCandidate
 
-    for (i <- matchingCandidates){
+    for (i <- matchingCandidates) {
 
       toReturn = toReturn :+ (db.getCandidateByID(i._1).get, i._2, i._3, i._4)
 

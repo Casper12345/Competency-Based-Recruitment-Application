@@ -18,16 +18,26 @@
   width: 100%;
 }
 
-#hrManagerJD{
+#hrManagerJD {
   position: absolute;
   background-color: #00d4ff;
   width: 210px;
 
 }
 
-#matchingButton{
+
+#scrollTableCandidatesMatch {
+  height: 400px !important;
   position: absolute;
-  top: 450px;
-  left: 800px;
+  left: 200px;
+  top: 100px;
+  width: 600px;
+  overflow: scroll;
+}
+
+#matchingButton {
+  position: absolute;
+  top: 400px;
+  left: 850px;
 
 }

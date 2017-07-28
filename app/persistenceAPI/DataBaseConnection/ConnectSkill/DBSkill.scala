@@ -4,16 +4,23 @@ import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.Objects.Skill
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for Skills table and handling request to Skill table
   */
 object DBSkill {
-  // Skill DB methods
 
+  /**
+    * Main database connection by composition
+    */
   val db = DBMain
 
+  /**
+    * Method for adding skills to table Skill
+    * SQL - Skill(SkillID INT, Name TEXT);
+    *
+    * @param name
+    */
   def addSkill(name: String): Unit = {
 
-    //Skill(SkillID INT, Name TEXT);
 
     db.connect()
 
@@ -31,7 +38,12 @@ object DBSkill {
 
   }
 
-
+  /**
+    * Method for getting skill by ID
+    *
+    * @param SkillID
+    * @return
+    */
   def getSkillByID(SkillID: Int): Option[Skill] = {
 
     db.connect()
@@ -61,8 +73,12 @@ object DBSkill {
 
   }
 
-  // get all skills
 
+  /**
+    * Method for getting full list of skills
+    *
+    * @return
+    */
   def getAllSkills(): List[Skill] = {
 
     var toReturn: List[Skill] = Nil

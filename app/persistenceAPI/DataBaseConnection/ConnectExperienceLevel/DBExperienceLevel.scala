@@ -3,17 +3,23 @@ package persistenceAPI.DataBaseConnection.ConnectExperienceLevel
 import persistenceAPI.DataBaseConnection.DBMain
 
 /**
-  * Created by Casper on 10/07/2017.
+  * DataBase methods for ExperienceLevel table and handling request to ExperienceLevel table.
   */
 object DBExperienceLevel {
 
-  // ExperienceLevel DB methods
-
+  /**
+    * Connect to main DB
+    */
   val db = DBMain
 
+  /**
+    * Method for inserting into ExperienceLevel table
+    * SQL - ExperienceLevel(ExperienceLevelID INT, Level INT, Name TEXT)
+    *
+    * @param level
+    * @param name
+    */
   def addExperienceLevel(level: String, name: String): Unit = {
-
-    //ExperienceLevel(ExperienceLevelID INT, Level INT, Name TEXT);
 
     db.connect()
 
@@ -33,6 +39,12 @@ object DBExperienceLevel {
 
   }
 
+  /**
+    * Method for getting experienceLevel by ID
+    *
+    * @param SkillID
+    * @return
+    */
   def getExperienceLevelByID(SkillID: Int): List[String] = {
 
     var toReturn: List[String] = Nil

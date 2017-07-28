@@ -2,12 +2,10 @@ package persistenceAPI.DataBaseConnection
 
 import java.sql.{Connection, DriverManager, SQLException}
 
-import persistenceAPI.DataBaseConnection.Objects.{Candidate, CandidateSkill, Skill}
-
-
 /**
   * Created by Casper on 06/07/2017.
   */
+
 
 object DBMain {
 
@@ -17,7 +15,9 @@ object DBMain {
   private val password = "password"
   var connection: Connection = _
 
-
+  /**
+    * Creates connection to CandidateDataBase
+    */
   def connect(): Unit = {
 
     try {
@@ -34,17 +34,22 @@ object DBMain {
     connection.close()
   }
 
-
+  /**
+    * String factory that aids creation of ID by getting latest ID created
+    * @param table
+    * @return returns max ID for given table
+    */
   def getLatestId(table: String): Int = {
 
     def candidateStringFactory(table: String): String = table match {
 
       case "Candidate" => "SELECT MAX(CandidateID) FROM Candidate"
-      case "Competency"=> "SELECT MAX(CompetencyID) FROM Competency"
-      case "Skill"=> "SELECT MAX(SkillID) FROM Skill"
+      case "Competency" => "SELECT MAX(CompetencyID) FROM Competency"
+      case "Skill" => "SELECT MAX(SkillID) FROM Skill"
       case "EducationLevel" => "SELECT MAX(EducationLevelID) FROM EducationLevel"
       case "ExperienceLevel" => "SELECT MAX(ExperienceLevelID) FROM ExperienceLevel"
       case "JobProfile" => "SELECT MAX(JobProfileID) FROM JobProfile"
+      case "Users" => "SELECT MAX(UserID) FROM Users"
 
     }
 
@@ -61,44 +66,6 @@ object DBMain {
     }
     max
   }
-
-  // add competency to candidate
-
-  def addCompetencyToCandidate(candidateID: Int, competencyID: Int, rating: Int): Unit ={
-
-
-
-  }
-  /*
-  def getCandidateList(): List[Candidate] ={
-
-    var toReturn: List[Candidate] = Nil
-
-    connect()
-
-    val selectSQL = "SELECT * FROM Candidate"
-
-
-    val preparedStatement = connection.prepareStatement(selectSQL)
-
-    val rs = preparedStatement.executeQuery()
-
-    while (rs.next()) {
-
-      val ID = rs.getString("CanidateID")
-
-      val name = rs.getString("Name")
-
-      val
-
-    }
-
-
-    toReturn
-
-
-  }
-  */
 
 
 }
