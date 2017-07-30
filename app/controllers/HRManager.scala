@@ -282,19 +282,29 @@ object HRManager extends Controller {
           case Some("HRManager") | Some("SuperUser") =>
 
             called match {
+
               case None =>
                 Ok(views.html.hrManager.matchingMain(Nil)(jobDescriptionID.get.toInt))
-              case Some(x) =>
 
+              case Some("allCapped") =>
                 val matching = matchingMethodsFacade
-
                 val matchingCandidates =
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
-
-
                 Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt))
-            }
 
+              case Some("unCapped") =>
+                val matching = matchingMethodsFacade
+                val matchingCandidates =
+                  matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
+                Ok("unCapped")
+
+              case Some("individuallyCapped") =>
+                val matching = matchingMethodsFacade
+                val matchingCandidates =
+                  matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
+                Ok("indviduallyCapped")
+
+            }
           case _ =>
             Redirect("/")
         }
@@ -307,7 +317,10 @@ object HRManager extends Controller {
     * form for sending jobDescriptionID
     */
   val matchingMainForm = Form {
-    "jobDescriptionID" -> text
+    tuple(
+      "jobDescriptionID" -> text,
+      "actionType" -> text
+    )
   }
 
   /**
@@ -318,15 +331,17 @@ object HRManager extends Controller {
   def matchingMainPost() = Action {
     implicit request =>
 
-      val jobDescriptionsID = matchingMainForm.bindFromRequest().get
+      val (jobDescriptionsID, actionType) = matchingMainForm.bindFromRequest().get
+
 
       Redirect(s"/hrManagerMain/" +
-        s"jobDescription/matchingMain?jobDescriptionID=$jobDescriptionsID&called=yes")
+        s"jobDescription/matchingMain?jobDescriptionID=$jobDescriptionsID&called=$actionType")
 
   }
 
   /**
     * Action for rendering viewMatchingCandidates template.
+    *
     * @return
     */
   def viewMatchedCandidates() = Action {

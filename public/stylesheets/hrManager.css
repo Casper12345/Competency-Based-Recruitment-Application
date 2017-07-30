@@ -25,9 +25,8 @@
 
 }
 
-
 #scrollTableCandidatesMatch {
-  height: 400px !important;
+  height: 340px !important;
   position: absolute;
   left: 200px;
   top: 100px;
@@ -35,9 +34,13 @@
   overflow: scroll;
 }
 
-#matchingButton {
+#matchingButtonsMain {
   position: absolute;
-  top: 400px;
+  top: 300px;
   left: 850px;
 
+}
+
+#matchingButton1, #matchingButton2, #matchingButton3{
+  width: 220px;
 }
