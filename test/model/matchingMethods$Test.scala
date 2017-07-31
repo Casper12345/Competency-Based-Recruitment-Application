@@ -1,5 +1,6 @@
 package model
 
+import model.matchingLogic.MatchingMethods
 import org.scalatest.FunSuite
 
 /**
@@ -7,7 +8,7 @@ import org.scalatest.FunSuite
   */
 class matchingMethods$Test extends FunSuite {
 
-  val matchingMethods = new matchingMethods(6)
+  val matchingMethods = new MatchingMethods(6)
 
   test("matchingOnOneSkillSorted"){
 

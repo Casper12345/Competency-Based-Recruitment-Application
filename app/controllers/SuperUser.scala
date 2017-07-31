@@ -1,7 +1,7 @@
 package controllers
 
-import persistenceAPI.DataBaseConnection.ConnectCompetency.DBCompetency
-import persistenceAPI.DataBaseConnection.ConnectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
+import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
 import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import play.api.data.Forms._

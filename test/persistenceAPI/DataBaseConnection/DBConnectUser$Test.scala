@@ -1,6 +1,6 @@
 package persistenceAPI.DataBaseConnection
 
-import persistenceAPI.DataBaseConnection.ConnectUser.DBConnectUser
+import persistenceAPI.DataBaseConnection.connectUser.DBConnectUser
 import org.scalatest.FunSuite
 
 /**

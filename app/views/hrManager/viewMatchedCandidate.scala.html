@@ -1,6 +1,6 @@
-@import persistenceAPI.DataBaseConnection.Objects.Candidate
+@import persistenceAPI.DataBaseConnection.objects.Candidate
 
-@(item: Candidate)(d1: Double)(d2: Double)(d3: Double)(jobDescriptionID: Int)
+@(item: Candidate)(d1: Double)(d2: Double)(d3: Double)(jobDescriptionID: Int)(called: String)
 
 @main("helper") {
 
@@ -19,7 +19,7 @@
           <li class="nav-item nav-link"><a href="/hrManagerMain">Home</a></li>
 
           <li class="nav-item nav-link">
-            <a href="/hrManagerMain/jobDescription/matchingMain?jobDescriptionID=@jobDescriptionID&called=yes">
+            <a href="/hrManagerMain/jobDescription/matchingMain?jobDescriptionID=@jobDescriptionID&called=@called">
             Back to Results</a></li>
 
 

@@ -1,11 +1,12 @@
 package controllers
 
-import model.matchingMethodsFacade
-import persistenceAPI.DataBaseConnection.ConnectCandidate.DBCandidate
-import persistenceAPI.DataBaseConnection.ConnectCompetency.DBCompetency
-import persistenceAPI.DataBaseConnection.ConnectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
-import persistenceAPI.DataBaseConnection.ConnectSkill.DBSkill
-import persistenceAPI.DataBaseConnection.Objects.JobDescription
+import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
+import model.matchingLogic.MatchingMethodsFacade
+import persistenceAPI.DataBaseConnection.connectCandidate.DBCandidate
+import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
+import persistenceAPI.DataBaseConnection.connectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
+import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.objects.JobDescription
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{Action, Controller}
@@ -266,6 +267,7 @@ object HRManager extends Controller {
 
   /**
     * Action for rendering matchingMain template
+    * Method using manual dependency injection
     *
     * @return
     */
@@ -281,27 +283,30 @@ object HRManager extends Controller {
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
 
+            // algorithm factory for dependency injection
+            val algFactory = AlgorithmFactory
+
             called match {
 
               case None =>
-                Ok(views.html.hrManager.matchingMain(Nil)(jobDescriptionID.get.toInt))
+                Ok(views.html.hrManager.matchingMain(Nil)(jobDescriptionID.get.toInt)("yes"))
 
               case Some("allCapped") =>
-                val matching = matchingMethodsFacade
+
+                val matching = MatchingMethodsFacade(algFactory.factory("allCappedSimilarityFacade"))
                 val matchingCandidates =
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
-                Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt))
+
+                Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
 
               case Some("unCapped") =>
-                val matching = matchingMethodsFacade
+                val matching = MatchingMethodsFacade(algFactory.factory("unCappedSimilarityFacade"))
                 val matchingCandidates =
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
-                Ok("unCapped")
+                Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
 
               case Some("individuallyCapped") =>
-                val matching = matchingMethodsFacade
-                val matchingCandidates =
-                  matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
+
                 Ok("indviduallyCapped")
 
             }
@@ -354,6 +359,7 @@ object HRManager extends Controller {
       val d2: Option[String] = request.getQueryString("d2")
       val d3: Option[String] = request.getQueryString("d3")
       val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
+      val called: Option[String] = request.getQueryString("called")
 
 
       val db = DBCandidate
@@ -364,7 +370,7 @@ object HRManager extends Controller {
         case Some("HRManager") | Some("SuperUser") =>
           Ok(views.html.hrManager
             .viewMatchedCandidate(db.getCandidateByID(id.get.toInt).get)
-            (d1.get.toDouble)(d2.get.toDouble)(d3.get.toDouble)(jobDescriptionID.get.toInt))
+            (d1.get.toDouble)(d2.get.toDouble)(d3.get.toDouble)(jobDescriptionID.get.toInt)(called.get))
         case _ =>
           Redirect("/")
       }

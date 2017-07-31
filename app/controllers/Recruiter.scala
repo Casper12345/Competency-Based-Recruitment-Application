@@ -1,8 +1,8 @@
 package controllers
 
-import persistenceAPI.DataBaseConnection.ConnectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
-import persistenceAPI.DataBaseConnection.ConnectCompetency.DBCompetency
-import persistenceAPI.DataBaseConnection.ConnectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.connectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
+import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
+import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
 import play.api.data.Form
 import play.api.data.Forms.tuple
 import play.api.mvc.{Action, Controller}

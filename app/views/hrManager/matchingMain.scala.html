@@ -1,6 +1,6 @@
-@import persistenceAPI.DataBaseConnection.Objects.Candidate
+@import persistenceAPI.DataBaseConnection.objects.Candidate
 
-@(list: List[(Candidate, Double, Double, Double)])(jobDescriptionID: Int)
+@(list: List[(Candidate, Double, Double, Double)])(jobDescriptionID: Int)(called: String)
 
 @main("Matching Algorithm") {
 
@@ -53,7 +53,7 @@
 
     @for(item <- list) {
 
-      <a href="viewMatchedCandidate?id=@item._1.ID.toString&d1=@item._2&d2=@item._3&d3=@item._4&jobDescriptionID=@jobDescriptionID
+      <a href="viewMatchedCandidate?id=@item._1.ID.toString&d1=@item._2&d2=@item._3&d3=@item._4&jobDescriptionID=@jobDescriptionID&called=@called
       " class="list-group-item list-group-item-action">
 
         <table class="table">
