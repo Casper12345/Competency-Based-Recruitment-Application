@@ -47,20 +47,25 @@ object MainApp extends Controller {
       if (db.checkUser(username, password)) {
 
         val privilege = db.getPrivilegeByName(username)
+        val userID = db.getIDByUserName(username)
 
         privilege match {
           case "Recruiter" =>
             Redirect("/recruiterMain").withSession(
+              "userID" -> userID.toString,
               "privilege" -> privilege,
-              "username" -> username)
+              "username" -> username
+            )
 
           case "HRManager" =>
             Redirect("/hrManagerMain").withSession(
+              "userID" -> userID.toString,
               "privilege" -> privilege,
               "username" -> username)
 
           case "SuperUser" =>
             Redirect("/superUserMain").withSession(
+              "userID" -> userID.toString,
               "privilege" -> privilege,
               "username" -> username)
 
@@ -75,7 +80,7 @@ object MainApp extends Controller {
 
   /**
     * Action for rendering logout template
-    * Erases session cookies
+    * Deletes  session cookies
     *
     * @return
     */
@@ -88,9 +93,8 @@ object MainApp extends Controller {
 
   def helper = Action {
 
-    val db = DBCandidate
 
-    Ok(views.html.Helper(db.getCandidateByID(1).get))
+    Ok(views.html.Helper())
 
   }
 

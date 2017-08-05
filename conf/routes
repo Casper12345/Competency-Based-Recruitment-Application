@@ -12,9 +12,6 @@ GET         /logout                                                   controller
 
 # Helper
 
-
-#GET         /helper                                      controllers.MainApp.helper
-
 GET         /helper                                                   controllers.MainApp.helper
 
 
@@ -97,3 +94,44 @@ GET         /hrManagerMain/jobDescription/matchingMain                controller
 POST        /hrManagerMain/jobDescription/matchingMain                controllers.HRManager.matchingMainPost
 
 GET         /hrManagerMain/jobDescription/viewMatchedCandidate        controllers.HRManager.viewMatchedCandidates
+
+
+
+# recruiter messaging system
+
+# recruiterInbox recruiter
+
+GET         /recruiterMain/inbox                                      controllers.Recruiter.inbox
+
+# recuiterSentInbox
+
+GET         /recruiterMain/sentInbox                                  controllers.Recruiter.sentInbox
+
+
+GET         /recruiterMain/readMessage                                controllers.Recruiter.readMessage
+
+
+# send message recruiter
+
+GET         /recruiterMain/sendMessage                                controllers.Recruiter.sendMessage
+
+POST        /recruiterMain/sendMessage                                controllers.Recruiter.sendMessagePost
+
+
+# hrManager messaging system
+
+
+# hrManagerInbox
+
+GET         /hrManagerMain/inbox                                      controllers.HRManager.inbox
+
+
+# hrManagerSentInbox
+
+GET         /hrManagerMain/sentInbox                                  controllers.HRManager.sentInbox
+
+# send message hrManger
+
+GET         /hrManagerMain/sendMessage                                controllers.HRManager.sendMessage
+
+POST        /hrManagerMain/sendMessage                                controllers.HRManager.sendMessagePost

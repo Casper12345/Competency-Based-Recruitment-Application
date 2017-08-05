@@ -1,8 +1,12 @@
 package controllers
 
+import controllers.HRManager.Ok
 import persistenceAPI.DataBaseConnection.connectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
+import persistenceAPI.DataBaseConnection.connectChatMessage.DBChatMessage
 import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
 import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.connectUser.{DBConnectUser, DBUserRecievedMessage, DBUserSentMessage}
+import persistenceAPI.DataBaseConnection.objects.ChatMessage
 import play.api.data.Form
 import play.api.data.Forms.tuple
 import play.api.mvc.{Action, Controller}
@@ -259,5 +263,96 @@ object Recruiter extends Controller {
       Redirect(s"/recruiterMain/candidate?id=$candidateID")
   }
 
+  /**
+    * Check db if there are any messages
+    *
+    * @return
+    */
+  def inbox() = Action {
+
+    implicit request =>
+
+      val userID = request.session.get("userID").get
+
+      val dbUserReceivedMessage = DBUserRecievedMessage
+
+      Ok(views.html.recruiter.recruiterInbox(
+        dbUserReceivedMessage.getAllUserReceivedMessageByID(userID.toInt)))
+
+  }
+
+  /**
+    *
+    * @return
+    */
+  def sentInbox() = Action {
+
+    implicit request =>
+
+      val userID = request.session.get("userID").get
+
+      val dbUserSentMessage = DBUserSentMessage
+
+      Ok(views.html.recruiter.
+        recruiterSentInbox(dbUserSentMessage.
+          getAllUserSentMessageByID(userID.toInt)))
+  }
+
+  def readMessage() = Action {
+
+    implicit request =>
+
+      val chatMessageID: Option[String] = request.getQueryString("ChatMessageID")
+
+      val db = DBChatMessage
+
+      Ok(views.html.recruiter.
+        recruiterReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get))
+  }
+
+  def sendMessage() = Action {
+
+    val db = DBConnectUser
+
+    Ok(views.html.recruiter.recruiterSendMessage(db.getAllHRManagerUsers()))
+  }
+
+
+  val sendMessageForm = Form {
+    tuple(
+      "subject" -> text,
+      "messageBody" -> text,
+      "receiverID" -> text
+
+    )
+  }
+
+  /**
+    * Test with fake request !!
+    *
+    * @return
+    */
+  def sendMessagePost() = Action {
+
+    // TODO: test with fake request
+
+    implicit request =>
+
+      val senderUserID = request.session.get("userID").get
+
+      val (subject, messageBody, receiverID) = sendMessageForm.bindFromRequest().get
+
+      print(subject + messageBody + receiverID)
+
+      val db = DBChatMessage
+
+      val dbUserReceivedMessage = DBUserRecievedMessage
+
+      db.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
+
+      Ok(views.html.recruiter.recruiterInbox(
+        dbUserReceivedMessage.getAllUserReceivedMessageByID(senderUserID.toInt)))
+
+  }
 
 }

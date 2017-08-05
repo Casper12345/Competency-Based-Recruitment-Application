@@ -1,11 +1,14 @@
 package controllers
 
+import controllers.Recruiter.Ok
 import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
 import model.matchingLogic.MatchingMethodsFacade
 import persistenceAPI.DataBaseConnection.connectCandidate.DBCandidate
+import persistenceAPI.DataBaseConnection.connectChatMessage.DBChatMessage
 import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
 import persistenceAPI.DataBaseConnection.connectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
 import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.connectUser.{DBConnectUser, DBUserRecievedMessage, DBUserSentMessage}
 import persistenceAPI.DataBaseConnection.objects.JobDescription
 import play.api.data.Form
 import play.api.data.Forms._
@@ -305,7 +308,7 @@ object HRManager extends Controller {
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
                 Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
 
-              case Some("individuallyCapped") =>
+              case Some("lockIndividually") =>
 
                 Ok("indviduallyCapped")
 
@@ -376,5 +379,82 @@ object HRManager extends Controller {
       }
 
   }
+
+  def inbox() = Action {
+
+    implicit request =>
+
+      val userID = request.session.get("userID").get
+
+      val dbUserReceivedMessage = DBUserRecievedMessage
+
+      Ok(views.html.hrManager.hrManagerInbox(dbUserReceivedMessage.getAllUserReceivedMessageByID(userID.toInt)))
+
+  }
+
+  /**
+    * Action for sentInbox
+    *
+    * @return
+    */
+  def sentInbox() = Action {
+
+    implicit request =>
+
+      val userID = request.session.get("userID").get
+
+      val dbUserSentMessage = DBUserSentMessage
+
+      Ok(views.html.hrManager.
+        hrManagerSentInbox(dbUserSentMessage.getAllUserSentMessageByID(userID.toInt))
+      )
+  }
+
+
+  def sendMessage() = Action {
+
+    val db = DBConnectUser
+
+    Ok(views.html.hrManager.hrManagerSendMessage(db.getAllRecruiterUsers()))
+  }
+
+
+  val sendMessageForm = Form {
+    tuple(
+      "subject" -> text,
+      "messageBody" -> text,
+      "receiverID" -> text
+
+    )
+  }
+
+  /**
+    * Test with fake request !!
+    *
+    * @return
+    */
+  def sendMessagePost() = Action {
+
+    // TODO: test with fake request
+
+    implicit request =>
+
+      val senderUserID = request.session.get("userID").get
+
+      val (subject, messageBody, receiverID) = sendMessageForm.bindFromRequest().get
+
+      print(subject + messageBody + receiverID)
+
+      val db = DBChatMessage
+
+      db.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
+
+      val dbUserReceivedMessage = DBUserRecievedMessage
+
+      Ok(views.html.hrManager.hrManagerInbox(
+        dbUserReceivedMessage.getAllUserReceivedMessageByID(senderUserID.toInt)))
+
+  }
+
 
 }

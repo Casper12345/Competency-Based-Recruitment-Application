@@ -23,7 +23,7 @@ class DBConnectUser$Test extends FunSuite {
 
   }
 
-  test("containsUser"){
+  test("containsUser") {
 
 
     val db = DBConnectUser
@@ -38,7 +38,7 @@ class DBConnectUser$Test extends FunSuite {
 
   }
 
-  test("insertNewUser"){
+  test("insertNewUser") {
 
     val db = DBConnectUser
 
@@ -52,7 +52,7 @@ class DBConnectUser$Test extends FunSuite {
 
   }
 
-  test("getPrivilegeByName"){
+  test("getPrivilegeByName") {
 
     val db = DBConnectUser
 
@@ -60,6 +60,22 @@ class DBConnectUser$Test extends FunSuite {
 
     assert(privilege == "SuperUser")
   }
+
+  test("getAllRecruiterUsers") {
+
+    val db = DBConnectUser
+
+    println(db.getAllRecruiterUsers())
+
+  }
+
+  test("getIDByUserName") {
+
+    val db = DBConnectUser
+
+    assert(db.getIDByUserName("John") == 2)
+  }
+
 
 
 }

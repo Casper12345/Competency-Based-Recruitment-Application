@@ -10,9 +10,9 @@ class matchingMethodsFacade$Test extends FunSuite {
 
   test("getListOfMachingCandidatesFromDB"){
 
-    val m = matchingMethodsFacade
+    //val m = matchingMethodsFacade
 
-    println(m.getListOfMachingCandidatesFromDB(6))
+    //println(m.getListOfMachingCandidatesFromDB(6))
 
 
   }

@@ -1,6 +1,7 @@
 package persistenceAPI.DataBaseConnection.connectUser
 
 import persistenceAPI.DataBaseConnection.DBMain
+import persistenceAPI.DataBaseConnection.objects.{ChatMessage, HRManagerUser, RecruiterUser}
 
 /**
   * DataBase methods for Users table and handling request to Users table
@@ -149,6 +150,99 @@ object DBConnectUser extends DBConnectUserTrait {
     while (rs.next()) {
       toReturn = rs.getString("UserPrivilege")
     }
+
+    db.closeConnection()
+
+    toReturn
+
+  }
+
+  def getIDByUserName(userName: String): Int = {
+
+    db.connect()
+
+    val selectSQL =
+      """SELECT Users.UserID
+        |FROM Users
+        |WHERE Users.UserName = ?""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    preparedStatement.setString(1, userName)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn: Int = 0
+
+    while (rs.next()) {
+
+      toReturn = rs.getString("Users.UserID").toInt
+
+    }
+
+    db.closeConnection()
+
+    toReturn
+
+  }
+
+  def getAllRecruiterUsers(): List[RecruiterUser] = {
+
+    db.connect()
+
+    //| UserID | UserName | PassWord | UserPrivilege |
+
+    val selectSQL =
+      """SELECT Users.UserID, Users.UserName
+        |FROM Users
+        |WHERE UserPrivilege = 'Recruiter'""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn: List[RecruiterUser] = Nil
+
+    while (rs.next()) {
+
+      val userID = rs.getString("Users.UserID")
+      val userName = rs.getString("Users.UserName")
+
+      toReturn = toReturn :+ RecruiterUser(userID.toInt, userName)
+    }
+
+
+    db.closeConnection()
+
+    toReturn
+
+  }
+
+  def getAllHRManagerUsers(): List[HRManagerUser] = {
+
+    db.connect()
+
+    //| UserID | UserName | PassWord | UserPrivilege |
+
+    val selectSQL =
+      """SELECT Users.UserID, Users.UserName
+        |FROM Users
+        |WHERE UserPrivilege = 'HRManager'""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn: List[HRManagerUser] = Nil
+
+    while (rs.next()) {
+
+      val userID = rs.getString("Users.UserID")
+      val userName = rs.getString("Users.UserName")
+
+      toReturn = toReturn :+ HRManagerUser(userID.toInt, userName)
+    }
+
 
     db.closeConnection()
 

@@ -36,6 +36,7 @@ object DBMain {
 
   /**
     * String factory that aids creation of ID by getting latest ID created
+    *
     * @param table
     * @return returns max ID for given table
     */
@@ -50,6 +51,7 @@ object DBMain {
       case "ExperienceLevel" => "SELECT MAX(ExperienceLevelID) FROM ExperienceLevel"
       case "JobProfile" => "SELECT MAX(JobProfileID) FROM JobProfile"
       case "Users" => "SELECT MAX(UserID) FROM Users"
+      case "ChatMessage" => "SELECT MAX(ChatMessageID) FROM ChatMessage"
 
     }
 

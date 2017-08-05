@@ -8,7 +8,7 @@ import org.scalatest.FunSuite
   */
 class matchingMethods$Test extends FunSuite {
 
-  val matchingMethods = new MatchingMethods(6)
+  //val matchingMethods = new MatchingMethods(6)
 
   test("matchingOnOneSkillSorted"){
 
@@ -22,25 +22,25 @@ class matchingMethods$Test extends FunSuite {
   test("skillMatching"){
 
 
-    println(matchingMethods.skillMatching())
+    //println(matchingMethods.skillMatching())
 
 
   }
 
 
   test("competencyMatching"){
-    println(matchingMethods.competencyMatching())
+    //println(matchingMethods.competencyMatching())
 
   }
 
   test("overAllMatching"){
 
-    println(matchingMethods.overAllMatching())
+    //println(matchingMethods.overAllMatching())
 
 
   }
   test("returnAllResults"){
-    println(matchingMethods.returnAllResults())
+    //println(matchingMethods.returnAllResults())
 
   }
 
