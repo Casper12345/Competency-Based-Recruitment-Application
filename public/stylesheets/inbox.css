@@ -140,4 +140,13 @@ pre {
 
 }
 
+#emails{
+
+  height: 400px !important;
+  width: 100%;
+  position: absolute;
+  overflow: scroll;
+
+}
+
 
