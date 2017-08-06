@@ -143,5 +143,25 @@ object DBChatMessage {
 
   }
 
+  def setReadToTrueByID(chatMessageID: Int): Unit = {
+
+    db.connect()
+
+    val updateSQL =
+      """UPDATE ChatMessage
+        |SET ChatMessage.MessageRead = 1
+        |WHERE ChatMessage.ChatMessageID = ?""".stripMargin
+
+
+    val stmt = db.connection.prepareStatement(updateSQL)
+
+    stmt.setInt(1, chatMessageID)
+
+    stmt.executeUpdate
+
+    db.closeConnection()
+
+  }
+
 
 }

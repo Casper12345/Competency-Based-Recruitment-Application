@@ -276,8 +276,11 @@ object Recruiter extends Controller {
 
       val dbUserReceivedMessage = DBUserRecievedMessage
 
+
       Ok(views.html.recruiter.recruiterInbox(
-        dbUserReceivedMessage.getAllUserReceivedMessageByID(userID.toInt)))
+        dbUserReceivedMessage.
+          getAllUserReceivedMessageByID(userID.toInt))
+      (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
 
   }
 
@@ -292,10 +295,12 @@ object Recruiter extends Controller {
       val userID = request.session.get("userID").get
 
       val dbUserSentMessage = DBUserSentMessage
+      val dbUserReceivedMessage = DBUserRecievedMessage
 
       Ok(views.html.recruiter.
         recruiterSentInbox(dbUserSentMessage.
-          getAllUserSentMessageByID(userID.toInt)))
+          getAllUserSentMessageByID(userID.toInt))
+        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
   }
 
   def readMessage() = Action {
@@ -303,11 +308,19 @@ object Recruiter extends Controller {
     implicit request =>
 
       val chatMessageID: Option[String] = request.getQueryString("ChatMessageID")
+      val userID = request.session.get("userID").get
+
 
       val db = DBChatMessage
 
+      val dbUserReceivedMessage = DBUserRecievedMessage
+
+
+      db.setReadToTrueByID(chatMessageID.get.toInt)
+
       Ok(views.html.recruiter.
-        recruiterReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get))
+        recruiterReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get)
+        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
   }
 
   def sendMessage() = Action {
@@ -350,9 +363,15 @@ object Recruiter extends Controller {
 
       db.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
 
+      /*
       Ok(views.html.recruiter.recruiterInbox(
-        dbUserReceivedMessage.getAllUserReceivedMessageByID(senderUserID.toInt)))
+        dbUserReceivedMessage.
+          getAllUserReceivedMessageByID(senderUserID.toInt))
+      (dbUserReceivedMessage.countUnreadMessagesByUserID(senderUserID.toInt)))
 
+      */
+
+      Redirect("inbox")
   }
 
 }

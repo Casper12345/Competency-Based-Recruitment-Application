@@ -35,4 +35,12 @@ class DBChatMessage$Test extends FunSuite {
 
   }
 
+  test("setReadToTrueByID"){
+
+    val db = DBChatMessage
+
+    db.setReadToTrueByID(8)
+
+  }
+
 }

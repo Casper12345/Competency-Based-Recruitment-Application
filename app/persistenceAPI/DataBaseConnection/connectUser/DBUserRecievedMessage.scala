@@ -127,5 +127,37 @@ object DBUserRecievedMessage {
 
   }
 
+  def countUnreadMessagesByUserID(userID: Int): Int = {
+
+    db.connect()
+
+    val selectSQL =
+      """SELECT COUNT(*) AS UnreadMessages
+        |FROM UserRecievedMessage JOIN ChatMessage USING (ChatMessageID)
+        |WHERE ChatMessage.MessageRead = 0
+        |AND UserRecievedMessage.UserID = ?""".stripMargin
+
+    val preparedStatement = db.connection.prepareStatement(selectSQL)
+
+    preparedStatement.setInt(1, userID)
+
+    val rs = preparedStatement.executeQuery()
+
+    var toReturn = 0
+
+    while (rs.next()) {
+      val unReadMessages = rs.getString("UnreadMessages")
+
+      toReturn = unReadMessages.toInt
+
+    }
+
+
+    db.closeConnection()
+
+    toReturn
+
+  }
+
 
 }

@@ -1,6 +1,6 @@
 @import persistenceAPI.DataBaseConnection.objects.ChatMessage
 
-@(listOfReceivedMessages: List[ChatMessage])
+@(listOfReceivedMessages: List[ChatMessage])(unReadMessages: Int)
 
 @main("Inbox") {
 
@@ -41,7 +41,7 @@
         <a href="sendMessage" class="btn btn-danger btn-sm btn-block" role="button">COMPOSE</a>
         <hr />
         <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="#"><span class="badge pull-right">2</span> Inbox </a>
+          <li class="active"><a href="#"><span class="badge pull-right">@unReadMessages</span> Inbox </a>
           </li>
           <li><a href="/hrManagerMain/sentInbox">Sent Mail</a></li>
         </ul>
@@ -55,7 +55,7 @@
 
             @for(item <- listOfReceivedMessages) {
 
-              <a href="/hrManagerMain/readMessage?ChatMessageID=@item.chatMessageID" class="list-group-item">
+              <a href="/hrManagerMain/readMessage?ChatMessageID=@item.chatMessageID" class="@if(!item.messageRead) {list-group-item-info} list-group-item">
                 <div class="checkbox">
                   <label>
                     <input type="checkbox">
@@ -66,11 +66,11 @@
                   display: inline-block;">@item.senderUserName</span>
                 <span class="">@item.subject</span>
                 <span class="text-muted" style="font-size: 11px;">
-                  @if(item.messageBody.length > 50){
-                    @item.messageBody.substring(0,50)
-                  }else{
-                    @item.messageBody
-                  }
+                @if(item.messageBody.length > 50) {
+                  @item.messageBody.substring(0, 50)
+                } else {
+                  @item.messageBody
+                }
                 </span>
                 <span class="badge">12:10 AM</span>
 

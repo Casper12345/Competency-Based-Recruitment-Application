@@ -388,7 +388,10 @@ object HRManager extends Controller {
 
       val dbUserReceivedMessage = DBUserRecievedMessage
 
-      Ok(views.html.hrManager.hrManagerInbox(dbUserReceivedMessage.getAllUserReceivedMessageByID(userID.toInt)))
+      Ok(views.html.hrManager.
+        hrManagerInbox(dbUserReceivedMessage.
+          getAllUserReceivedMessageByID(userID.toInt))
+        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
 
   }
 
@@ -405,9 +408,13 @@ object HRManager extends Controller {
 
       val dbUserSentMessage = DBUserSentMessage
 
+      val dbUserReceivedMessage = DBUserRecievedMessage
+
+
       Ok(views.html.hrManager.
-        hrManagerSentInbox(dbUserSentMessage.getAllUserSentMessageByID(userID.toInt))
-      )
+        hrManagerSentInbox(dbUserSentMessage
+          .getAllUserSentMessageByID(userID.toInt))
+        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
   }
 
   def readMessage() = Action {
@@ -416,10 +423,19 @@ object HRManager extends Controller {
 
       val chatMessageID: Option[String] = request.getQueryString("ChatMessageID")
 
+      val userID = request.session.get("userID").get
+
       val db = DBChatMessage
 
+      db.setReadToTrueByID(chatMessageID.get.toInt)
+
+      val dbUserReceivedMessage = DBUserRecievedMessage
+
+
       Ok(views.html.hrManager.
-        hrManagerReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get))
+        hrManagerReadMessage
+        (db.getChatMessageByID(chatMessageID.get.toInt).get)
+        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
   }
 
   def sendMessage() = Action {
@@ -462,9 +478,12 @@ object HRManager extends Controller {
 
       val dbUserReceivedMessage = DBUserRecievedMessage
 
+      /*
       Ok(views.html.hrManager.hrManagerInbox(
         dbUserReceivedMessage.getAllUserReceivedMessageByID(senderUserID.toInt)))
+      */
 
+      Redirect("inbox")
   }
 
 

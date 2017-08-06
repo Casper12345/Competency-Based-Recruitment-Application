@@ -1,6 +1,6 @@
 @import persistenceAPI.DataBaseConnection.objects.ChatMessage
 
-@(receivedMessage: ChatMessage)
+@(receivedMessage: ChatMessage)(unReadMessages: Int)
 
 @main("Read Message") {
 
@@ -28,7 +28,8 @@
         <a href="#" class="btn btn-danger btn-sm btn-block" role="button">COMPOSE</a>
         <hr />
         <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="inbox"><span class="badge pull-right">2</span> Inbox </a>
+          <li class="active"><a href="inbox"><span class="badge pull-right">@unReadMessages</span>
+            Inbox </a>
           </li>
           <li><a href="sentInbox">Sent Mail</a></li>
         </ul>

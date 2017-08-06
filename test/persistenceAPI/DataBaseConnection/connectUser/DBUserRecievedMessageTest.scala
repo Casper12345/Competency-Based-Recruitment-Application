@@ -22,6 +22,15 @@ class DBUserRecievedMessageTest extends FunSuite {
     println(db.getAllUserReceivedMessageByID(3))
   }
 
+  test("countUnreadMessagesByUserID") {
+
+    val db = DBUserRecievedMessage
+
+    assert(db.countUnreadMessagesByUserID(3) == 4)
+
+  }
+
+
 }
 
 

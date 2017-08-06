@@ -1,6 +1,6 @@
 @import persistenceAPI.DataBaseConnection.objects.ChatMessage
 
-@(listOfReceivedMessages: List[ChatMessage])
+@(listOfReceivedMessages: List[ChatMessage])(unReadMessages: Int)
 
 @main("Inbox") {
 
@@ -46,7 +46,8 @@
         <a href="sendMessage" class="btn btn-danger btn-sm btn-block">COMPOSE</a>
         <hr />
         <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="#"><span class="badge pull-right">2</span> Inbox </a>
+          <li class="active"><a href="#"><span class="badge pull-right">@unReadMessages</span>
+            Inbox </a>
           </li>
           <li><a href="sentInbox">Sent Mail</a></li>
         </ul>
@@ -60,7 +61,7 @@
 
             @for(item <- listOfReceivedMessages) {
 
-              <a href="/recruiterMain/readMessage?ChatMessageID=@item.chatMessageID" class="list-group-item">
+              <a href="/recruiterMain/readMessage?ChatMessageID=@item.chatMessageID" class="@if(!item.messageRead) {list-group-item-info} list-group-item">
                 <div class="checkbox">
                   <label>
                     <input type="checkbox">
