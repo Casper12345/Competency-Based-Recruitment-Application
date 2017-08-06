@@ -410,6 +410,17 @@ object HRManager extends Controller {
       )
   }
 
+  def readMessage() = Action {
+
+    implicit request =>
+
+      val chatMessageID: Option[String] = request.getQueryString("ChatMessageID")
+
+      val db = DBChatMessage
+
+      Ok(views.html.hrManager.
+        hrManagerReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get))
+  }
 
   def sendMessage() = Action {
 

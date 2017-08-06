@@ -11,8 +11,26 @@
 
   <header>
 
-    <nav id="upperbar" class="navbar navbar-default ">
-    </nav>
+    <header>
+
+      <nav id="upperbar" class="navbar">
+
+        <div class="container-fluid">
+
+          <div class="navbar-header">
+            <div id="text-navbar" class="navbar-brand">Job Profiler</div>
+          </div>
+
+
+          <a id="home-navbar" href="/recruiterMain">Home</a>
+
+          <a id="logOut-navbar" href="/">Log Out</a>
+
+
+        </div>
+      </nav>
+
+    </header>
 
   </header>
 
@@ -52,7 +70,13 @@
                 <span class="name" style="min-width: 120px;
                   display: inline-block;">@item.senderUserName</span>
                 <span class="">@item.subject</span>
-                <span class="text-muted" style="font-size: 11px;">@item.messageBody</span>
+                <span class="text-muted" style="font-size: 11px;">
+                @if(item.messageBody.length > 50) {
+                  @item.messageBody.substring(0, 50)
+                } else {
+                  @item.messageBody
+                }
+                </span>
                 <span class="badge">12:10 AM</span>
 
               </a>

@@ -11,9 +11,22 @@
 
   <header>
 
-    <nav id="upperbar" class="navbar navbar-default ">
-    </nav>
+    <nav id="upperbar" class="navbar">
 
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <div id="text-navbar" class="navbar-brand">Job Profiler</div>
+        </div>
+
+
+        <a id="home-navbar" href="/hrManagerMain">Home</a>
+
+        <a id="logOut-navbar" href="/">Log Out</a>
+
+
+      </div>
+    </nav>
   </header>
 
 
@@ -42,7 +55,7 @@
 
             @for(item <- listOfReceivedMessages) {
 
-              <a href="/recruiterMain/readMessage?ChatMessageID=@item.chatMessageID" class="list-group-item">
+              <a href="/hrManagerMain/readMessage?ChatMessageID=@item.chatMessageID" class="list-group-item">
                 <div class="checkbox">
                   <label>
                     <input type="checkbox">
@@ -52,7 +65,13 @@
                 <span class="name" style="min-width: 120px;
                   display: inline-block;">@item.senderUserName</span>
                 <span class="">@item.subject</span>
-                <span class="text-muted" style="font-size: 11px;">@item.messageBody</span>
+                <span class="text-muted" style="font-size: 11px;">
+                  @if(item.messageBody.length > 50){
+                    @item.messageBody.substring(0,50)
+                  }else{
+                    @item.messageBody
+                  }
+                </span>
                 <span class="badge">12:10 AM</span>
 
               </a>

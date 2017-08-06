@@ -107,6 +107,7 @@ GET         /recruiterMain/inbox                                      controller
 
 GET         /recruiterMain/sentInbox                                  controllers.Recruiter.sentInbox
 
+# recruiterReadMessage
 
 GET         /recruiterMain/readMessage                                controllers.Recruiter.readMessage
 
@@ -116,6 +117,9 @@ GET         /recruiterMain/readMessage                                controller
 GET         /recruiterMain/sendMessage                                controllers.Recruiter.sendMessage
 
 POST        /recruiterMain/sendMessage                                controllers.Recruiter.sendMessagePost
+
+
+
 
 
 # hrManager messaging system
@@ -129,6 +133,12 @@ GET         /hrManagerMain/inbox                                      controller
 # hrManagerSentInbox
 
 GET         /hrManagerMain/sentInbox                                  controllers.HRManager.sentInbox
+
+# hrManagerReadMessage
+
+GET         /hrManagerMain/readMessage                                controllers.Recruiter.readMessage
+
+
 
 # send message hrManger
 
