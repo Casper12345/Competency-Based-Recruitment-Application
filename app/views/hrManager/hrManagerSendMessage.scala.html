@@ -15,6 +15,7 @@
 
   <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/sendMessageHRMananager.css")" >
 
+
   <header>
 
     <nav id="upperbar" class="navbar navbar-default ">
@@ -37,18 +38,19 @@
 
       <div class="col-md-3">
 
-      @for(i <- recruiterUserList) {
+        <div class="panel panel-default" style="padding-top: 10px;
+          padding-bottom: 10px">
+        @for(i <- recruiterUserList) {
 
-        <div class="panel panel-default">
-          <div class="panel-body contacts">
+          <div class="contacts" >
             <ul>
-              <li><a href="#"><span>@i.userName</span></a></li>
+              <li><a href="#" onclick="chooseUser(@i.userID)"><span>@i.userName</span></a></li>
             </ul>
 
           </div>
 
+        }
         </div>
-      }
       </div>
 
         <!-- sidebox -->
@@ -59,11 +61,11 @@
             <p class="text-center">New Message</p>
 
 
-            <form class="form-horizontal" role="form" method="post">
+            <form id="messageForm" name="messageForm" class="form-horizontal" role="form" method="post">
               <div class="form-group">
                 <label for="to" class="col-sm-1 control-label"></label>
                 <div class="col-sm-11">
-                  <input type="text" name="subject" class="form-control select2-offscreen" id="to" placeholder="Subject" tabindex="-1" required maxlength="50">
+                  <input type="text" name="subject" class="form-control select2-offscreen" id="subject" placeholder="Subject" tabindex="-1" required maxlength="50">
                 </div>
               </div>
 
@@ -104,13 +106,15 @@
                 </div>
 
                   <!-- implicit -->
+
+
                 <div class="form-group">
-                  <input type="hidden" name="receiverID" value="3"/>
+                  <input id="receiverID" type="hidden" name="receiverID" value="0"/>
                 </div>
 
 
                 <div class="form-group">
-                  <input type="submit" value="Send" class="btn btn-success">
+                  <input type="button" value="Send" class="btn btn-success" onclick="checkUser()">
                   <input type="button" class="btn btn-danger" onclick="location.href = '/hrManagerMain/inbox';" value="Discard"/>
                 </div>
               </div>
@@ -121,5 +125,7 @@
         <!--/.col-->
     </div>
   </div>
+
+  <script src="@routes.Assets.at("/javascripts/inbox.js")"></script>
 
 }

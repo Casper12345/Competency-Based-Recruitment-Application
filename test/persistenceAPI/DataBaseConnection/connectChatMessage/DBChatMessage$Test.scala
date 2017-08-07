@@ -1,5 +1,8 @@
 package persistenceAPI.DataBaseConnection.connectChatMessage
 
+import java.text.SimpleDateFormat
+
+import model.messageSystemLogic.DateTimeGet
 import org.scalatest.FunSuite
 
 /**
@@ -12,10 +15,11 @@ class DBChatMessage$Test extends FunSuite {
 
     val db = DBChatMessage
 
-    db.addChatMessage("Title", "Hello there. This is test", messageRead = false)
+    val sqlTime = DateTimeGet.getTimeAsTimeStamp
+
+    db.addChatMessage("Title", "Hello there. This is test", messageRead = false, sqlTime)
 
     assert(db.getChatMessageByID(1).get.chatMessageID == 1)
-
 
   }
 
@@ -23,7 +27,13 @@ class DBChatMessage$Test extends FunSuite {
 
     val db = DBChatMessage
 
-    println(db.getChatMessageByID(6))
+    println(db.getChatMessageByID(1))
+    println(db.getChatMessageByID(1).get.timeSent.toString)
+
+    val df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").
+      format(db.getChatMessageByID(1).get.timeSent)
+
+    println(df)
 
   }
 
@@ -31,11 +41,11 @@ class DBChatMessage$Test extends FunSuite {
 
     val db = DBChatMessage
 
-    db.createSentNewChatMessage(1,3, "Subject", "Body")
+    db.createSentNewChatMessage(1, 3, "Subject", "Body")
 
   }
 
-  test("setReadToTrueByID"){
+  test("setReadToTrueByID") {
 
     val db = DBChatMessage
 

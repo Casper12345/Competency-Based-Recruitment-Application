@@ -83,7 +83,8 @@ object DBUserRecievedMessage {
         |  ChatMessage.ChatMessageID,
         |  ChatMessage.Subject,
         |  ChatMessage.MessageBody,
-        |  ChatMessage.MessageRead
+        |  ChatMessage.MessageRead,
+        |  ChatMessage.TimeSent
         |FROM UserRecievedMessage
         |  JOIN ChatMessage USING (ChatMessageID)
         |  JOIN Users USING (UserID)
@@ -105,6 +106,8 @@ object DBUserRecievedMessage {
       val subject = rs.getString("ChatMessage.Subject")
       val messageBody = rs.getString("ChatMessage.MessageBody")
       val messageReadAsString = rs.getString("ChatMessage.MessageRead")
+      val timeStamp = rs.getTimestamp("ChatMessage.TimeSent")
+
 
       var messageReadAsBoolean = false
 
@@ -112,12 +115,13 @@ object DBUserRecievedMessage {
         messageReadAsBoolean = true
       }
 
+
       val (senderUserID, senderUserName) =
         getUserNameAndIDBYChatMessageIDSentMessage(chatMessageID.toInt)
 
       toReturn = toReturn :+ ChatMessage(senderUserID, senderUserName, userID.toInt,
         userName, chatMessageID.toInt, subject,
-        messageBody, messageReadAsBoolean)
+        messageBody, messageReadAsBoolean, timeStamp)
     }
 
 

@@ -1,125 +1,131 @@
 @import persistenceAPI.DataBaseConnection.objects.HRManagerUser
 @(hrMangerUserList: List[HRManagerUser])
 
-@main("Send Message") {
+  @main("Send Message") {
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link href="https://select2.github.io/dist/css/select2.min.css" rel="stylesheet">
+    <link href="https://select2.github.io/dist/css/select2.min.css" rel="stylesheet">
 
-  <script src="@routes.Assets.at("/javascripts/jquery-1.9.0.min.js")"></script>
+    <script src="@routes.Assets.at("/javascripts/jquery-1.9.0.min.js")"></script>
 
-  <script src="https://select2.github.io/dist/js/select2.full.js"></script>
+    <script src="https://select2.github.io/dist/js/select2.full.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/sendMessageHRMananager.css")" >
-
-  <header>
-
-    <nav id="upperbar" class="navbar navbar-default ">
-    </nav>
-
-  </header>
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/sendMessageHRMananager.css")" >
 
 
-  <div class="outer-container container-fluid">
+    <header>
 
-  </div>
+      <nav id="upperbar" class="navbar navbar-default ">
+      </nav>
 
-
-  <div id="sendEmailBox" class="container">
-
-    <div class="row recruiterInbox">
-
-        <!-- sidebox -->
+    </header>
 
 
-      <div class="col-md-3">
+    <div class="outer-container container-fluid">
 
-      @for(i <- hrMangerUserList) {
-
-        <div class="panel panel-default">
-          <div class="panel-body contacts">
-            <ul>
-              <li><a href="#"><span>@i.userName</span></a></li>
-            </ul>
-
-          </div>
-
-        </div>
-      }
-      </div>
-
-        <!-- sidebox -->
-
-      <div class="col-md-9">
-        <div class="panel panel-default">
-          <div class="panel-body message">
-            <p class="text-center">New Message</p>
-
-
-            <form class="form-horizontal" role="form" method="post">
-              <div class="form-group">
-                <label for="to" class="col-sm-1 control-label"></label>
-                <div class="col-sm-11">
-                  <input type="text" name="subject" class="form-control select2-offscreen" id="to" placeholder="Subject" tabindex="-1" required maxlength="50">
-                </div>
-              </div>
-
-
-              <div class="col-sm-11 col-sm-offset-1">
-
-                <div class="btn-toolbar" role="toolbar">
-
-                  <div class="btn-group">
-                    <button class="btn btn-default"><span class="fa fa-bold"></span></button>
-                    <button class="btn btn-default"><span class="fa fa-italic"></span></button>
-                    <button class="btn btn-default"><span class="fa fa-underline"></span></button>
-                  </div>
-
-                  <div class="btn-group">
-                    <button class="btn btn-default"><span class="fa fa-align-left"></span></button>
-                    <button class="btn btn-default"><span class="fa fa-align-right"></span></button>
-                    <button class="btn btn-default"><span class="fa fa-align-center"></span></button>
-                    <button class="btn btn-default"><span class="fa fa-align-justify"></span></button>
-                  </div>
-
-                  <div class="btn-group">
-                    <button class="btn btn-default"><span class="fa fa-indent"></span></button>
-                    <button class="btn btn-default"><span class="fa fa-outdent"></span></button>
-                  </div>
-
-                  <div class="btn-group">
-                    <button class="btn btn-default"><span class="fa fa-list-ul"></span></button>
-                    <button class="btn btn-default"><span class="fa fa-list-ol"></span></button>
-                  </div>
-                  <button class="btn btn-default"><span class="fa fa-trash-o"></span></button>
-                  <button class="btn btn-default"><span class="fa fa-paperclip"></span></button>
-                </div>
-                <br>
-
-                <div class="form-group">
-                  <textarea required class="form-control" id="message" name="messageBody" rows="12" placeholder="Click here to reply"></textarea>
-                </div>
-
-                  <!-- implicit -->
-                <div class="form-group">
-                  <input type="hidden" name="receiverID" value="2"/>
-                </div>
-
-
-                <div class="form-group">
-                  <input type="submit" value="Send" class="btn btn-success">
-                  <input type="button" class="btn btn-danger" onclick="location.href = '/recruiterMain/inbox';" value="Discard"/>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-        <!--/.col-->
     </div>
-  </div>
 
-}
+
+    <div id="sendEmailBox" class="container">
+
+      <div class="row recruiterInbox">
+
+          <!-- sidebox -->
+
+
+        <div class="col-md-3">
+
+          <div class="panel panel-default" style="padding-top: 10px;
+            padding-bottom: 10px">
+          @for(i <- hrMangerUserList) {
+
+            <div class="contacts">
+              <ul>
+                <li><a href="#" onclick="chooseUser(@i.userID)"><span>@i.userName</span></a></li>
+              </ul>
+
+            </div>
+
+          }
+          </div>
+        </div>
+
+          <!-- sidebox -->
+
+        <div class="col-md-9">
+          <div class="panel panel-default">
+            <div class="panel-body message">
+              <p class="text-center">New Message</p>
+
+
+              <form id="messageForm" name="messageForm" class="form-horizontal" role="form" method="post">
+                <div class="form-group">
+                  <label for="to" class="col-sm-1 control-label"></label>
+                  <div class="col-sm-11">
+                    <input type="text" name="subject" class="form-control select2-offscreen" id="subject" placeholder="Subject" tabindex="-1" required maxlength="50">
+                  </div>
+                </div>
+
+
+                <div class="col-sm-11 col-sm-offset-1">
+
+                  <div class="btn-toolbar" role="toolbar">
+
+                    <div class="btn-group">
+                      <button class="btn btn-default"><span class="fa fa-bold"></span></button>
+                      <button class="btn btn-default"><span class="fa fa-italic"></span></button>
+                      <button class="btn btn-default"><span class="fa fa-underline"></span></button>
+                    </div>
+
+                    <div class="btn-group">
+                      <button class="btn btn-default"><span class="fa fa-align-left"></span></button>
+                      <button class="btn btn-default"><span class="fa fa-align-right"></span></button>
+                      <button class="btn btn-default"><span class="fa fa-align-center"></span></button>
+                      <button class="btn btn-default"><span class="fa fa-align-justify"></span></button>
+                    </div>
+
+                    <div class="btn-group">
+                      <button class="btn btn-default"><span class="fa fa-indent"></span></button>
+                      <button class="btn btn-default"><span class="fa fa-outdent"></span></button>
+                    </div>
+
+                    <div class="btn-group">
+                      <button class="btn btn-default"><span class="fa fa-list-ul"></span></button>
+                      <button class="btn btn-default"><span class="fa fa-list-ol"></span></button>
+                    </div>
+                    <button class="btn btn-default"><span class="fa fa-trash-o"></span></button>
+                    <button class="btn btn-default"><span class="fa fa-paperclip"></span></button>
+                  </div>
+                  <br>
+
+                  <div class="form-group">
+                    <textarea required class="form-control" id="message" name="messageBody" rows="12" placeholder="Click here to reply"></textarea>
+                  </div>
+
+                    <!-- implicit -->
+
+
+                  <div class="form-group">
+                    <input id="receiverID" type="hidden" name="receiverID" value="0"/>
+                  </div>
+
+
+                  <div class="form-group">
+                    <input type="button" value="Send" class="btn btn-success" onclick="checkUser()">
+                    <input type="button" class="btn btn-danger" onclick="location.href = '/hrManagerMain/inbox';" value="Discard"/>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+          <!--/.col-->
+      </div>
+    </div>
+
+    <script src="@routes.Assets.at("/javascripts/inbox.js")"></script>
+
+  }

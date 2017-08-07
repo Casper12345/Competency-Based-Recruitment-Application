@@ -1,5 +1,8 @@
 package persistenceAPI.DataBaseConnection.connectChatMessage
 
+import java.sql.Time
+
+import model.messageSystemLogic.DateTimeGet
 import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.connectUser.{DBUserRecievedMessage, DBUserSentMessage}
 import persistenceAPI.DataBaseConnection.objects.{Candidate, ChatMessage}
@@ -24,7 +27,7 @@ object DBChatMessage {
     *
     */
   def addChatMessage(subject: String,
-                     messageBody: String, messageRead: Boolean): Unit = {
+                     messageBody: String, messageRead: Boolean, sqlTime: java.sql.Timestamp): Unit = {
 
     var messageReadAsInt = 0
 
@@ -38,7 +41,7 @@ object DBChatMessage {
 
     val maxID = db.getLatestId("ChatMessage")
 
-    val stmt = db.connection.prepareStatement("INSERT INTO ChatMessage VALUES (?,?,?,?)")
+    val stmt = db.connection.prepareStatement("INSERT INTO ChatMessage VALUES (?,?,?,?,?)")
 
 
     stmt.setString(1, (maxID + 1).toString)
@@ -49,11 +52,11 @@ object DBChatMessage {
 
     stmt.setString(4, messageReadAsInt.toString)
 
+    stmt.setTimestamp(5, sqlTime)
 
     stmt.executeUpdate
 
     db.closeConnection()
-
 
   }
 
@@ -83,11 +86,14 @@ object DBChatMessage {
 
     while (rs.next()) {
 
-      val chatMessageID = rs.getString("ChatMessageID")
-      val subject = rs.getString("Subject")
+      val chatMessageID = rs.getString("ChatMessage.ChatMessageID")
+      val subject = rs.getString("ChatMessage.Subject")
 
-      val messageBody = rs.getString("MessageBody")
-      val messageReadAsString = rs.getString("MessageRead")
+      val messageBody = rs.getString("ChatMessage.MessageBody")
+      val messageReadAsString = rs.getString("ChatMessage.MessageRead")
+      val timeStamp = rs.getTimestamp("ChatMessage.TimeSent")
+
+      // convertTimeStamp
 
       var messageReadAsBooolean = false
 
@@ -111,7 +117,7 @@ object DBChatMessage {
       toReturn = Some(ChatMessage(sentMessageUserID.toInt, sentMessageUserName,
         recievedMessageUserID.toInt, receivedMessageUserName,
         chatMessageID.toInt, subject,
-        messageBody, messageReadAsBooolean))
+        messageBody, messageReadAsBooolean, timeStamp))
     }
 
 
@@ -124,8 +130,9 @@ object DBChatMessage {
   def createSentNewChatMessage(senderUserID: Int, receiverUserID: Int, subject: String,
                                messageBody: String): Unit = {
 
+    val timeStamp = DateTimeGet.getTimeAsTimeStamp
 
-    addChatMessage(subject, messageBody, messageRead = false)
+    addChatMessage(subject, messageBody, messageRead = false, timeStamp)
 
     db.connect()
 
