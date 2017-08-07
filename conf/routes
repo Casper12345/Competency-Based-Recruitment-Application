@@ -136,7 +136,7 @@ GET         /hrManagerMain/sentInbox                                  controller
 
 # hrManagerReadMessage
 
-GET         /hrManagerMain/readMessage                                controllers.Recruiter.readMessage
+GET         /hrManagerMain/readMessage                                controllers.HRManager.readMessage
 
 
 

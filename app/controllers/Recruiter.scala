@@ -1,12 +1,10 @@
 package controllers
 
-import controllers.HRManager.Ok
 import persistenceAPI.DataBaseConnection.connectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
 import persistenceAPI.DataBaseConnection.connectChatMessage.DBChatMessage
 import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
 import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
 import persistenceAPI.DataBaseConnection.connectUser.{DBConnectUser, DBUserRecievedMessage, DBUserSentMessage}
-import persistenceAPI.DataBaseConnection.objects.ChatMessage
 import play.api.data.Form
 import play.api.data.Forms.tuple
 import play.api.mvc.{Action, Controller}
@@ -84,9 +82,6 @@ object Recruiter extends Controller {
       val (name, surname, educationName, currentJobTitle,
       educationLevel, experienceLevel) = candidateForm.bindFromRequest().get
 
-
-      print(educationLevel, educationName)
-
       val db = DBCandidate
 
       db.addCandidate(name, surname, educationName, currentJobTitle, educationLevel, experienceLevel)
@@ -104,12 +99,13 @@ object Recruiter extends Controller {
     implicit request =>
       val priv = request.session.get("privilege")
 
-      val db = DBCandidate
-
       priv match {
         case None =>
           Redirect("/")
         case Some("Recruiter") | Some("SuperUser") =>
+
+          val db = DBCandidate
+
           Ok(views.html.recruiter.viewCandiate(db.getAllCandidates()))
         case _ =>
           Redirect("/")
@@ -126,14 +122,15 @@ object Recruiter extends Controller {
       val priv = request.session.get("privilege")
       val id: Option[String] = request.getQueryString("id")
 
-      val db = DBCandidate
-
       if (id.isDefined) {
 
         priv match {
           case None =>
             Redirect("/")
           case Some("Recruiter") | Some("SuperUser") =>
+
+            val db = DBCandidate
+
             Ok(views.html.recruiter.candidate(db.getCandidateByID(id.get.toInt).get))
           case _ =>
             Redirect("/")
@@ -155,7 +152,6 @@ object Recruiter extends Controller {
       val priv = request.session.get("privilege")
       val candidateID: Option[String] = request.getQueryString("CandidateID")
 
-      val db = DBSkill
 
       if (candidateID.isDefined) {
 
@@ -163,6 +159,9 @@ object Recruiter extends Controller {
           case None =>
             Redirect("/")
           case Some("Recruiter") | Some("SuperUser") =>
+
+            val db = DBSkill
+
             Ok(views.html.recruiter.addSkillRecruiter(db.getAllSkills())(candidateID.get.toInt))
           case _ =>
             Redirect("/")
@@ -214,14 +213,15 @@ object Recruiter extends Controller {
       val priv = request.session.get("privilege")
       val candidateID: Option[String] = request.getQueryString("CandidateID")
 
-      val db = DBCompetency
-
       if (candidateID.isDefined) {
 
         priv match {
           case None =>
             Redirect("/")
           case Some("Recruiter") | Some("SuperUser") =>
+
+            val db = DBCompetency
+
             Ok(views.html.recruiter.addCompetencyRecruiter(db.getAllCompetencies())(candidateID.get.toInt))
           case _ =>
             Redirect("/")
@@ -256,8 +256,6 @@ object Recruiter extends Controller {
 
       val db = DBCandidateCompetency
 
-      println(competencyID + " " + rating + " " + candidateID)
-
       db.addCandidateCompetency(competencyID.toInt, rating.toInt, candidateID.toInt)
 
       Redirect(s"/recruiterMain/candidate?id=$candidateID")
@@ -271,16 +269,25 @@ object Recruiter extends Controller {
   def inbox() = Action {
 
     implicit request =>
+      val userID = request.session.get("userID")
+      val priv = request.session.get("privilege")
 
-      val userID = request.session.get("userID").get
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("Recruiter") | Some("SuperUser") =>
 
-      val dbUserReceivedMessage = DBUserRecievedMessage
+          val dbUserReceivedMessage = DBUserRecievedMessage
+
+          Ok(views.html.recruiter.recruiterInbox(
+            dbUserReceivedMessage.
+              getAllUserReceivedMessageByID(userID.get.toInt))
+          (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
 
 
-      Ok(views.html.recruiter.recruiterInbox(
-        dbUserReceivedMessage.
-          getAllUserReceivedMessageByID(userID.toInt))
-      (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
+        case _ =>
+          Redirect("/")
+      }
 
   }
 
@@ -291,43 +298,88 @@ object Recruiter extends Controller {
   def sentInbox() = Action {
 
     implicit request =>
+      val userID = request.session.get("userID")
+      val priv = request.session.get("privilege")
 
-      val userID = request.session.get("userID").get
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("Recruiter") | Some("SuperUser") =>
 
-      val dbUserSentMessage = DBUserSentMessage
-      val dbUserReceivedMessage = DBUserRecievedMessage
+          val dbUserSentMessage = DBUserSentMessage
+          val dbUserReceivedMessage = DBUserRecievedMessage
 
-      Ok(views.html.recruiter.
-        recruiterSentInbox(dbUserSentMessage.
-          getAllUserSentMessageByID(userID.toInt))
-        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
+          Ok(views.html.recruiter.
+            recruiterSentInbox(dbUserSentMessage.
+              getAllUserSentMessageByID(userID.get.toInt))
+            (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+
+        case _ =>
+          Redirect("/")
+      }
+
+
   }
 
+  /**
+    *
+    * @return
+    */
   def readMessage() = Action {
 
     implicit request =>
 
+      val priv = request.session.get("privilege")
       val chatMessageID: Option[String] = request.getQueryString("ChatMessageID")
-      val userID = request.session.get("userID").get
+      val userID = request.session.get("userID")
 
+      if (chatMessageID.isDefined) {
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("Recruiter") | Some("SuperUser") =>
 
-      val db = DBChatMessage
+            val db = DBChatMessage
 
-      val dbUserReceivedMessage = DBUserRecievedMessage
+            val dbUserReceivedMessage = DBUserRecievedMessage
 
+            db.setReadToTrueByID(chatMessageID.get.toInt)
 
-      db.setReadToTrueByID(chatMessageID.get.toInt)
+            Ok(views.html.recruiter.
+              recruiterReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get)
+              (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
 
-      Ok(views.html.recruiter.
-        recruiterReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get)
-        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
+          case _ =>
+            Redirect("/")
+        }
+
+      } else {
+        Forbidden
+      }
+
   }
 
+  /**
+    *
+    * @return
+    */
   def sendMessage() = Action {
+    implicit request =>
 
-    val db = DBConnectUser
+      val priv = request.session.get("privilege")
 
-    Ok(views.html.recruiter.recruiterSendMessage(db.getAllHRManagerUsers()))
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("Recruiter") | Some("SuperUser") =>
+
+          val db = DBConnectUser
+
+          Ok(views.html.recruiter.recruiterSendMessage(db.getAllHRManagerUsers()))
+
+        case _ =>
+          Redirect("/")
+      }
   }
 
 
@@ -362,14 +414,6 @@ object Recruiter extends Controller {
       val dbUserReceivedMessage = DBUserRecievedMessage
 
       db.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
-
-      /*
-      Ok(views.html.recruiter.recruiterInbox(
-        dbUserReceivedMessage.
-          getAllUserReceivedMessageByID(senderUserID.toInt))
-      (dbUserReceivedMessage.countUnreadMessagesByUserID(senderUserID.toInt)))
-
-      */
 
       Redirect("inbox")
   }

@@ -1,6 +1,5 @@
 package controllers
 
-import controllers.Recruiter.Ok
 import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
 import model.matchingLogic.MatchingMethodsFacade
 import persistenceAPI.DataBaseConnection.connectCandidate.DBCandidate
@@ -102,14 +101,16 @@ object HRManager extends Controller {
     implicit request =>
       val priv = request.session.get("privilege")
 
-      val db = DBJobProfile
-
-      val jobDescriptions: List[JobDescription] = db.getAllJobDescriptions()
 
       priv match {
         case None =>
           Redirect("/")
         case Some("HRManager") | Some("SuperUser") =>
+
+          val db = DBJobProfile
+
+          val jobDescriptions: List[JobDescription] = db.getAllJobDescriptions()
+
           Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
         case _ =>
           Redirect("/")
@@ -129,14 +130,15 @@ object HRManager extends Controller {
       val id: Option[String] = request.getQueryString("id")
       val priv = request.session.get("privilege")
 
-      val db = DBJobProfile
-
       if (id.isDefined) {
 
         priv match {
           case None =>
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
+
+            val db = DBJobProfile
+
             Ok(views.html.hrManager.jobDescription(db.getJobProfileByID(id.get.toInt).get))
           case _ =>
             Redirect("/")
@@ -160,14 +162,15 @@ object HRManager extends Controller {
       val priv = request.session.get("privilege")
       val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
 
-      val db = DBSkill
-
       if (jobDescriptionID.isDefined) {
 
         priv match {
           case None =>
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
+
+            val db = DBSkill
+
             Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(jobDescriptionID.get.toInt))
           case _ =>
             Redirect("/")
@@ -220,7 +223,6 @@ object HRManager extends Controller {
       val priv = request.session.get("privilege")
       val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
 
-      val db = DBCompetency
 
       if (jobDescriptionID.isDefined) {
 
@@ -228,6 +230,9 @@ object HRManager extends Controller {
           case None =>
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
+
+            val db = DBCompetency
+
             Ok(views.html.hrManager.addCompetencyHRManager
             (db.getAllCompetencies())(jobDescriptionID.get.toInt))
           case _ =>
@@ -356,7 +361,6 @@ object HRManager extends Controller {
 
     implicit request =>
       val priv = request.session.get("privilege")
-
       val id: Option[String] = request.getQueryString("id")
       val d1: Option[String] = request.getQueryString("d1")
       val d2: Option[String] = request.getQueryString("d2")
@@ -364,35 +368,50 @@ object HRManager extends Controller {
       val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
       val called: Option[String] = request.getQueryString("called")
 
+      if (jobDescriptionID.isDefined && id.isDefined
+        && d1.isDefined && d2.isDefined && d3.isDefined) {
 
-      val db = DBCandidate
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("HRManager") | Some("SuperUser") =>
+
+            val db = DBCandidate
+
+            Ok(views.html.hrManager
+              .viewMatchedCandidate(db.getCandidateByID(id.get.toInt).get)
+              (d1.get.toDouble)(d2.get.toDouble)(d3.get.toDouble)(jobDescriptionID.get.toInt)(called.get))
+          case _ =>
+            Redirect("/")
+        }
+      } else {
+        Forbidden
+      }
+  }
+
+  /**
+    * Action for rendering inbox template
+    *
+    * @return
+    */
+  def inbox() = Action {
+
+    implicit request =>
+      val priv = request.session.get("privilege")
+      val userID = request.session.get("userID")
 
       priv match {
         case None =>
           Redirect("/")
         case Some("HRManager") | Some("SuperUser") =>
-          Ok(views.html.hrManager
-            .viewMatchedCandidate(db.getCandidateByID(id.get.toInt).get)
-            (d1.get.toDouble)(d2.get.toDouble)(d3.get.toDouble)(jobDescriptionID.get.toInt)(called.get))
+          val dbUserReceivedMessage = DBUserRecievedMessage
+          Ok(views.html.hrManager.
+            hrManagerInbox(dbUserReceivedMessage.
+              getAllUserReceivedMessageByID(userID.get.toInt))
+            (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
         case _ =>
           Redirect("/")
       }
-
-  }
-
-  def inbox() = Action {
-
-    implicit request =>
-
-      val userID = request.session.get("userID").get
-
-      val dbUserReceivedMessage = DBUserRecievedMessage
-
-      Ok(views.html.hrManager.
-        hrManagerInbox(dbUserReceivedMessage.
-          getAllUserReceivedMessageByID(userID.toInt))
-        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
-
   }
 
   /**
@@ -403,55 +422,91 @@ object HRManager extends Controller {
   def sentInbox() = Action {
 
     implicit request =>
+      val priv = request.session.get("privilege")
+      val userID = request.session.get("userID")
 
-      val userID = request.session.get("userID").get
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("HRManager") | Some("SuperUser") =>
 
-      val dbUserSentMessage = DBUserSentMessage
+          val dbUserSentMessage = DBUserSentMessage
+          val dbUserReceivedMessage = DBUserRecievedMessage
 
-      val dbUserReceivedMessage = DBUserRecievedMessage
+          Ok(views.html.hrManager.
+            hrManagerSentInbox(dbUserSentMessage
+              .getAllUserSentMessageByID(userID.get.toInt))
+            (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+        case _ =>
+          Redirect("/")
+      }
 
 
-      Ok(views.html.hrManager.
-        hrManagerSentInbox(dbUserSentMessage
-          .getAllUserSentMessageByID(userID.toInt))
-        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
   }
 
   def readMessage() = Action {
 
     implicit request =>
-
+      val priv = request.session.get("privilege")
       val chatMessageID: Option[String] = request.getQueryString("ChatMessageID")
+      val userID = request.session.get("userID")
 
-      val userID = request.session.get("userID").get
+      if (chatMessageID.isDefined) {
+        priv match {
+          case None =>
+            Redirect("/")
+          case Some("HRManager") | Some("SuperUser") =>
 
-      val db = DBChatMessage
+            val db = DBChatMessage
+            db.setReadToTrueByID(chatMessageID.get.toInt)
 
-      db.setReadToTrueByID(chatMessageID.get.toInt)
+            val dbUserReceivedMessage = DBUserRecievedMessage
 
-      val dbUserReceivedMessage = DBUserRecievedMessage
+            Ok(views.html.hrManager.
+              hrManagerReadMessage
+              (db.getChatMessageByID(chatMessageID.get.toInt).get)
+              (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
 
+          case _ =>
+            Redirect("/")
+        }
+      } else {
+        Forbidden
+      }
 
-      Ok(views.html.hrManager.
-        hrManagerReadMessage
-        (db.getChatMessageByID(chatMessageID.get.toInt).get)
-        (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.toInt)))
   }
 
+  /**
+    * Action renders sendMessage
+    *
+    * @return
+    */
   def sendMessage() = Action {
 
-    val db = DBConnectUser
+    implicit request =>
+      val priv = request.session.get("privilege")
 
-    Ok(views.html.hrManager.hrManagerSendMessage(db.getAllRecruiterUsers()))
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("HRManager") | Some("SuperUser") =>
+
+          val db = DBConnectUser
+
+          Ok(views.html.hrManager.hrManagerSendMessage(db.getAllRecruiterUsers()))
+
+
+        case _ =>
+          Redirect("/")
+      }
+
   }
-
 
   val sendMessageForm = Form {
     tuple(
       "subject" -> text,
       "messageBody" -> text,
       "receiverID" -> text
-
     )
   }
 
@@ -478,13 +533,7 @@ object HRManager extends Controller {
 
       val dbUserReceivedMessage = DBUserRecievedMessage
 
-      /*
-      Ok(views.html.hrManager.hrManagerInbox(
-        dbUserReceivedMessage.getAllUserReceivedMessageByID(senderUserID.toInt)))
-      */
-
       Redirect("inbox")
   }
-
 
 }

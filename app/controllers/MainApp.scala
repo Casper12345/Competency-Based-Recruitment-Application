@@ -1,6 +1,5 @@
 package controllers
 
-import persistenceAPI.DataBaseConnection.connectCandidate.DBCandidate
 import persistenceAPI.DataBaseConnection.connectUser.DBConnectUser
 import play.api.mvc._
 import play.api.data.Forms._
@@ -92,7 +91,6 @@ object MainApp extends Controller {
 
 
   def helper = Action {
-
 
     Ok(views.html.Helper())
 
