@@ -5,7 +5,7 @@ import model.matchingLogic.{SimilarityFacade, UnCappedSimilarityFacade, AllCappe
 /**
   * Factory method for manual dependency injection
   */
-object AlgorithmFactory extends Factory{
+object AlgorithmFactory extends AlgorithmFactoryTrait{
 
   def factory(instance: String): SimilarityFacade = instance match {
 
@@ -13,5 +13,4 @@ object AlgorithmFactory extends Factory{
     case "unCappedSimilarityFacade" => UnCappedSimilarityFacade()
 
   }
-
 }

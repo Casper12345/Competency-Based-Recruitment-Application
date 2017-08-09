@@ -14,10 +14,8 @@ import persistenceAPI.DataBaseConnection.sqlQueries.DBQueries
   *
   * Val jobDescription = Int
   */
-class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade) {
+class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade, candidates: List[Candidate]) {
 
-
-  var candidatesByOneSkill: List[Candidate] = matchingOnOneSkill(jobDescriptionID)
   var jobProfile: JobDescription = getJobDescriptionByID(jobDescriptionID)
 
   /**
@@ -96,7 +94,7 @@ class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade) {
 
 
     val candidateSkillVectors: List[(Int, List[CandidateSkill])] =
-      candidatesByOneSkill.map(a => (a.ID, a.skills))
+      candidates.map(a => (a.ID, a.skills))
 
 
     val duplicatesRemovedJobDescription: List[JobDescriptionSkill] = {
@@ -152,18 +150,20 @@ class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade) {
       candidateSkillVectorsReady = candidateSkillVectorsReady :+ (i._1, candidateSkillVectorSub)
     }
 
+    /*
     println(duplicatesRemovedJobDescription)
     println(duplicatesRemovedCandidateSkillVectors)
     println(jobDescriptionVectorReady)
     println(candidateSkillVectorsReady)
     println(doesJobProfileContainCompetencies)
-
+    */
 
     var listToReturn: List[(Int, Double)] = Nil
 
     if (candidateSkillVectorsReady.nonEmpty) {
 
       for (i <- candidateSkillVectorsReady) {
+
         // dependency injection
 
         val similarity =
@@ -190,7 +190,7 @@ class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade) {
   def competencyMatching(): (List[(Int, Double)], List[Int], List[(Int, List[Int])]) = {
 
     val candidateCompetencyVectors: List[(Int, List[CandidateCompetency])] =
-      candidatesByOneSkill.map(a => (a.ID, a.competencies))
+      candidates.map(a => (a.ID, a.competencies))
 
 
     val duplicatesRemovedJobDescription: List[JobDescriptionCompetency] = {

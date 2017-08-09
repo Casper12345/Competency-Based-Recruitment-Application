@@ -1,5 +1,6 @@
 package controllers
 
+import persistenceAPI.DataBaseConnection.connectJobProfile.DBJobProfile
 import persistenceAPI.DataBaseConnection.connectUser.DBConnectUser
 import play.api.mvc._
 import play.api.data.Forms._
@@ -92,7 +93,10 @@ object MainApp extends Controller {
 
   def helper = Action {
 
-    Ok(views.html.Helper())
+    val db = DBJobProfile
+
+
+    Ok(views.html.Helper(db.getJobProfileByID(1).get))
 
   }
 

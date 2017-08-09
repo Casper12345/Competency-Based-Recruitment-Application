@@ -1,14 +1,17 @@
 package controllers
 
+import model.attributeFactory.{Attribute, AttributeFactory, AttributesSorting}
 import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
 import model.matchingLogic.MatchingMethodsFacade
+import model.matchingLogic.candidatesSorting.CandidatesSortedByLockedAttributes
+import model.matchingLogic.candidatesSortingFactory.CandidateSortingFactory
 import persistenceAPI.DataBaseConnection.connectCandidate.DBCandidate
 import persistenceAPI.DataBaseConnection.connectChatMessage.DBChatMessage
 import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
 import persistenceAPI.DataBaseConnection.connectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
 import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
 import persistenceAPI.DataBaseConnection.connectUser.{DBConnectUser, DBUserRecievedMessage, DBUserSentMessage}
-import persistenceAPI.DataBaseConnection.objects.JobDescription
+import persistenceAPI.DataBaseConnection.objects.{Candidate, JobDescription}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{Action, Controller}
@@ -286,6 +289,13 @@ object HRManager extends Controller {
       val called: Option[String] = request.getQueryString("called")
 
       if (jobDescriptionID.isDefined) {
+
+        // get sorted candidates with factory
+        val candidateSortingFactory = CandidateSortingFactory
+
+        val candidates = candidateSortingFactory.factory("candidatesSortedByOneSkill")
+          .returnCandidatesByJobDescriptionID(jobDescriptionID.get.toInt)
+
         priv match {
           case None =>
             Redirect("/")
@@ -301,21 +311,44 @@ object HRManager extends Controller {
 
               case Some("allCapped") =>
 
-                val matching = MatchingMethodsFacade(algFactory.factory("allCappedSimilarityFacade"))
+                val matching = MatchingMethodsFacade(algFactory.factory("allCappedSimilarityFacade"), candidates)
                 val matchingCandidates =
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
 
                 Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
 
               case Some("unCapped") =>
-                val matching = MatchingMethodsFacade(algFactory.factory("unCappedSimilarityFacade"))
+                val matching = MatchingMethodsFacade(algFactory.factory("unCappedSimilarityFacade"), candidates)
                 val matchingCandidates =
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
+
                 Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
 
               case Some("lockIndividually") =>
 
-                Ok("indviduallyCapped")
+                // get lists of sorted attributes as Skills and Competencies
+                val (skills, competencies) = AttributesSorting.sortAttributes(listOfAttributes)
+
+
+                // get sorted candidates with without factory
+                val candidatesSorted = CandidatesSortedByLockedAttributes()
+                candidatesSorted.setAttributes(skills, competencies)
+
+                val candidates =
+                  candidatesSorted.returnCandidatesByJobDescriptionID(jobDescriptionID.get.toInt)
+
+                println(jobDescriptionID.get.toInt)
+
+                println(candidates)
+
+                val matching = MatchingMethodsFacade(algFactory.factory("allCappedSimilarityFacade"), candidates)
+
+                val matchingCandidates =
+                  matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
+
+                listOfAttributes = Nil
+
+                Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
 
             }
           case _ =>
@@ -344,13 +377,69 @@ object HRManager extends Controller {
   def matchingMainPost() = Action {
     implicit request =>
 
-      val (jobDescriptionsID, actionType) = matchingMainForm.bindFromRequest().get
+      val (jobDescriptionID, actionType) = matchingMainForm.bindFromRequest().get
 
-
-      Redirect(s"/hrManagerMain/" +
-        s"jobDescription/matchingMain?jobDescriptionID=$jobDescriptionsID&called=$actionType")
+      actionType match {
+        case "allCapped" | "unCapped" =>
+          Redirect(s"/hrManagerMain/" +
+            s"jobDescription/matchingMain?jobDescriptionID=$jobDescriptionID&called=$actionType")
+        // redirects to lockAttributes
+        case "lockIndividually" =>
+          Redirect(s"/hrManagerMain/jobDescription/matchingMain/lockAttributes?jobDescriptionID=$jobDescriptionID")
+      }
 
   }
+
+
+  /**
+    * global state list of attributes
+    */
+  var listOfAttributes: List[Attribute] = Nil
+
+  def lockAttributes() = Action {
+
+    implicit request =>
+
+      val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
+
+      // optional
+      val skillID: Option[String] = request.getQueryString("skillID")
+      val competencyID: Option[String] = request.getQueryString("competencyID")
+      val rating: Option[String] = request.getQueryString("rating")
+
+
+      val db = DBJobProfile
+
+      if (skillID.isDefined) {
+        listOfAttributes = listOfAttributes :+
+          AttributeFactory.createAttribute("skill")(skillID.get.toInt,
+            rating.get.toInt)
+      }
+
+      if (competencyID.isDefined) {
+        listOfAttributes = listOfAttributes :+
+          AttributeFactory.createAttribute("competency")(competencyID.get.toInt, rating.get.toInt)
+      }
+
+      Ok(views.html.hrManager.lockAttributes(db.getJobProfileByID(jobDescriptionID.get.toInt).get)(listOfAttributes))
+  }
+
+
+  val lockAttributesForm = Form {
+    "jobDescriptionID" -> text
+  }
+
+  def lockAttributesPost() = Action {
+
+    implicit request =>
+
+      val jobDescriptionID: Option[String] = request.getQueryString("jobDescriptionID")
+
+      Redirect(s"/hrManagerMain/" +
+        s"jobDescription/matchingMain?jobDescriptionID=${jobDescriptionID.get}&called=lockIndividually")
+
+  }
+
 
   /**
     * Action for rendering viewMatchingCandidates template.

@@ -7,7 +7,7 @@ import persistenceAPI.DataBaseConnection.objects.Candidate
   * Methods for matching using a facade pattern.
   * Part of the dependency injection
   */
-case class MatchingMethodsFacade(matchingMethod: SimilarityFacade) {
+case class MatchingMethodsFacade(matchingMethod: SimilarityFacade, candidates: List[Candidate]) {
 
   /**
     * Method that returns all matching candidates from Matching methods
@@ -19,7 +19,7 @@ case class MatchingMethodsFacade(matchingMethod: SimilarityFacade) {
   def pullMatchingCandidatesByJobDescriptionID(jobDescriptionID: Int):
   List[(Int, Double, Double, Double)] = {
 
-    val machingMethods = new MatchingMethods(jobDescriptionID, matchingMethod)
+    val machingMethods = new MatchingMethods(jobDescriptionID, matchingMethod, candidates)
 
     machingMethods.returnAllResults()
 

@@ -1,0 +1,70 @@
+
+#a, #d, #b, #e, #c {
+  display: block;
+}
+
+#b:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+#d {
+  height: 80px;
+  overflow-y: auto;
+}
+
+#d td, #a th {
+  width: 50%;
+  float: left;
+}
+
+#candidateSkillClickAble{
+  position: absolute;
+  left: 80px;
+  top: 100px;
+  width: 1000px;
+  height: 40px !important;
+
+}
+
+#candidateCompetencyClickAble{
+  position: absolute;
+  left: 80px;
+  top: 225px;
+  width: 1000px;
+  height: 40px !important;
+
+
+
+}
+
+#lockedAttributes{
+
+  position: absolute;
+  left: 80px;
+  top: 365px;
+  width: 1000px;
+  height: 40px !important;
+}
+
+#specialA{
+  color: #B6F9C6;
+
+}
+#specialA:hover{
+  color: #62DFF4;
+  text-decoration: none;
+
+}
+
+#specialA:active:visited{
+  text-decoration: none;
+}
+#lockedAttributesMatchingButton{
+  position: absolute;
+  top: 495px;
+  left: 820px;
+}
+

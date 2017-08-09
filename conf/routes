@@ -3,120 +3,125 @@
 # ~~~~
 
 # Home page
-GET         /                                                         controllers.MainApp.index
+GET         /                                                                controllers.MainApp.index
 
-POST        /                                                         controllers.MainApp.submit
+POST        /                                                                controllers.MainApp.submit
 
 # logout
-GET         /logout                                                   controllers.MainApp.logout
+GET         /logout                                                          controllers.MainApp.logout
 
 # Helper
 
-GET         /helper                                                   controllers.MainApp.helper
+GET         /helper                                                          controllers.MainApp.helper
 
 
 # Map static resources from the /public folder to the /assets URL path
 
-GET         /assets/*file                                             controllers.Assets.at(path="/public", file)
+GET         /assets/*file                                                    controllers.Assets.at(path="/public", file)
 
 
 # SuperUser Main
 
-GET         /superUserMain                                            controllers.SuperUser.superUserMain
+GET         /superUserMain                                                   controllers.SuperUser.superUserMain
 
 
-GET         /superUserMain/addSkill                                   controllers.SuperUser.addSkill
+GET         /superUserMain/addSkill                                          controllers.SuperUser.addSkill
 
-POST        /superUserMain/addSkill                                   controllers.SuperUser.submitSkill
+POST        /superUserMain/addSkill                                          controllers.SuperUser.submitSkill
 
 
-GET         /superUserMain/addCompetency                              controllers.SuperUser.addCompetency
+GET         /superUserMain/addCompetency                                     controllers.SuperUser.addCompetency
 
-POST        /superUserMain/addCompetency                              controllers.SuperUser.submitCompetency
+POST        /superUserMain/addCompetency                                     controllers.SuperUser.submitCompetency
 
 
 # Recruiter Main
 
-GET         /recruiterMain                                            controllers.Recruiter.recruiterMain
+GET         /recruiterMain                                                   controllers.Recruiter.recruiterMain
 
-GET         /recruiterMain/createCandidateProfile                     controllers.Recruiter.createCandidateProfile
+GET         /recruiterMain/createCandidateProfile                            controllers.Recruiter.createCandidateProfile
 
-POST        /recruiterMain/createCandidateProfile                     controllers.Recruiter.candidateFormSubmit
+POST        /recruiterMain/createCandidateProfile                            controllers.Recruiter.candidateFormSubmit
 
-GET         /recruiterMain/viewCandidate                              controllers.Recruiter.viewCandidate
+GET         /recruiterMain/viewCandidate                                     controllers.Recruiter.viewCandidate
 
-GET         /recruiterMain/candidate                                  controllers.Recruiter.candidate
+GET         /recruiterMain/candidate                                         controllers.Recruiter.candidate
 
 
 # add Skill candidate
 
-GET         /recruiterMain/candidate/addSkill                         controllers.Recruiter.addSkillCandidate
+GET         /recruiterMain/candidate/addSkill                                controllers.Recruiter.addSkillCandidate
 
-POST        /recruiterMain/candidate/addSkill                         controllers.Recruiter.addSkillCandidatePost
+POST        /recruiterMain/candidate/addSkill                                controllers.Recruiter.addSkillCandidatePost
 
 # add Competency candidate
-GET         /recruiterMain/candidate/addCompetency                    controllers.Recruiter.addCompetencyCandidate
+GET         /recruiterMain/candidate/addCompetency                           controllers.Recruiter.addCompetencyCandidate
 
-POST        /recruiterMain/candidate/addCompetency                    controllers.Recruiter.addCompetencyCandidatePost
+POST        /recruiterMain/candidate/addCompetency                           controllers.Recruiter.addCompetencyCandidatePost
 
 
 # HR Manager Main
 
-GET         /hrManagerMain                                            controllers.HRManager.hrManagerMain
+GET         /hrManagerMain                                                   controllers.HRManager.hrManagerMain
 
-GET         /hrManagerMain/createJobDescription                       controllers.HRManager.createJobDescription
+GET         /hrManagerMain/createJobDescription                              controllers.HRManager.createJobDescription
 
-POST        /hrManagerMain/createJobDescription                       controllers.HRManager.jobDescriptionPost
-
-
-GET         /hrManagerMain/viewJobDescription                         controllers.HRManager.viewJobDescription
+POST        /hrManagerMain/createJobDescription                              controllers.HRManager.jobDescriptionPost
 
 
-GET         /hrManagerMain/jobDescription                             controllers.HRManager.jobDescription
+GET         /hrManagerMain/viewJobDescription                                controllers.HRManager.viewJobDescription
+
+
+GET         /hrManagerMain/jobDescription                                    controllers.HRManager.jobDescription
 
 
 # add Skill jobDescription
 
-GET         /hrManagerMain/jobDescription/addSkill                    controllers.HRManager.addSkillJobDescription
+GET         /hrManagerMain/jobDescription/addSkill                           controllers.HRManager.addSkillJobDescription
 
-POST        /hrManagerMain/jobDescription/addSkill                    controllers.HRManager.addSkillJobDescriptionPost
+POST        /hrManagerMain/jobDescription/addSkill                           controllers.HRManager.addSkillJobDescriptionPost
 
 # add Competency jobDescription
 
-GET         /hrManagerMain/jobDescription/addCompetency               controllers.HRManager.addCompetencyJobDescription
+GET         /hrManagerMain/jobDescription/addCompetency                      controllers.HRManager.addCompetencyJobDescription
 
-POST        /hrManagerMain/jobDescription/addCompetency               controllers.HRManager.addCompetencyJobDescriptionPost
+POST        /hrManagerMain/jobDescription/addCompetency                      controllers.HRManager.addCompetencyJobDescriptionPost
 
 # matching main
 
-GET         /hrManagerMain/jobDescription/matchingMain                controllers.HRManager.matchingMain
+GET         /hrManagerMain/jobDescription/matchingMain                       controllers.HRManager.matchingMain
 
-POST        /hrManagerMain/jobDescription/matchingMain                controllers.HRManager.matchingMainPost
+POST        /hrManagerMain/jobDescription/matchingMain                       controllers.HRManager.matchingMainPost
 
-GET         /hrManagerMain/jobDescription/viewMatchedCandidate        controllers.HRManager.viewMatchedCandidates
+GET         /hrManagerMain/jobDescription/viewMatchedCandidate               controllers.HRManager.viewMatchedCandidates
 
+
+# matching locked
+
+GET         /hrManagerMain/jobDescription/matchingMain/lockAttributes        controllers.HRManager.lockAttributes
+POST        /hrManagerMain/jobDescription/matchingMain/lockAttributes        controllers.HRManager.lockAttributesPost
 
 
 # recruiter messaging system
 
 # recruiterInbox recruiter
 
-GET         /recruiterMain/inbox                                      controllers.Recruiter.inbox
+GET         /recruiterMain/inbox                                             controllers.Recruiter.inbox
 
 # recuiterSentInbox
 
-GET         /recruiterMain/sentInbox                                  controllers.Recruiter.sentInbox
+GET         /recruiterMain/sentInbox                                         controllers.Recruiter.sentInbox
 
 # recruiterReadMessage
 
-GET         /recruiterMain/readMessage                                controllers.Recruiter.readMessage
+GET         /recruiterMain/readMessage                                       controllers.Recruiter.readMessage
 
 
 # send message recruiter
 
-GET         /recruiterMain/sendMessage                                controllers.Recruiter.sendMessage
+GET         /recruiterMain/sendMessage                                       controllers.Recruiter.sendMessage
 
-POST        /recruiterMain/sendMessage                                controllers.Recruiter.sendMessagePost
+POST        /recruiterMain/sendMessage                                       controllers.Recruiter.sendMessagePost
 
 
 
@@ -127,21 +132,21 @@ POST        /recruiterMain/sendMessage                                controller
 
 # hrManagerInbox
 
-GET         /hrManagerMain/inbox                                      controllers.HRManager.inbox
+GET         /hrManagerMain/inbox                                             controllers.HRManager.inbox
 
 
 # hrManagerSentInbox
 
-GET         /hrManagerMain/sentInbox                                  controllers.HRManager.sentInbox
+GET         /hrManagerMain/sentInbox                                         controllers.HRManager.sentInbox
 
 # hrManagerReadMessage
 
-GET         /hrManagerMain/readMessage                                controllers.HRManager.readMessage
+GET         /hrManagerMain/readMessage                                       controllers.HRManager.readMessage
 
 
 
 # send message hrManger
 
-GET         /hrManagerMain/sendMessage                                controllers.HRManager.sendMessage
+GET         /hrManagerMain/sendMessage                                       controllers.HRManager.sendMessage
 
-POST        /hrManagerMain/sendMessage                                controllers.HRManager.sendMessagePost
+POST        /hrManagerMain/sendMessage                                       controllers.HRManager.sendMessagePost
