@@ -41,6 +41,12 @@
 
 }
 
-#matchingButton1, #matchingButton2, #matchingButton3{
+#matchingButton1, #matchingButton2, #matchingButton3, #matchingButton4 {
   width: 220px;
+}
+
+#matchingButton4 {
+  position: absolute;
+  left: 100px;
+  top: -10px;
 }

@@ -2,6 +2,7 @@ package controllers
 
 import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
 import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
+import persistenceAPI.DataBaseConnection.connectUser.DBConnectUser
 import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import play.api.data.Forms._
@@ -127,6 +128,44 @@ object SuperUser extends Controller {
       db.addCompetency(name)
 
       Redirect("/superUserMain/addCompetency")
+
+  }
+
+  /**
+    * Action for rendering addUser
+    *
+    * @return
+    */
+  def addUser = Action {
+    Ok(views.html.superUser.addUser())
+  }
+
+  val addUserForm = Form(
+    tuple(
+      "userName" -> text,
+      "password" -> text,
+      "privilege" -> text
+    )
+  )
+
+  /**
+    * Form request for addUser
+    *
+    * @return
+    */
+  def addUserPost = Action {
+
+    implicit request =>
+
+      val (userName, password, privilege) = addUserForm.bindFromRequest().get
+
+      val db = DBConnectUser
+
+      val privilegeString = PrivilegeStringFactory.getPrivilege(privilege.toInt)
+
+      db.insertNewUser(userName, password, privilegeString)
+
+      Redirect("/superUserMain")
 
   }
 

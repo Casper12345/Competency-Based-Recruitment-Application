@@ -10,7 +10,7 @@ import java.sql.{Connection, DriverManager, SQLException}
 object DBMain {
 
   private val driver = "com.mysql.cj.jdbc.Driver"
-  private val url = "jdbc:mysql://localhost:3306/CandidateDataBase?autoReconnect=true&useSSL=false"
+  private val url = "jdbc:mysql://localhost:3306/CandidateDataBase?autoReconnect=true&useSSL=false&serverTimezone=CET"
   private val username = "masterUser"
   private val password = "password"
   var connection: Connection = _

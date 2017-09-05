@@ -20,7 +20,6 @@ class DBConnectUser$Test extends FunSuite {
 
     assert(db.checkUser("Casper", "123"))
 
-
   }
 
   test("containsUser") {
