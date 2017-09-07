@@ -5,13 +5,12 @@ import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
 import model.matchingLogic.MatchingMethodsFacade
 import model.matchingLogic.candidatesSorting.CandidatesSortedByLockedAttributes
 import model.matchingLogic.candidatesSortingFactory.CandidateSortingFactory
-import persistenceAPI.DataBaseConnection.connectCandidate.DBCandidate
-import persistenceAPI.DataBaseConnection.connectChatMessage.DBChatMessage
-import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
-import persistenceAPI.DataBaseConnection.connectJobProfile.{DBJobProfile, DBJobProfileCompetency, DBJobProfileSkill}
-import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
-import persistenceAPI.DataBaseConnection.connectUser.{DBConnectUser, DBUserRecievedMessage, DBUserSentMessage}
-import persistenceAPI.DataBaseConnection.objects.{Candidate, JobDescription}
+import model.persistenceAPIInterface.attributesPersistence.{CompetencyPersistenceFacade, SkillPersistenceFacade}
+import model.persistenceAPIInterface.candidateProfilePersistence.CandidatePersistenceFacade
+import model.persistenceAPIInterface.jobDescriptionPersistence.{JobDescriptionCompetencyPersistenceFacade, JobDescriptionPersistenceFacade, JobDescriptionSkillPersistenceFacade}
+import model.persistenceAPIInterface.messagingPersistence.{ChatMessagePersistenceFacade, UserReceivedMessagePersistenceFacade, UserSentMessagePersistenceFacade}
+import model.persistenceAPIInterface.userPersistence.UserPersistenceFacade
+import persistenceAPI.DataBaseConnection.objects.JobDescription
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{Action, Controller}
@@ -87,9 +86,9 @@ object HRManager extends Controller {
       val (jobTitle, educationName, educationLevel,
       experienceLevel) = jobDescriptionForm.bindFromRequest().get
 
-      val db = DBJobProfile
+      val jobDescriptionPersistence = JobDescriptionPersistenceFacade
 
-      db.addJobProfile(jobTitle, educationName, educationLevel, experienceLevel)
+      jobDescriptionPersistence.addJobProfile(jobTitle, educationName, educationLevel, experienceLevel)
 
       Redirect("/hrManagerMain")
 
@@ -110,9 +109,9 @@ object HRManager extends Controller {
           Redirect("/")
         case Some("HRManager") | Some("SuperUser") =>
 
-          val db = DBJobProfile
+          val jobDescriptionPersistence = JobDescriptionPersistenceFacade
 
-          val jobDescriptions: List[JobDescription] = db.getAllJobDescriptions()
+          val jobDescriptions: List[JobDescription] = jobDescriptionPersistence.getAllJobDescriptions()
 
           Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
         case _ =>
@@ -140,9 +139,9 @@ object HRManager extends Controller {
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
 
-            val db = DBJobProfile
+            val jobDescriptionPersistence = JobDescriptionPersistenceFacade
 
-            Ok(views.html.hrManager.jobDescription(db.getJobProfileByID(id.get.toInt).get))
+            Ok(views.html.hrManager.jobDescription(jobDescriptionPersistence.getJobProfileByID(id.get.toInt).get))
           case _ =>
             Redirect("/")
         }
@@ -172,9 +171,9 @@ object HRManager extends Controller {
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
 
-            val db = DBSkill
+            val skillPersistence = SkillPersistenceFacade
 
-            Ok(views.html.hrManager.addSkillHRManager(db.getAllSkills())(jobDescriptionID.get.toInt))
+            Ok(views.html.hrManager.addSkillHRManager(skillPersistence.getAllSkills())(jobDescriptionID.get.toInt))
           case _ =>
             Redirect("/")
         }
@@ -205,11 +204,10 @@ object HRManager extends Controller {
 
       val (skillID, rating, jobDescriptionID) = skillAddForm.bindFromRequest().get
 
-      val db = DBJobProfileSkill
+      val jobDescriptionSkillFacade = JobDescriptionSkillPersistenceFacade
 
-      println(skillID + " " + rating + " " + jobDescriptionID)
-
-      db.addJobProfileSkill(skillID.toInt, rating.toInt, jobDescriptionID.toInt)
+      jobDescriptionSkillFacade
+        .addJobProfileSkill(skillID.toInt, rating.toInt, jobDescriptionID.toInt)
 
       Redirect(s"/hrManagerMain/jobDescription?id=$jobDescriptionID")
 
@@ -234,10 +232,10 @@ object HRManager extends Controller {
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
 
-            val db = DBCompetency
+            val competencyPersistence = CompetencyPersistenceFacade
 
             Ok(views.html.hrManager.addCompetencyHRManager
-            (db.getAllCompetencies())(jobDescriptionID.get.toInt))
+            (competencyPersistence.getAllCompetencies())(jobDescriptionID.get.toInt))
           case _ =>
             Redirect("/")
         }
@@ -268,9 +266,10 @@ object HRManager extends Controller {
 
       val (competencyID, rating, jobDescriptionID) = competencyAddForm.bindFromRequest().get
 
-      val db = DBJobProfileCompetency
+      val jobDescriptionCompetencyFacade = JobDescriptionCompetencyPersistenceFacade
 
-      db.addJobProfileCompetency(competencyID.toInt, rating.toInt, jobDescriptionID.toInt)
+      jobDescriptionCompetencyFacade.
+        addJobProfileCompetency(competencyID.toInt, rating.toInt, jobDescriptionID.toInt)
 
       Redirect(s"/hrManagerMain/jobDescription?id=$jobDescriptionID")
 
@@ -407,8 +406,8 @@ object HRManager extends Controller {
       val competencyID: Option[String] = request.getQueryString("competencyID")
       val rating: Option[String] = request.getQueryString("rating")
 
+      val jobDescriptionPersistence = JobDescriptionPersistenceFacade
 
-      val db = DBJobProfile
 
       if (skillID.isDefined) {
         listOfAttributes = listOfAttributes :+
@@ -421,7 +420,7 @@ object HRManager extends Controller {
           AttributeFactory.createAttribute("competency")(competencyID.get.toInt, rating.get.toInt)
       }
 
-      Ok(views.html.hrManager.lockAttributes(db.getJobProfileByID(jobDescriptionID.get.toInt).get)(listOfAttributes))
+      Ok(views.html.hrManager.lockAttributes(jobDescriptionPersistence.getJobProfileByID(jobDescriptionID.get.toInt).get)(listOfAttributes))
   }
 
 
@@ -465,10 +464,10 @@ object HRManager extends Controller {
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
 
-            val db = DBCandidate
+            val candidatePersistence = CandidatePersistenceFacade
 
             Ok(views.html.hrManager
-              .viewMatchedCandidate(db.getCandidateByID(id.get.toInt).get)
+              .viewMatchedCandidate(candidatePersistence.getCandidateByID(id.get.toInt).get)
               (d1.get.toDouble)(d2.get.toDouble)(d3.get.toDouble)(jobDescriptionID.get.toInt)(called.get))
           case _ =>
             Redirect("/")
@@ -493,11 +492,13 @@ object HRManager extends Controller {
         case None =>
           Redirect("/")
         case Some("HRManager") | Some("SuperUser") =>
-          val dbUserReceivedMessage = DBUserRecievedMessage
+
+          val userReceivedMessagePersistence = UserReceivedMessagePersistenceFacade
+
           Ok(views.html.hrManager.
-            hrManagerInbox(dbUserReceivedMessage.
+            hrManagerInbox(userReceivedMessagePersistence.
               getAllUserReceivedMessageByID(userID.get.toInt))
-            (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+            (userReceivedMessagePersistence.countUnreadMessagesByUserID(userID.get.toInt)))
         case _ =>
           Redirect("/")
       }
@@ -519,13 +520,14 @@ object HRManager extends Controller {
           Redirect("/")
         case Some("HRManager") | Some("SuperUser") =>
 
-          val dbUserSentMessage = DBUserSentMessage
-          val dbUserReceivedMessage = DBUserRecievedMessage
+          val userSentMessagePersistence = UserSentMessagePersistenceFacade
+
+          val userReceivedMessagePersistence = UserReceivedMessagePersistenceFacade
 
           Ok(views.html.hrManager.
-            hrManagerSentInbox(dbUserSentMessage
+            hrManagerSentInbox(userSentMessagePersistence
               .getAllUserSentMessageByID(userID.get.toInt))
-            (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+            (userReceivedMessagePersistence.countUnreadMessagesByUserID(userID.get.toInt)))
         case _ =>
           Redirect("/")
       }
@@ -546,15 +548,17 @@ object HRManager extends Controller {
             Redirect("/")
           case Some("HRManager") | Some("SuperUser") =>
 
-            val db = DBChatMessage
-            db.setReadToTrueByID(chatMessageID.get.toInt)
+            val chatMessagePersistence = ChatMessagePersistenceFacade
 
-            val dbUserReceivedMessage = DBUserRecievedMessage
+            chatMessagePersistence.setReadToTrueByID(chatMessageID.get.toInt)
+
+            val userReceivedMessagePersistence = UserReceivedMessagePersistenceFacade
+
 
             Ok(views.html.hrManager.
               hrManagerReadMessage
-              (db.getChatMessageByID(chatMessageID.get.toInt).get)
-              (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+              (chatMessagePersistence.getChatMessageByID(chatMessageID.get.toInt).get)
+              (userReceivedMessagePersistence.countUnreadMessagesByUserID(userID.get.toInt)))
 
           case _ =>
             Redirect("/")
@@ -580,9 +584,9 @@ object HRManager extends Controller {
           Redirect("/")
         case Some("HRManager") | Some("SuperUser") =>
 
-          val db = DBConnectUser
+          val userPersistence = UserPersistenceFacade
 
-          Ok(views.html.hrManager.hrManagerSendMessage(db.getAllRecruiterUsers()))
+          Ok(views.html.hrManager.hrManagerSendMessage(userPersistence.getAllRecruiterUsers()))
 
 
         case _ =>
@@ -614,13 +618,9 @@ object HRManager extends Controller {
 
       val (subject, messageBody, receiverID) = sendMessageForm.bindFromRequest().get
 
-      print(subject + messageBody + receiverID)
+      val chatMessagePersistence = ChatMessagePersistenceFacade
 
-      val db = DBChatMessage
-
-      db.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
-
-      val dbUserReceivedMessage = DBUserRecievedMessage
+      chatMessagePersistence.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
 
       Redirect("inbox")
   }

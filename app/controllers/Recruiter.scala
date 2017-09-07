@@ -1,10 +1,9 @@
 package controllers
 
-import persistenceAPI.DataBaseConnection.connectCandidate.{DBCandidate, DBCandidateCompetency, DBCandidateSkill}
-import persistenceAPI.DataBaseConnection.connectChatMessage.DBChatMessage
-import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
-import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
-import persistenceAPI.DataBaseConnection.connectUser.{DBConnectUser, DBUserRecievedMessage, DBUserSentMessage}
+import model.persistenceAPIInterface.attributesPersistence.{CompetencyPersistenceFacade, SkillPersistenceFacade}
+import model.persistenceAPIInterface.candidateProfilePersistence.{CandidateCompetencyPersistenceFacade, CandidatePersistenceFacade, CandidateSkillPersistenceFacade}
+import model.persistenceAPIInterface.messagingPersistence.{ChatMessagePersistenceFacade, UserReceivedMessagePersistenceFacade, UserSentMessagePersistenceFacade}
+import model.persistenceAPIInterface.userPersistence.UserPersistenceFacade
 import play.api.data.Form
 import play.api.data.Forms.tuple
 import play.api.mvc.{Action, Controller}
@@ -82,9 +81,10 @@ object Recruiter extends Controller {
       val (name, surname, educationName, currentJobTitle,
       educationLevel, experienceLevel) = candidateForm.bindFromRequest().get
 
-      val db = DBCandidate
+      val candidatePersistence = CandidatePersistenceFacade
 
-      db.addCandidate(name, surname, educationName, currentJobTitle, educationLevel, experienceLevel)
+      candidatePersistence.addCandidate(name, surname, educationName,
+        currentJobTitle, educationLevel, experienceLevel)
 
       Redirect("/recruiterMain")
 
@@ -104,9 +104,9 @@ object Recruiter extends Controller {
           Redirect("/")
         case Some("Recruiter") | Some("SuperUser") =>
 
-          val db = DBCandidate
+          val canidatePersistence = CandidatePersistenceFacade
 
-          Ok(views.html.recruiter.viewCandiate(db.getAllCandidates()))
+          Ok(views.html.recruiter.viewCandiate(canidatePersistence.getAllCandidates()))
         case _ =>
           Redirect("/")
       }
@@ -129,9 +129,9 @@ object Recruiter extends Controller {
             Redirect("/")
           case Some("Recruiter") | Some("SuperUser") =>
 
-            val db = DBCandidate
+            val candidatePersistence = CandidatePersistenceFacade
 
-            Ok(views.html.recruiter.candidate(db.getCandidateByID(id.get.toInt).get))
+            Ok(views.html.recruiter.candidate(candidatePersistence.getCandidateByID(id.get.toInt).get))
           case _ =>
             Redirect("/")
         }
@@ -160,9 +160,9 @@ object Recruiter extends Controller {
             Redirect("/")
           case Some("Recruiter") | Some("SuperUser") =>
 
-            val db = DBSkill
+            val skillPersistence = SkillPersistenceFacade
 
-            Ok(views.html.recruiter.addSkillRecruiter(db.getAllSkills())(candidateID.get.toInt))
+            Ok(views.html.recruiter.addSkillRecruiter(skillPersistence.getAllSkills())(candidateID.get.toInt))
           case _ =>
             Redirect("/")
         }
@@ -192,11 +192,11 @@ object Recruiter extends Controller {
 
       val (skillID, rating, candidateID) = skillAddForm.bindFromRequest().get
 
-      val db = DBCandidateSkill
+      val candidateSkillPersistence = CandidateSkillPersistenceFacade
 
       println(skillID + " " + rating + " " + candidateID)
 
-      db.addCandidateSkill(skillID.toInt, rating.toInt, candidateID.toInt)
+      candidateSkillPersistence.addCandidateSkill(skillID.toInt, rating.toInt, candidateID.toInt)
 
       Redirect(s"/recruiterMain/candidate?id=$candidateID")
 
@@ -220,9 +220,9 @@ object Recruiter extends Controller {
             Redirect("/")
           case Some("Recruiter") | Some("SuperUser") =>
 
-            val db = DBCompetency
+            val competencyPersistence = CompetencyPersistenceFacade
 
-            Ok(views.html.recruiter.addCompetencyRecruiter(db.getAllCompetencies())(candidateID.get.toInt))
+            Ok(views.html.recruiter.addCompetencyRecruiter(competencyPersistence.getAllCompetencies())(candidateID.get.toInt))
           case _ =>
             Redirect("/")
         }
@@ -254,9 +254,10 @@ object Recruiter extends Controller {
 
       val (competencyID, rating, candidateID) = competencyAddForm.bindFromRequest().get
 
-      val db = DBCandidateCompetency
+      val candidateCompetencyPersistence = CandidateCompetencyPersistenceFacade
 
-      db.addCandidateCompetency(competencyID.toInt, rating.toInt, candidateID.toInt)
+      candidateCompetencyPersistence.
+        addCandidateCompetency(competencyID.toInt, rating.toInt, candidateID.toInt)
 
       Redirect(s"/recruiterMain/candidate?id=$candidateID")
   }
@@ -277,12 +278,13 @@ object Recruiter extends Controller {
           Redirect("/")
         case Some("Recruiter") | Some("SuperUser") =>
 
-          val dbUserReceivedMessage = DBUserRecievedMessage
+
+          val userRecievedMessagePersistence = UserReceivedMessagePersistenceFacade
 
           Ok(views.html.recruiter.recruiterInbox(
-            dbUserReceivedMessage.
+            userRecievedMessagePersistence.
               getAllUserReceivedMessageByID(userID.get.toInt))
-          (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+          (userRecievedMessagePersistence.countUnreadMessagesByUserID(userID.get.toInt)))
 
 
         case _ =>
@@ -306,13 +308,14 @@ object Recruiter extends Controller {
           Redirect("/")
         case Some("Recruiter") | Some("SuperUser") =>
 
-          val dbUserSentMessage = DBUserSentMessage
-          val dbUserReceivedMessage = DBUserRecievedMessage
+          val userSentMessagePersistence = UserSentMessagePersistenceFacade
+
+          val userReceivedMessagePersistence = UserReceivedMessagePersistenceFacade
 
           Ok(views.html.recruiter.
-            recruiterSentInbox(dbUserSentMessage.
+            recruiterSentInbox(userSentMessagePersistence.
               getAllUserSentMessageByID(userID.get.toInt))
-            (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+            (userReceivedMessagePersistence.countUnreadMessagesByUserID(userID.get.toInt)))
 
         case _ =>
           Redirect("/")
@@ -339,15 +342,15 @@ object Recruiter extends Controller {
             Redirect("/")
           case Some("Recruiter") | Some("SuperUser") =>
 
-            val db = DBChatMessage
+            val chatMessagePersistence = ChatMessagePersistenceFacade
 
-            val dbUserReceivedMessage = DBUserRecievedMessage
+            val userReceivedMessagePersistence = UserReceivedMessagePersistenceFacade
 
-            db.setReadToTrueByID(chatMessageID.get.toInt)
+            chatMessagePersistence.setReadToTrueByID(chatMessageID.get.toInt)
 
             Ok(views.html.recruiter.
-              recruiterReadMessage(db.getChatMessageByID(chatMessageID.get.toInt).get)
-              (dbUserReceivedMessage.countUnreadMessagesByUserID(userID.get.toInt)))
+              recruiterReadMessage(chatMessagePersistence.getChatMessageByID(chatMessageID.get.toInt).get)
+              (userReceivedMessagePersistence.countUnreadMessagesByUserID(userID.get.toInt)))
 
           case _ =>
             Redirect("/")
@@ -373,9 +376,9 @@ object Recruiter extends Controller {
           Redirect("/")
         case Some("Recruiter") | Some("SuperUser") =>
 
-          val db = DBConnectUser
+          val userPersistence = UserPersistenceFacade
 
-          Ok(views.html.recruiter.recruiterSendMessage(db.getAllHRManagerUsers()))
+          Ok(views.html.recruiter.recruiterSendMessage(userPersistence.getAllHRManagerUsers()))
 
         case _ =>
           Redirect("/")
@@ -407,13 +410,10 @@ object Recruiter extends Controller {
 
       val (subject, messageBody, receiverID) = sendMessageForm.bindFromRequest().get
 
-      print(subject + messageBody + receiverID)
+      val chatMessagePersistence = ChatMessagePersistenceFacade
 
-      val db = DBChatMessage
-
-      val dbUserReceivedMessage = DBUserRecievedMessage
-
-      db.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
+      chatMessagePersistence.createSentNewChatMessage(senderUserID.toInt,
+        receiverID.toInt, subject, messageBody)
 
       Redirect("inbox")
   }

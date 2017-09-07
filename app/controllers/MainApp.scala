@@ -1,7 +1,7 @@
 package controllers
 
-import persistenceAPI.DataBaseConnection.connectJobProfile.DBJobProfile
-import persistenceAPI.DataBaseConnection.connectUser.DBConnectUser
+import model.persistenceAPIInterface.jobDescriptionPersistence.JobDescriptionPersistenceFacade
+import model.persistenceAPIInterface.userPersistence.UserPersistenceFacade
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
@@ -42,12 +42,12 @@ object MainApp extends Controller {
 
       val (username, password) = form.bindFromRequest().get
 
-      val db = DBConnectUser
+      val userPersistence = UserPersistenceFacade
 
-      if (db.checkUser(username, password)) {
+      if (userPersistence.checkUser(username, password)) {
 
-        val privilege = db.getPrivilegeByName(username)
-        val userID = db.getIDByUserName(username)
+        val privilege = userPersistence.getPrivilegeByName(username)
+        val userID = userPersistence.getIDByUserName(username)
 
         privilege match {
           case "Recruiter" =>
@@ -93,10 +93,10 @@ object MainApp extends Controller {
 
   def helper = Action {
 
-    val db = DBJobProfile
+    val jobDescriptionPersistence = JobDescriptionPersistenceFacade
 
 
-    Ok(views.html.Helper(db.getJobProfileByID(1).get))
+    Ok(views.html.Helper(jobDescriptionPersistence.getJobProfileByID(1).get))
 
   }
 

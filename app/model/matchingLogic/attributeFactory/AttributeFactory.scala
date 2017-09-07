@@ -1,22 +1,21 @@
 package model.matchingLogic.attributeFactory
 
-import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
-import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
+import model.persistenceAPIInterface.attributesPersistence.{CompetencyPersistenceFacade, SkillPersistenceFacade}
+
 
 /**
   * Created by Casper on 09/08/2017.
   */
 object AttributeFactory {
 
-  val dbSkill = DBSkill
+  val skillPersistence = SkillPersistenceFacade
 
-  val dBCompetency = DBCompetency
+  val competencyPersistence = CompetencyPersistenceFacade
 
-  def getNameOfSkill(skillID: Int): String = dbSkill.getSkillByID(skillID).get.name
+  def getNameOfSkill(skillID: Int): String = skillPersistence.getSkillByID(skillID).get.name
 
   def getNameOfCompetency(competencyID: Int): String =
-    dBCompetency.getCompetencyByID(competencyID).get.name
-
+    competencyPersistence.getCompetencyByID(competencyID).get.name
 
   def createAttribute(typeOfAttribute: String)(ID: Int, rating: Int): Attribute =
     typeOfAttribute match {

@@ -1,5 +1,6 @@
 package model.matchingLogic.candidatesSorting
 
+import model.persistenceAPIInterface.matchingPersistence.MatchingQueriesPersistenceFacade
 import persistenceAPI.DataBaseConnection.objects.Candidate
 import persistenceAPI.DataBaseConnection.sqlQueries.DBQueries
 
@@ -10,9 +11,9 @@ case class CandidatesSortedByOneSkill() extends CandidatesSortingTrait {
 
   override def returnCandidatesByJobDescriptionID(jobDescriptionID: Int): List[Candidate] = {
 
-    val db = DBQueries
+    val matchingQueriesFacade = MatchingQueriesPersistenceFacade
 
-    db.getMatchingCandidatesOneSkillByJobID(jobDescriptionID).map(a => a._1)
+    matchingQueriesFacade.getMatchingCandidatesOneSkillByJobID(jobDescriptionID).map(a => a._1)
 
   }
 

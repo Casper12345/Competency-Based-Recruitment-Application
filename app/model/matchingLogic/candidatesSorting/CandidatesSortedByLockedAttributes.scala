@@ -1,5 +1,6 @@
 package model.matchingLogic.candidatesSorting
 
+import model.persistenceAPIInterface.matchingPersistence.MatchingQueriesPersistenceFacade
 import persistenceAPI.DataBaseConnection.objects.{Candidate, JobDescriptionCompetency, JobDescriptionSkill}
 import persistenceAPI.DataBaseConnection.sqlQueries.DBQueries
 
@@ -22,9 +23,9 @@ case class CandidatesSortedByLockedAttributes() extends CandidatesSortingTrait {
 
   override def returnCandidatesByJobDescriptionID(jobDescriptionID: Int): List[Candidate] = {
 
-    val db = DBQueries
+    val matchingQueriesFacade = MatchingQueriesPersistenceFacade
 
-    val oneSkillMatch = db.getMatchingCandidatesOneSkillByJobID(jobDescriptionID).map(a => a._1)
+    val oneSkillMatch = matchingQueriesFacade.getMatchingCandidatesOneSkillByJobID(jobDescriptionID).map(a => a._1)
 
     println(oneSkillMatch)
     var listToReturn: List[Candidate] = Nil
@@ -35,11 +36,11 @@ case class CandidatesSortedByLockedAttributes() extends CandidatesSortingTrait {
       var includeCandidateSkill = false
       var includeCandidateCompetency = false
 
-      if(lockedJobDescriptionSkills.isEmpty && lockedJobDescriptionCompetencies.nonEmpty){
+      if (lockedJobDescriptionSkills.isEmpty && lockedJobDescriptionCompetencies.nonEmpty) {
         includeCandidateSkill = true
       }
 
-      if(lockedJobDescriptionCompetencies.isEmpty && lockedJobDescriptionSkills.nonEmpty){
+      if (lockedJobDescriptionCompetencies.isEmpty && lockedJobDescriptionSkills.nonEmpty) {
         includeCandidateCompetency = true
       }
 

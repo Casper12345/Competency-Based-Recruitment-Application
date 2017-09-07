@@ -1,5 +1,6 @@
 package model.matchingLogic
 
+import model.persistenceAPIInterface.matchingPersistence.MatchingQueriesPersistenceFacade
 import persistenceAPI.DataBaseConnection.connectJobProfile.DBJobProfile
 import persistenceAPI.DataBaseConnection.objects._
 import persistenceAPI.DataBaseConnection.sqlQueries.DBQueries
@@ -26,9 +27,9 @@ class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade, c
     */
   def matchingOnOneSkill(jobDescriptionID: Int): List[Candidate] = {
 
-    val db = DBQueries
+    val matchingQueriesFacade = MatchingQueriesPersistenceFacade
 
-    db.getMatchingCandidatesOneSkillByJobID(jobDescriptionID).map(a => a._1)
+    matchingQueriesFacade.getMatchingCandidatesOneSkillByJobID(jobDescriptionID).map(a => a._1)
 
   }
 

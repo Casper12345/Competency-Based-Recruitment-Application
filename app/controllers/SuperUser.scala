@@ -1,8 +1,7 @@
 package controllers
 
-import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
-import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
-import persistenceAPI.DataBaseConnection.connectUser.DBConnectUser
+import model.persistenceAPIInterface.attributesPersistence.{CompetencyPersistenceFacade, SkillPersistenceFacade}
+import model.persistenceAPIInterface.userPersistence.UserPersistenceFacade
 import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import play.api.data.Forms._
@@ -43,13 +42,13 @@ object SuperUser extends Controller {
     implicit request =>
       val priv = request.session.get("privilege")
 
-      val db = DBSkill
+      val skillPersistence = SkillPersistenceFacade
 
       priv match {
         case None =>
           Redirect("/")
         case Some("SuperUser") =>
-          Ok(views.html.superUser.addSkill(db.getAllSkills()))
+          Ok(views.html.superUser.addSkill(skillPersistence.getAllSkills()))
         case _ =>
           Redirect("/")
       }
@@ -74,9 +73,9 @@ object SuperUser extends Controller {
 
       val name = skillForm.bindFromRequest().get
 
-      val db = DBSkill
+      val skillPersistence = SkillPersistenceFacade
 
-      db.addSkill(name)
+      skillPersistence.addSkill(name)
 
       Redirect("/superUserMain/addSkill")
 
@@ -99,13 +98,14 @@ object SuperUser extends Controller {
     implicit request =>
       val priv = request.session.get("privilege")
 
-      val db = DBCompetency
+      val competencyPersistence = CompetencyPersistenceFacade
+
 
       priv match {
         case None =>
           Redirect("/")
         case Some("SuperUser") =>
-          Ok(views.html.superUser.addCompetency(db.getAllCompetencies()))
+          Ok(views.html.superUser.addCompetency(competencyPersistence.getAllCompetencies()))
         case _ =>
           Redirect("/")
       }
@@ -123,9 +123,9 @@ object SuperUser extends Controller {
 
       val name = competencyForm.bindFromRequest().get
 
-      val db = DBCompetency
+      val competencyPersistence = CompetencyPersistenceFacade
 
-      db.addCompetency(name)
+      competencyPersistence.addCompetency(name)
 
       Redirect("/superUserMain/addCompetency")
 
@@ -159,11 +159,11 @@ object SuperUser extends Controller {
 
       val (userName, password, privilege) = addUserForm.bindFromRequest().get
 
-      val db = DBConnectUser
+      val persistenceFacade = UserPersistenceFacade
 
       val privilegeString = PrivilegeStringFactory.getPrivilege(privilege.toInt)
 
-      db.insertNewUser(userName, password, privilegeString)
+      persistenceFacade.insertNewUser(userName, password, privilegeString)
 
       Redirect("/superUserMain")
 
