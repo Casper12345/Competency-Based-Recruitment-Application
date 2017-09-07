@@ -1,6 +1,6 @@
 package controllers
 
-import model.attributeFactory.{Attribute, AttributeFactory, AttributesSorting}
+import model.matchingLogic.attributeFactory.{Attribute, AttributeFactory, AttributesSorting}
 import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
 import model.matchingLogic.MatchingMethodsFacade
 import model.matchingLogic.candidatesSorting.CandidatesSortedByLockedAttributes

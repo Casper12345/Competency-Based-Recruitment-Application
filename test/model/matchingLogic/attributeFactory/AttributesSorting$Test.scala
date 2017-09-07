@@ -1,4 +1,4 @@
-package model.attributeFactory
+package model.matchingLogic.attributeFactory
 
 import org.scalatest.FunSuite
 

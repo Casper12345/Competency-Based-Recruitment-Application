@@ -5,7 +5,7 @@ import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.objects.{Candidate, CandidateCompetency, CandidateSkill, Skill}
 
 /**
-  * DataBase methods for Candidate ltable and handling request to Candidate table.
+  * DataBase methods for Candidate table and handling request to Candidate table.
   */
 object DBCandidate {
 

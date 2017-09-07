@@ -1,4 +1,4 @@
-package model.attributeFactory
+package model.matchingLogic.attributeFactory
 
 /**
   * Created by Casper on 09/08/2017.

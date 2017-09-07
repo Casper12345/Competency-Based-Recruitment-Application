@@ -190,8 +190,6 @@ object DBConnectUser extends DBConnectUserTrait {
 
     db.connect()
 
-    //| UserID | UserName | PassWord | UserPrivilege |
-
     val selectSQL =
       """SELECT Users.UserID, Users.UserName
         |FROM Users

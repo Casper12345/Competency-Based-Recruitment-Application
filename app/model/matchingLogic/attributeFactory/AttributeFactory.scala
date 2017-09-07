@@ -1,4 +1,4 @@
-package model.attributeFactory
+package model.matchingLogic.attributeFactory
 
 import persistenceAPI.DataBaseConnection.connectCompetency.DBCompetency
 import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
