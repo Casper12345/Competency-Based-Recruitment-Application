@@ -27,13 +27,12 @@ class DBChatMessage$Test extends FunSuite {
 
     val db = DBChatMessage
 
-    println(db.getChatMessageByID(1))
-    println(db.getChatMessageByID(1).get.timeSent.toString)
-
     val df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").
       format(db.getChatMessageByID(1).get.timeSent)
 
-    println(df)
+    assert(df.toString == "2017-08-07 16:30:36")
+
+
 
   }
 
@@ -43,13 +42,17 @@ class DBChatMessage$Test extends FunSuite {
 
     db.createSentNewChatMessage(1, 3, "Subject", "Body")
 
+    assert(db.getChatMessageByID(15).get.messageBody == "Body")
+
   }
 
   test("setReadToTrueByID") {
 
     val db = DBChatMessage
 
-    db.setReadToTrueByID(8)
+    db.setReadToTrueByID(15)
+
+    assert(db.getChatMessageByID(15).get.messageRead)
 
   }
 

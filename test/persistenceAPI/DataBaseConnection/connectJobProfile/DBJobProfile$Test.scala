@@ -15,24 +15,21 @@ class DBJobProfile$Test extends FunSuite {
 
     db.addJobProfile("Programmer", "Biology", "1", "1")
 
+    val jobProfile = db.getJobProfileByID(1).get
+
+    assert(jobProfile.jobTitle == "Programmer")
+
   }
 
 
   test("getJobProfileByID") {
 
-
     val jobProfile = db.getJobProfileByID(1).get
-
 
     assert(jobProfile.jobTitle == "Programmer")
 
     assert(jobProfile.educationName == "Biology")
 
-    println(jobProfile.educationLevel)
-    println(jobProfile.experienceLevel)
-
-    jobProfile.competencies.foreach(a => println(a.name))
-    jobProfile.skills.foreach(a => println(a.name))
 
   }
 
@@ -40,9 +37,7 @@ class DBJobProfile$Test extends FunSuite {
 
     val jobProfile = db.getAllJobDescriptions()
 
-    jobProfile.foreach(a => println(a.jobTitle))
-    jobProfile.foreach(a => a.competencies.foreach(b => println(b.name)))
-    jobProfile.foreach(a => a.skills.foreach(b => println(b.name)))
+    assert(jobProfile.head.jobTitle == "Programer")
 
 
   }
@@ -50,7 +45,7 @@ class DBJobProfile$Test extends FunSuite {
   test("jobDescriptionGetSkills") {
 
     val jobProfile = db.jobDescriptionGetSkills(1)
-    jobProfile.foreach(a => println(a.name))
+    assert(jobProfile.head.name == "C++")
 
   }
 
@@ -58,6 +53,8 @@ class DBJobProfile$Test extends FunSuite {
 
     val jobProfile = db.jobDescriptionGetCompetencies(2)
     jobProfile.foreach(a => println(a.name))
+    assert(jobProfile.head.name == "Management")
+
 
   }
 }

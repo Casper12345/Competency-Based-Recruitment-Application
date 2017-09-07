@@ -9,15 +9,17 @@ class DBJobProfileCompetency$Test extends FunSuite {
 
   // JobProfileCompetency Tests
 
-  test("addJobProfileCompetency"){
+  test("addJobProfileCompetency") {
 
     val db = DBJobProfileCompetency
 
-    db.addJobProfileCompetency(1,1,1)
+    val db2 = DBJobProfile
 
-    //val competency = db.getSkillByID(1)
+    db.addJobProfileCompetency(1, 1, 1)
 
-    //assert(competency(1) == "Leadership")
+    val competency = db2.getJobProfileByID(1)
+
+    assert(competency.get.competencies.head.name == "Leadership")
 
   }
 

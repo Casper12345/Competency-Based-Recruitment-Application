@@ -13,6 +13,8 @@ class DBUserSentMessage$Test extends FunSuite {
 
     db.addUserSentMessage(1, 1)
 
+    assert(db.getAllUserSentMessageByID(3).head.senderUserID == 3)
+
 
   }
 
@@ -20,7 +22,7 @@ class DBUserSentMessage$Test extends FunSuite {
 
     val db = DBUserSentMessage
 
-    println(db.getAllUserSentMessageByID(2))
+    assert(db.getAllUserSentMessageByID(3).head.senderUserID == 3)
 
 
   }

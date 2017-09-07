@@ -1,5 +1,6 @@
 package model
 
+import model.matchingLogic.MatchingMethodsFacade
 import org.scalatest.FunSuite
 
 /**
@@ -10,10 +11,12 @@ class matchingMethodsFacade$Test extends FunSuite {
 
   test("getListOfMachingCandidatesFromDB"){
 
-    //val m = matchingMethodsFacade
 
-    //println(m.getListOfMachingCandidatesFromDB(6))
+    /*
+    val m = new MatchingMethodsFacade()
 
+    println(m.getListOfMachingCandidatesFromDB(6))
+    */
 
   }
 

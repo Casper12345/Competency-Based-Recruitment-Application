@@ -40,7 +40,7 @@ class DBCandidate$Test extends FunSuite {
   test("candidateGetSkills") {
 
     val candidate = db.candidateGetSkills(1)
-    candidate.foreach(a => println(a.name))
+    assert(candidate.head.name == "C++")
 
   }
 
@@ -48,16 +48,15 @@ class DBCandidate$Test extends FunSuite {
 
     val candidate = db.candidateGetCompetencies(3)
     candidate.foreach(a => println(a.name))
-
+    assert(candidate.head.competencyID == 3)
   }
 
   test("getAllCandidates") {
 
     val candidates = db.getAllCandidates()
 
-    candidates.foreach(a => println(a.name))
+    assert(candidates.head.name == "Paul")
 
-    candidates.foreach(a => a.competencies.foreach(b => println(b)))
   }
 
 }

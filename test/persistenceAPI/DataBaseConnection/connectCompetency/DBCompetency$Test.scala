@@ -11,7 +11,7 @@ class DBCompetency$Test extends FunSuite {
   // Competency tests
   val db = DBCompetency
 
-  test("addCompetency"){
+  test("addCompetency") {
 
 
     db.addCompetency("Leadership")
@@ -22,26 +22,23 @@ class DBCompetency$Test extends FunSuite {
 
   }
 
-  test("getCompetencyByID"){
+  test("getCompetencyByID") {
 
 
     val competency = db.getCompetencyByID(1).get
-
-
 
     assert(competency.competencyID == 1)
 
     assert(competency.name == "Leadership")
 
-    //competency.foreach(a => println(a))
 
   }
 
-  test("getAllCompetency"){
+  test("getAllCompetency") {
 
     val competencies = db.getAllCompetencies()
 
-    competencies.foreach(a => println(a))
+    assert(competencies.head.name == "Leadership")
 
   }
 }

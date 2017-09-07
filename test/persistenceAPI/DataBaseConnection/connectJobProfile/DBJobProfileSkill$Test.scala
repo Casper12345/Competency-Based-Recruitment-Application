@@ -9,15 +9,18 @@ import org.scalatest.FunSuite
 class DBJobProfileSkill$Test extends FunSuite {
 
   // JobProfileSkill Test
-  test("addJobProfileSkill"){
+  test("addJobProfileSkill") {
 
     val db = DBJobProfileSkill
 
-    db.addJobProfileSkill(1,1,1)
+    val db2 = DBJobProfile
 
-    //val competency = db.getSkillByID(1)
+    db.addJobProfileSkill(1, 1, 1)
 
-    //assert(competency(1) == "Leadership")
+    val skill = db2.getJobProfileByID(1)
+
+    assert(skill.get.competencies.head.name == "C++")
+
 
   }
 

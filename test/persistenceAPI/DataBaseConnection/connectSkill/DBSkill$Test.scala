@@ -13,7 +13,7 @@ class DBSkill$Test extends FunSuite {
   val db = DBSkill
 
 
-  test("addSkill"){
+  test("addSkill") {
 
     db.addSkill("C++")
 
@@ -23,7 +23,7 @@ class DBSkill$Test extends FunSuite {
 
   }
 
-  test("getSkillByID"){
+  test("getSkillByID") {
 
     val skill = db.getSkillByID(1).get
 
@@ -35,11 +35,11 @@ class DBSkill$Test extends FunSuite {
 
   // getAllSkills Test
 
-  test("getAllSkill"){
+  test("getAllSkill") {
 
     val skills = db.getAllSkills()
 
-    skills.foreach(a => println(a))
+    assert(skills.head.name == "C++")
 
   }
 

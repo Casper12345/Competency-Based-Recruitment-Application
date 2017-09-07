@@ -64,7 +64,7 @@ class DBConnectUser$Test extends FunSuite {
 
     val db = DBConnectUser
 
-    println(db.getAllRecruiterUsers())
+    assert(db.getAllRecruiterUsers().head.userName == "Paul")
 
   }
 
@@ -74,7 +74,6 @@ class DBConnectUser$Test extends FunSuite {
 
     assert(db.getIDByUserName("John") == 2)
   }
-
 
 
 }

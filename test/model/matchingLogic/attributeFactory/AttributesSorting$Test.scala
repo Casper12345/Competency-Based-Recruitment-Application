@@ -13,7 +13,9 @@ class AttributesSorting$Test extends FunSuite {
 
     val sort = AttributesSorting.sortAttributes(l)
 
-    println(sort)
+    assert(sort._2.size == 2)
+
+
 
   }
 

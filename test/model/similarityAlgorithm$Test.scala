@@ -14,7 +14,6 @@ class similarityAlgorithm$Test extends FunSuite {
 
     assert(similarity.maxDistCal(List[Int](1,2,3,4)) == 5.477225575051661)
 
-    println(similarity.maxDistCal(List[Int](1,2,3,4)))
   }
 
   test("euclideanDistance") {
@@ -29,9 +28,7 @@ class similarityAlgorithm$Test extends FunSuite {
 
     val similarity = SimilarityAlgorithm
 
-    //println(similarity.distSim(List(1,2,3,4,5,1,2,3,4,5,1,2,3,4,5), List(1,2,3,4,5,2,2,3,4,5,1,2,3,4,5)))
-
-    println(similarity.cappedDistSimilarity(List(1,5,3), List(1,0,0)))
+    assert(similarity.cappedDistSimilarity(List(1,5,3), List(1,0,0)) == 1.4389239390837645)
   }
 
 
