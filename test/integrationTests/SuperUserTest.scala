@@ -15,7 +15,7 @@ class SuperUserTest extends Specification {
       * Tests the authentication system for SuperUser main page.
       * Using Fake Requests.
       */
-    "redirect to index if session is invalid or not present" in new WithApplication{
+    "redirect to index if session is invalid or not present" in new WithApplication {
 
       val withoutSession = route(FakeRequest(GET, "/superUserMain")).get
 
@@ -28,7 +28,6 @@ class SuperUserTest extends Specification {
         .withSession("userID" -> "1",
           "privilege" -> "SuperUser",
           "username" -> "Casper")).get
-
 
 
       status(withoutSession) must equalTo(303)
@@ -47,7 +46,7 @@ class SuperUserTest extends Specification {
         .withSession("userID" -> "1",
           "privilege" -> "SuperUser",
           "username" -> "Casper").
-        withFormUrlEncodedBody(("name","Django")))
+        withFormUrlEncodedBody(("name", "Django")))
         .get
 
       val addSkillGet = route(FakeRequest(GET, "/superUserMain/addSkill")
@@ -61,6 +60,6 @@ class SuperUserTest extends Specification {
 
     }
 
-    }
+  }
 
 }
