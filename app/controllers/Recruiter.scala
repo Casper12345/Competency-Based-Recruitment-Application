@@ -194,8 +194,6 @@ object Recruiter extends Controller {
 
       val candidateSkillPersistence = CandidateSkillPersistenceFacade
 
-      println(skillID + " " + rating + " " + candidateID)
-
       candidateSkillPersistence.addCandidateSkill(skillID.toInt, rating.toInt, candidateID.toInt)
 
       Redirect(s"/recruiterMain/candidate?id=$candidateID")

@@ -20,4 +20,12 @@ class matchingMethodsFacade$Test extends FunSuite {
 
   }
 
+  test("stressTestForgetListOfMachingCandidatesFromDB"){
+
+    //val m = new MatchingMethodsFacade().getListOfMachingCandidatesFromDB()
+
+
+  }
+
+
 }

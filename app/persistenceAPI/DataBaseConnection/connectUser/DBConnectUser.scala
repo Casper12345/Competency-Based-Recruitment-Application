@@ -54,6 +54,7 @@ object DBConnectUser extends DBConnectUserTrait {
 
     db.connect()
 
+    val encryptedPass = EncryptionForDataBase.encryptPassword(passWord)
 
     if (containsUser(userName)) {
 
@@ -71,7 +72,7 @@ object DBConnectUser extends DBConnectUserTrait {
 
       stmt.setString(2, userName)
 
-      stmt.setString(3, passWord)
+      stmt.setString(3, encryptedPass)
 
       stmt.setString(4, userPrivilege)
 
@@ -113,11 +114,10 @@ object DBConnectUser extends DBConnectUserTrait {
       val user = rs.getString("UserName")
 
       if (user == userName) {
-        val pass = rs.getString("PassWord")
+        val encryptedPass = rs.getString("PassWord")
 
-        if (pass == passWord) {
-          isUser = true
-        }
+        isUser = DecryptPassword.checkPassword(passWord, encryptedPass)
+
       }
     }
 

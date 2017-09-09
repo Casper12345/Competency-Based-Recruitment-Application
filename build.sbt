@@ -22,3 +22,5 @@ libraryDependencies += "org.seleniumhq.selenium" % "selenium-java" % "2.35.0" % 
 
 libraryDependencies += specs2 % Test
 
+libraryDependencies += "com.github.t3hnar" %% "scala-bcrypt" % "3.0"
+

@@ -3,7 +3,6 @@ package model.matchingLogic
 import model.persistenceAPIInterface.matchingPersistence.MatchingQueriesPersistenceFacade
 import persistenceAPI.DataBaseConnection.connectJobProfile.DBJobProfile
 import persistenceAPI.DataBaseConnection.objects._
-import persistenceAPI.DataBaseConnection.sqlQueries.DBQueries
 
 
 /**
@@ -332,9 +331,6 @@ class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade, c
 
         val similarity =
           matchingMethod.similarity(combinedJobDescriptionVector, i._2)
-
-        //SimilarityAlgorithm.cappedDistSimilarity(
-        //combinedJobDescriptionVector, i._2)
 
         listToReturn = listToReturn :+ (i._1, similarity)
       }

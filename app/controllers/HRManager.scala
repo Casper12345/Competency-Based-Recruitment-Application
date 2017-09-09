@@ -111,7 +111,8 @@ object HRManager extends Controller {
 
           val jobDescriptionPersistence = JobDescriptionPersistenceFacade
 
-          val jobDescriptions: List[JobDescription] = jobDescriptionPersistence.getAllJobDescriptions()
+          val jobDescriptions: List[JobDescription] =
+            jobDescriptionPersistence.getAllJobDescriptions()
 
           Ok(views.html.hrManager.viewJobDescription(jobDescriptions))
         case _ =>
@@ -141,7 +142,8 @@ object HRManager extends Controller {
 
             val jobDescriptionPersistence = JobDescriptionPersistenceFacade
 
-            Ok(views.html.hrManager.jobDescription(jobDescriptionPersistence.getJobProfileByID(id.get.toInt).get))
+            Ok(views.html.hrManager.jobDescription(jobDescriptionPersistence
+              .getJobProfileByID(id.get.toInt).get))
           case _ =>
             Redirect("/")
         }
@@ -173,7 +175,8 @@ object HRManager extends Controller {
 
             val skillPersistence = SkillPersistenceFacade
 
-            Ok(views.html.hrManager.addSkillHRManager(skillPersistence.getAllSkills())(jobDescriptionID.get.toInt))
+            Ok(views.html.hrManager
+              .addSkillHRManager(skillPersistence.getAllSkills())(jobDescriptionID.get.toInt))
           case _ =>
             Redirect("/")
         }
@@ -310,18 +313,22 @@ object HRManager extends Controller {
 
               case Some("allCapped") =>
 
-                val matching = MatchingMethodsFacade(algFactory.factory("allCappedSimilarityFacade"), candidates)
+                val matching = MatchingMethodsFacade(algFactory
+                  .factory("allCappedSimilarityFacade"), candidates)
                 val matchingCandidates =
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
 
-                Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
+                Ok(views.html.hrManager
+                  .matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
 
               case Some("unCapped") =>
-                val matching = MatchingMethodsFacade(algFactory.factory("unCappedSimilarityFacade"), candidates)
+                val matching = MatchingMethodsFacade(algFactory
+                  .factory("unCappedSimilarityFacade"), candidates)
                 val matchingCandidates =
                   matching.getListOfMachingCandidatesFromDB(jobDescriptionID.get.toInt)
 
-                Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID.get.toInt)(called.get))
+                Ok(views.html.hrManager.matchingMain(matchingCandidates)(jobDescriptionID
+                  .get.toInt)(called.get))
 
               case Some("lockIndividually") =>
 
@@ -335,10 +342,6 @@ object HRManager extends Controller {
 
                 val candidates =
                   candidatesSorted.returnCandidatesByJobDescriptionID(jobDescriptionID.get.toInt)
-
-                println(jobDescriptionID.get.toInt)
-
-                println(candidates)
 
                 val matching = MatchingMethodsFacade(algFactory.factory("allCappedSimilarityFacade"), candidates)
 
@@ -420,7 +423,9 @@ object HRManager extends Controller {
           AttributeFactory.createAttribute("competency")(competencyID.get.toInt, rating.get.toInt)
       }
 
-      Ok(views.html.hrManager.lockAttributes(jobDescriptionPersistence.getJobProfileByID(jobDescriptionID.get.toInt).get)(listOfAttributes))
+      Ok(views.html.hrManager.
+        lockAttributes(jobDescriptionPersistence.getJobProfileByID(jobDescriptionID.get.toInt)
+          .get)(listOfAttributes))
   }
 
 

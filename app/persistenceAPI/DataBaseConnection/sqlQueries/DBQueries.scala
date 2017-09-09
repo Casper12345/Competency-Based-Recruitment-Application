@@ -21,8 +21,10 @@ object DBQueries {
     db.connect()
 
     val selectSQL =
-      """SELECT CandidateSkill.CandidateID, COUNT(CandidateSkill.CandidateID) AS NumberOfMatchingSkills
-        |FROM CandidateSkill INNER JOIN JobProfileSkill ON CandidateSkill.SkillID = JobProfileSkill.SkillID
+      """SELECT CandidateSkill.CandidateID, COUNT(CandidateSkill.CandidateID)
+        |AS NumberOfMatchingSkills
+        |FROM CandidateSkill INNER JOIN JobProfileSkill ON
+        |CandidateSkill.SkillID = JobProfileSkill.SkillID
         |WHERE JobProfileID = ?
         |GROUP BY CandidateSkill.CandidateID
         |HAVING COUNT(CandidateSkill.CandidateID) > 0
