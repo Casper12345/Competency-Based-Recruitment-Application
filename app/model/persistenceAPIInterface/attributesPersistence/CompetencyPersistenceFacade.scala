@@ -38,4 +38,11 @@ object CompetencyPersistenceFacade extends CompetencyPersistenceFacadeTrait {
   override def getAllCompetencies(): List[Competency] =
     competency.getAllCompetencies()
 
+  /**
+    * Method for deleting competency by id
+    *
+    * @param competencyID competency ID
+    */
+  override def deleteCompetency(competencyID: Int): Unit =
+    competency.deleteCompetency(competencyID)
 }

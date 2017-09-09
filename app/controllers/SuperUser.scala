@@ -169,4 +169,99 @@ object SuperUser extends Controller {
 
   }
 
+  /**
+    * Rendering delete skill.
+    *
+    * @return
+    */
+  def deleteSkill = Action {
+
+    implicit request =>
+      val priv = request.session.get("privilege")
+
+      val skillPersistence = SkillPersistenceFacade
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("SuperUser") =>
+          Ok(views.html.superUser.deleteSkill(skillPersistence.getAllSkills()))
+        case _ =>
+          Redirect("/")
+      }
+
+  }
+
+  /**
+    * form for deleting skill
+    */
+  val deleteSkillForm = Form(
+    "skillID" -> text
+  )
+
+  /**
+    * Delete skill post.
+    *
+    * @return Action
+    */
+  def deleteSkillPost = Action {
+
+    implicit request =>
+
+      val skillID = deleteSkillForm.bindFromRequest().get
+
+      if (skillID != "#") {
+        val skillPersistence = SkillPersistenceFacade
+        skillPersistence.deleteSkill(skillID.toInt)
+
+      }
+
+      Redirect("/superUserMain/deleteSkill")
+
+  }
+
+  def deleteCompetency = Action {
+
+    implicit request =>
+      val priv = request.session.get("privilege")
+
+      val competencyPersistence = CompetencyPersistenceFacade
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("SuperUser") =>
+          Ok(views.html.superUser.deleteCompetency(competencyPersistence.getAllCompetencies()))
+        case _ =>
+          Redirect("/")
+      }
+
+  }
+
+  /**
+    * form for deleting skill
+    */
+  val deleteCompetencyForm = Form(
+    "competencyID" -> text
+  )
+
+  /**
+    * Delete skill post.
+    *
+    * @return Action
+    */
+  def deleteCompetencyPost = Action {
+
+    implicit request =>
+
+      val competencyID = deleteCompetencyForm.bindFromRequest().get
+
+      if (competencyID != "#") {
+        val competencyPersistence = CompetencyPersistenceFacade
+        competencyPersistence.deleteCompetency(competencyID.toInt)
+      }
+
+      Redirect("/superUserMain/deleteCompetency")
+
+  }
 }

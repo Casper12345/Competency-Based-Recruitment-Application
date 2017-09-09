@@ -38,6 +38,17 @@ GET         /superUserMain/addUser                                           con
 
 POST        /superUserMain/addUser                                           controllers.SuperUser.addUserPost
 
+# SuperUser delete skill
+GET         /superUserMain/deleteSkill                                       controllers.SuperUser.deleteSkill
+
+POST        /superUserMain/deleteSkill                                       controllers.SuperUser.deleteSkillPost
+
+# SuperUser delete competency
+
+GET         /superUserMain/deleteCompetency                                  controllers.SuperUser.deleteCompetency
+
+POST        /superUserMain/deleteCompetency                                  controllers.SuperUser.deleteCompetencyPost
+
 # Recruiter Main
 
 GET         /recruiterMain                                                   controllers.Recruiter.recruiterMain

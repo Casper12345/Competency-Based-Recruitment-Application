@@ -77,7 +77,7 @@ object DBSkill {
   /**
     * Method for getting full list of skills
     *
-    * @return
+    * @return list of skill
     */
   def getAllSkills(): List[Skill] = {
 
@@ -102,6 +102,26 @@ object DBSkill {
     db.closeConnection()
 
     toReturn
+
+  }
+
+  /**
+    * Method for deleting skill by ID
+    *
+    * @param skillId skill id
+    */
+  def deleteSkill(skillId: Int): Unit = {
+    db.connect()
+
+    val deleteSQL = "DELETE FROM Skill WHERE SkillID = ?"
+
+    val preparedStatement = db.connection.prepareStatement(deleteSQL)
+
+    preparedStatement.setInt(1, skillId)
+
+    preparedStatement.executeUpdate
+
+    db.closeConnection()
 
   }
 

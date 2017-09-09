@@ -29,5 +29,11 @@ trait SkillPersistenceFacadeTrait {
     */
   def getAllSkills(): List[Skill]
 
+  /**
+    * Method for deleting skill by id.
+    * @param skillId skill id
+    */
+  def deleteSkill(skillId: Int): Unit
+
 
 }

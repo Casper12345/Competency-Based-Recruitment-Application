@@ -29,4 +29,11 @@ trait CompetencyPersistenceFacadeTrait {
     */
   def getAllCompetencies(): List[Competency]
 
+  /**
+    * Method for deleting competency by id
+    *
+    * @param competencyID competency ID
+    */
+  def deleteCompetency(competencyID: Int): Unit
+
 }

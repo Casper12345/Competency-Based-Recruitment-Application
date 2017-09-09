@@ -37,4 +37,12 @@ object SkillPersistenceFacade extends SkillPersistenceFacadeTrait {
     */
   override def getAllSkills(): List[Skill] =
     skill.getAllSkills()
+
+  /**
+    * Method for deleting skill by id.
+    *
+    * @param skillId skill id
+    */
+  override def deleteSkill(skillId: Int): Unit =
+    skill.deleteSkill(skillId)
 }

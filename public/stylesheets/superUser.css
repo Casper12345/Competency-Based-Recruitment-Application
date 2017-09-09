@@ -18,3 +18,26 @@
 }
 
 
+#scrollList2{
+
+  height: 300px !important;
+  overflow: scroll;
+  position: absolute;
+  left: 200px;
+  top: 140px;
+  width: 500px;
+  text-align: center;
+  word-wrap: break-word;
+
+}
+
+#deleteButton1{
+  position: absolute;
+  top: 460px;
+  left: 570px;
+  width: 140px;
+  text-align: center;
+
+}
+
+button:focus {outline:0;}

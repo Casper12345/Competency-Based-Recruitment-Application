@@ -105,4 +105,24 @@ object DBCompetency {
 
   }
 
+  /**
+    * Method for deleting competency by ID
+    *
+    * @param competencyID competency id
+    */
+  def deleteCompetency(competencyID: Int): Unit = {
+    db.connect()
+
+    val deleteSQL = "DELETE FROM Competency WHERE CompetencyID = ?"
+
+    val preparedStatement = db.connection.prepareStatement(deleteSQL)
+
+    preparedStatement.setInt(1, competencyID)
+
+    preparedStatement.executeUpdate
+
+    db.closeConnection()
+
+  }
+
 }

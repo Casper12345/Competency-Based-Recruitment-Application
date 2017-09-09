@@ -41,4 +41,11 @@ class DBCompetency$Test extends FunSuite {
     assert(competencies.head.name == "Leadership")
 
   }
+
+  test("deleteCompetency") {
+    db.deleteCompetency(10)
+
+    assert(db.getCompetencyByID(10).isEmpty)
+
+  }
 }

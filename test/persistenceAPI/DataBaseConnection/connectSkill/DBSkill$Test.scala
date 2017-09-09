@@ -43,4 +43,14 @@ class DBSkill$Test extends FunSuite {
 
   }
 
+  test("deleteSkill") {
+
+    db.deleteSkill(17)
+
+    val skill = db.getSkillByID(17)
+
+    assert(skill.isEmpty)
+
+  }
+
 }

@@ -1,0 +1,58 @@
+@import persistenceAPI.DataBaseConnection.objects.Competency
+@(list: List[Competency])
+
+@main("Delete Competency") {
+
+  <header>
+
+    <nav id="upperbar" class="navbar navbar-inverse">
+
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <div class="navbar-brand">Delete Competency</div>
+        </div>
+
+        <ul class="nav navbar-nav">
+
+          <li class="nav-item nav-link"><a href="/superUserMain">Home</a></li>
+
+          <li class="nav-item nav-link"><a href="/logout">Log Out</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <div class="outer-container container-fluid">
+
+  </div>
+
+  <div id="scrollList2" class="container">
+
+    <div class="list-group">
+
+    @for(item <- list) {
+
+      <button id=itemButton" onclick="document.getElementById('competencyID').setAttribute('value',
+          @item.competencyID)"
+      class="list-group-item list-group-item-action">@item.name</button>
+
+    }
+
+    </div>
+
+
+  </div>
+
+  <form class="form-inline" role="form" method="post">
+    <input id="competencyID" type="hidden" name="competencyID" value="#"/>
+
+    <div class="form-group" >
+      <input id="deleteButton1" type="submit" class="btn btn-primary" value="Delete">
+    </div>
+  </form>
+
+
+}
