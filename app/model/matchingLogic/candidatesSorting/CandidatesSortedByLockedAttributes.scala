@@ -5,7 +5,7 @@ import persistenceAPI.DataBaseConnection.objects.{Candidate, JobDescriptionCompe
 JobDescriptionSkill}
 
 /**
-  * Created by Casper on 08/08/2017.
+  * Candidates sorted by locked attributes
   */
 case class CandidatesSortedByLockedAttributes() extends CandidatesSortingTrait {
 

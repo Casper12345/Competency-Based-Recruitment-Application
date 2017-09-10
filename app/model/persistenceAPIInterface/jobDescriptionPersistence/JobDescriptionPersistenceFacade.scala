@@ -45,4 +45,12 @@ object JobDescriptionPersistenceFacade extends JobDescriptionPersistenceFacadeTr
     */
   override def getAllJobDescriptions(): List[JobDescription] =
     jobDescription.getAllJobDescriptions()
+
+  /**
+    * Method for deleting job descriptions by id
+    *
+    * @param jobDescriptionID job description id
+    */
+  override def deleteJobDescription(jobDescriptionID: Int): Unit =
+    jobDescription.deleteJobDescription(jobDescriptionID)
 }

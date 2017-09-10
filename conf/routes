@@ -62,6 +62,14 @@ GET         /recruiterMain/viewCandidate                                     con
 GET         /recruiterMain/candidate                                         controllers.Recruiter.candidate
 
 
+# delete Candidate
+
+GET         /recruiterMain/deleteCandidate                                   controllers.Recruiter.deleteCandidate
+
+POST        /recruiterMain/deleteCandidate                                   controllers.Recruiter.deleteCandidatePost
+
+
+
 # add Skill candidate
 
 GET         /recruiterMain/candidate/addSkill                                controllers.Recruiter.addSkillCandidate
@@ -88,6 +96,12 @@ GET         /hrManagerMain/viewJobDescription                                con
 
 GET         /hrManagerMain/jobDescription                                    controllers.HRManager.jobDescription
 
+
+# delete job description
+
+GET         /hrManagerMain/deleteJobDescription                              controllers.HRManager.deleteJobDescription
+
+POST        /hrManagerMain/deleteJobDescription                              controllers.HRManager.deleteJobDescriptionPost
 
 # add Skill jobDescription
 

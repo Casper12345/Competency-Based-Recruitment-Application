@@ -34,4 +34,10 @@ trait JobDescriptionPersistenceFacadeTrait {
     */
   def getAllJobDescriptions(): List[JobDescription]
 
+  /**
+    * Method for deleting job descriptions by id
+    * @param jobDescriptionID job description id
+    */
+  def deleteJobDescription(jobDescriptionID: Int): Unit
+
 }

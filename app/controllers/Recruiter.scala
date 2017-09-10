@@ -1,5 +1,6 @@
 package controllers
 
+import controllers.SuperUser.Redirect
 import model.persistenceAPIInterface.attributesPersistence.{CompetencyPersistenceFacade, SkillPersistenceFacade}
 import model.persistenceAPIInterface.candidateProfilePersistence.{CandidateCompetencyPersistenceFacade, CandidatePersistenceFacade, CandidateSkillPersistenceFacade}
 import model.persistenceAPIInterface.messagingPersistence.{ChatMessagePersistenceFacade, UserReceivedMessagePersistenceFacade, UserSentMessagePersistenceFacade}
@@ -394,13 +395,11 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Test with fake request !!
+    * Send message post form
     *
     * @return
     */
   def sendMessagePost() = Action {
-
-    // TODO: test with fake request
 
     implicit request =>
 
@@ -416,4 +415,54 @@ object Recruiter extends Controller {
       Redirect("inbox")
   }
 
+  /**
+    * Method for rendering delete candidate.
+    *
+    * @return Action.
+    */
+  def deleteCandidate = Action {
+
+    implicit request =>
+      val priv = request.session.get("privilege")
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("Recruiter") | Some("SuperUser") =>
+
+          val canidatePersistence = CandidatePersistenceFacade
+
+          Ok(views.html.recruiter.deleteCandidate(canidatePersistence.getAllCandidates()))
+        case _ =>
+          Redirect("/")
+      }
+
+
+  }
+
+  val deleteCandidateForm = Form {
+    "candidateID" -> text
+  }
+
+  /**
+    * Delete candidate post form.
+    *
+    * @return Action
+    */
+  def deleteCandidatePost = Action {
+
+    implicit request =>
+
+      val candidateID = deleteCandidateForm.bindFromRequest().get
+
+      if (candidateID != "#") {
+        val candidatePersistence = CandidatePersistenceFacade
+        candidatePersistence.deleteCandidate(candidateID.toInt)
+      }
+
+      Redirect("/recruiterMain/deleteCandidate")
+
+  }
+
 }
+

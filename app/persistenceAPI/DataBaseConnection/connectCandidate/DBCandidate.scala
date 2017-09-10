@@ -238,4 +238,25 @@ object DBCandidate {
 
   }
 
+  /**
+    * Method for deleting candidate
+    *
+    * @param candidateID candidate id.
+    */
+  def deleteCandidate(candidateID: Int): Unit = {
+
+    db.connect()
+
+    val deleteSQL = "DELETE FROM Candidate WHERE CandidateID = ?"
+
+    val preparedStatement = db.connection.prepareStatement(deleteSQL)
+
+    preparedStatement.setInt(1, candidateID)
+
+    preparedStatement.executeUpdate
+
+    db.closeConnection()
+
+  }
+
 }

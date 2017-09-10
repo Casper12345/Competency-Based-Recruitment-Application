@@ -228,5 +228,25 @@ object DBJobProfile {
 
   }
 
+  /**
+    * Method for deleting job description
+    *
+    * @param jobDescriptionID job description id
+    */
+  def deleteJobDescription(jobDescriptionID: Int): Unit = {
+
+    db.connect()
+
+    val deleteSQL = "DELETE FROM JobProfile WHERE JobProfileID = ?"
+
+    val preparedStatement = db.connection.prepareStatement(deleteSQL)
+
+    preparedStatement.setInt(1, jobDescriptionID)
+
+    preparedStatement.executeUpdate
+
+    db.closeConnection()
+
+  }
 
 }

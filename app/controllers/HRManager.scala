@@ -1,5 +1,6 @@
 package controllers
 
+import controllers.Recruiter.{Ok, Redirect}
 import model.matchingLogic.attributeFactory.{Attribute, AttributeFactory, AttributesSorting}
 import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
 import model.matchingLogic.MatchingMethodsFacade
@@ -628,6 +629,58 @@ object HRManager extends Controller {
       chatMessagePersistence.createSentNewChatMessage(senderUserID.toInt, receiverID.toInt, subject, messageBody)
 
       Redirect("inbox")
+  }
+
+  /**
+    * Method for rendering delete candidate.
+    *
+    * @return Action.
+    */
+  def deleteJobDescription = Action {
+
+    implicit request =>
+      val priv = request.session.get("privilege")
+
+      priv match {
+        case None =>
+          Redirect("/")
+        case Some("HRManager") | Some("SuperUser") =>
+
+          val jobDescriptionPersistence = JobDescriptionPersistenceFacade
+
+          Ok(views.html.hrManager.deleteJobDescription(jobDescriptionPersistence.getAllJobDescriptions()))
+
+        case _ =>
+          Redirect("/")
+      }
+
+
+  }
+
+  val deleteJobDescriptionForm = Form {
+    "jobDescriptionID" -> text
+  }
+
+  /**
+    * Delete candidate post form.
+    *
+    * @return Action
+    */
+  def deleteJobDescriptionPost = Action {
+
+    implicit request =>
+
+      val jobDescriptionID = deleteJobDescriptionForm.bindFromRequest().get
+
+      if (jobDescriptionID != "#") {
+
+        val jobDescriptionPersistence = JobDescriptionPersistenceFacade
+
+        jobDescriptionPersistence.deleteJobDescription(jobDescriptionID.toInt)
+      }
+
+      Redirect("/hrManagerMain/deleteJobDescription")
+
   }
 
 }

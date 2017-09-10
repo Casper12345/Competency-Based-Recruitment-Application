@@ -50,4 +50,12 @@ object CandidatePersistenceFacade extends CandidatePersistenceFacadeTrait {
     */
   override def getAllCandidates(): List[Candidate] =
     candidate.getAllCandidates()
+
+  /**
+    * Deletes candidates by id
+    *
+    * @param candidateID candidate id
+    */
+  override def deleteCandidate(candidateID: Int): Unit =
+    candidate.deleteCandidate(candidateID)
 }

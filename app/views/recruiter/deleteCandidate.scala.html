@@ -1,0 +1,69 @@
+@import persistenceAPI.DataBaseConnection.objects.Candidate
+
+@(list: List[Candidate])
+
+@main("Delete Candidate") {
+
+  <header>
+
+    <nav id="upperbar" class="navbar navbar-inverse">
+
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <div class="navbar-brand">Delete Candidate Profile</div>
+        </div>
+
+        <ul class="nav navbar-nav">
+
+          <li class="nav-item nav-link"><a href="/recruiterMain">Home</a></li>
+
+          <li class="nav-item nav-link"><a href="/logout">Log Out</a></li>
+        </ul>
+      </div>
+    </nav>
+
+  </header>
+
+
+  <div class="outer-container container-fluid">
+
+  </div>
+
+  <div id="scrollTableCandidates2" class="container">
+
+    <div class="table-group">
+
+    @for(item <- list) {
+
+      <button onclick="document.getElementById('candidateID').setAttribute('value', @item.ID)" class="list-group-item list-group-item-action">
+
+        <table class="table">
+
+          <tr>
+            <td>@item.name</td>
+            <td>@item.surname</td>
+            <td>@item.educationName</td>
+            <td>@item.currentJobTitle</td>
+
+          </tr>
+
+        </table>
+
+      </button>
+
+    }
+
+    </div>
+
+  </div>
+
+  <form class="form-inline" role="form" method="post">
+    <input id="candidateID" type="hidden" name="candidateID" value="#"/>
+
+    <div class="form-group" >
+      <input id="deleteButton2" type="submit" class="btn btn-primary" value="Delete">
+    </div>
+  </form>
+
+}

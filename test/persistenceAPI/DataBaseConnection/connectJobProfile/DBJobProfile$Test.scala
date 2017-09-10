@@ -57,4 +57,12 @@ class DBJobProfile$Test extends FunSuite {
 
 
   }
+
+  test("deleteJobDescription"){
+
+    val jobProfile = db.deleteJobDescription(18)
+
+    assert(db.getJobProfileByID(18).isEmpty)
+
+  }
 }

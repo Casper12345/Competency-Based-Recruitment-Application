@@ -5,7 +5,7 @@ import persistenceAPI.DataBaseConnection.objects.Candidate
 import persistenceAPI.DataBaseConnection.sqlQueries.DBQueries
 
 /**
-  * Created by Casper on 08/08/2017.
+  * Candidates sorted by one skill
   */
 case class CandidatesSortedByOneSkill() extends CandidatesSortingTrait {
 

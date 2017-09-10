@@ -73,3 +73,19 @@
 }
 
 
+#scrollTableCandidates2 {
+  height: 350px !important;
+  position: absolute;
+  left: 300px;
+  top: 100px;
+  width: 600px;
+  overflow: scroll;
+}
+
+#deleteButton2{
+  position: absolute;
+  top: 470px;
+  left: 810px;
+  width: 140px;
+  text-align: center;
+}

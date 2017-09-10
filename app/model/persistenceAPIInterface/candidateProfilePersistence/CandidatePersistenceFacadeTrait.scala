@@ -37,4 +37,11 @@ trait CandidatePersistenceFacadeTrait {
   def getAllCandidates(): List[Candidate]
 
 
+  /**
+    * Deletes candidates by id
+    * @param candidateID candidate id
+    */
+  def deleteCandidate(candidateID: Int): Unit
+
+
 }

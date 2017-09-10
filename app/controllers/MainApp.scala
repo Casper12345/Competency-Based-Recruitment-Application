@@ -34,7 +34,7 @@ object MainApp extends Controller {
   /**
     * Action for submitting login form.
     *
-    * @return
+    * @return Action
     */
   def submit = Action {
 

@@ -3,7 +3,7 @@ package model.matchingLogic.attributeFactory
 import persistenceAPI.DataBaseConnection.objects.{JobDescriptionCompetency, JobDescriptionSkill}
 
 /**
-  * Created by Casper on 09/08/2017.
+  * Sorting algorithm for attribute
   */
 object AttributesSorting {
 

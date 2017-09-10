@@ -59,4 +59,12 @@ class DBCandidate$Test extends FunSuite {
 
   }
 
+  test("deleteCandidate"){
+
+    val candidate = db.deleteCandidate(13)
+
+    assert(db.getCandidateByID(13).isEmpty)
+
+  }
+
 }
