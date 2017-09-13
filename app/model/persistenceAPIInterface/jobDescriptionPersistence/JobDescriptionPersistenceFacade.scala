@@ -4,7 +4,7 @@ import persistenceAPI.DataBaseConnection.connectJobProfile.DBJobProfile
 import persistenceAPI.DataBaseConnection.objects.JobDescription
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Job Description Persistence Facade.
   */
 object JobDescriptionPersistenceFacade extends JobDescriptionPersistenceFacadeTrait {
 

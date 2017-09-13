@@ -1,6 +1,5 @@
 package controllers
 
-import model.persistenceAPIInterface.jobDescriptionPersistence.JobDescriptionPersistenceFacade
 import model.persistenceAPIInterface.userPersistence.UserPersistenceFacade
 import play.api.mvc._
 import play.api.data.Forms._
@@ -8,21 +7,21 @@ import play.api.data._
 
 
 /**
-  * Controller methods for mainApp entrance point
+  * Controller methods for mainApp entrance point.
   */
 object MainApp extends Controller {
 
   /**
     * Action for rendering Index template
     *
-    * @return
+    * @return Action
     */
   def index = Action {
     Ok(views.html.index())
   }
 
   /**
-    * Form request for sending login form
+    * Form request for sending login form.
     */
   val form = Form(
     tuple("username" -> text,
@@ -79,26 +78,15 @@ object MainApp extends Controller {
   }
 
   /**
-    * Action for rendering logout template
-    * Deletes  session cookies
+    * Action for rendering logout template.
+    * Deletes  session cookies.
     *
-    * @return
+    * @return Action
     */
   def logout = Action {
 
     Redirect("/").withNewSession
 
   }
-
-
-  def helper = Action {
-
-    val jobDescriptionPersistence = JobDescriptionPersistenceFacade
-
-
-    Ok(views.html.Helper(jobDescriptionPersistence.getJobProfileByID(1).get))
-
-  }
-
 
 }

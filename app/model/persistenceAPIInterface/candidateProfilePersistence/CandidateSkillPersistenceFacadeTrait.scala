@@ -1,7 +1,7 @@
 package model.persistenceAPIInterface.candidateProfilePersistence
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Trait for Candidate Persistence Facade.
   */
 trait CandidateSkillPersistenceFacadeTrait {
 

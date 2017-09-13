@@ -1,6 +1,5 @@
 package controllers
 
-import controllers.Recruiter.{Ok, Redirect}
 import model.matchingLogic.attributeFactory.{Attribute, AttributeFactory, AttributesSorting}
 import model.matchingLogic.AlgorithmFactory.AlgorithmFactory
 import model.matchingLogic.MatchingMethodsFacade
@@ -395,7 +394,7 @@ object HRManager extends Controller {
 
 
   /**
-    * global state list of attributes
+    * Global state list of attributes
     */
   var listOfAttributes: List[Attribute] = Nil
 
@@ -429,11 +428,18 @@ object HRManager extends Controller {
           .get)(listOfAttributes))
   }
 
-
+  /**
+    * Lock attibutesForm
+    */
   val lockAttributesForm = Form {
     "jobDescriptionID" -> text
   }
 
+  /**
+    * Post Method for lock attributes.
+    *
+    * @return
+    */
   def lockAttributesPost() = Action {
 
     implicit request =>
@@ -449,7 +455,7 @@ object HRManager extends Controller {
   /**
     * Action for rendering viewMatchingCandidates template.
     *
-    * @return
+    * @return Action
     */
   def viewMatchedCandidates() = Action {
 
@@ -484,9 +490,9 @@ object HRManager extends Controller {
   }
 
   /**
-    * Action for rendering inbox template
+    * Action for rendering inbox template.
     *
-    * @return
+    * @return Action
     */
   def inbox() = Action {
 
@@ -511,9 +517,9 @@ object HRManager extends Controller {
   }
 
   /**
-    * Action for sentInbox
+    * Action for rendering sentInbox.
     *
-    * @return
+    * @return Action
     */
   def sentInbox() = Action {
 
@@ -541,6 +547,11 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * Action for rendering readMessage.
+    *
+    * @return Action
+    */
   def readMessage() = Action {
 
     implicit request =>
@@ -576,9 +587,9 @@ object HRManager extends Controller {
   }
 
   /**
-    * Action renders sendMessage
+    * Action for rendering sendMessage.
     *
-    * @return
+    * @return Action
     */
   def sendMessage() = Action {
 
@@ -610,13 +621,11 @@ object HRManager extends Controller {
   }
 
   /**
-    * Test with fake request !!
+    * Action for sendMessagePost.
     *
-    * @return
+    * @return Action
     */
   def sendMessagePost() = Action {
-
-    // TODO: test with fake request
 
     implicit request =>
 
@@ -632,7 +641,7 @@ object HRManager extends Controller {
   }
 
   /**
-    * Method for rendering delete candidate.
+    * Action for rendering delete candidate.
     *
     * @return Action.
     */
@@ -657,12 +666,15 @@ object HRManager extends Controller {
 
   }
 
+  /**
+    * DeleteJobDecriptionForm.
+    */
   val deleteJobDescriptionForm = Form {
     "jobDescriptionID" -> text
   }
 
   /**
-    * Delete candidate post form.
+    * Action for deleteJobDescriptionPost.
     *
     * @return Action
     */

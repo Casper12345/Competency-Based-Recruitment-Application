@@ -14,7 +14,7 @@ object SuperUser extends Controller {
   /**
     * Action for rendering superUserMain template
     *
-    * @return
+    * @return Action
     */
   def superUserMain = Action {
     implicit request =>
@@ -34,9 +34,9 @@ object SuperUser extends Controller {
   }
 
   /**
-    * Action for rendering addSkill
+    * Action for rendering addSkill template.
     *
-    * @return
+    * @return Action
     */
   def addSkill = Action {
     implicit request =>
@@ -56,16 +56,16 @@ object SuperUser extends Controller {
   }
 
   /**
-    * Form for addSkill post request
+    * Form for addSkill post request.
     */
   val skillForm = Form(
     "name" -> text
   )
 
   /**
-    * post request for addSkill
+    * Post request for addSkill.
     *
-    * @return
+    * @return Action
     */
   def submitSkill = Action {
 
@@ -82,7 +82,7 @@ object SuperUser extends Controller {
   }
 
   /**
-    * Form for addCompetency request
+    * Form for addCompetency request.
     *
     */
   val competencyForm = Form(
@@ -90,9 +90,9 @@ object SuperUser extends Controller {
   )
 
   /**
-    * Action for rendering addCompetency template
+    * Action for rendering addCompetency template.
     *
-    * @return
+    * @return Action
     */
   def addCompetency = Action {
     implicit request =>
@@ -115,7 +115,7 @@ object SuperUser extends Controller {
   /**
     * Form request for addCompetency.
     *
-    * @return
+    * @return Action
     */
   def submitCompetency = Action {
 
@@ -132,14 +132,17 @@ object SuperUser extends Controller {
   }
 
   /**
-    * Action for rendering addUser
+    * Action for rendering addUser.
     *
-    * @return
+    * @return Action
     */
   def addUser = Action {
     Ok(views.html.superUser.addUser())
   }
 
+  /**
+    * AddUserForm.
+    */
   val addUserForm = Form(
     tuple(
       "userName" -> text,
@@ -149,9 +152,9 @@ object SuperUser extends Controller {
   )
 
   /**
-    * Form request for addUser
+    * Form request for addUser.
     *
-    * @return
+    * @return Action
     */
   def addUserPost = Action {
 
@@ -170,9 +173,9 @@ object SuperUser extends Controller {
   }
 
   /**
-    * Rendering delete skill.
+    * Action for rendering deleteSkill template.
     *
-    * @return
+    * @return Action
     */
   def deleteSkill = Action {
 
@@ -193,14 +196,14 @@ object SuperUser extends Controller {
   }
 
   /**
-    * form for deleting skill
+    * Form for deleting skill.
     */
   val deleteSkillForm = Form(
     "skillID" -> text
   )
 
   /**
-    * Delete skill post.
+    * DeleteSkill post.
     *
     * @return Action
     */
@@ -220,6 +223,11 @@ object SuperUser extends Controller {
 
   }
 
+  /**
+    * Action for rendering deleteCompetency.
+    *
+    * @return Action
+    */
   def deleteCompetency = Action {
 
     implicit request =>
@@ -239,14 +247,14 @@ object SuperUser extends Controller {
   }
 
   /**
-    * form for deleting skill
+    * Form for deleteCompetency.
     */
   val deleteCompetencyForm = Form(
     "competencyID" -> text
   )
 
   /**
-    * Delete skill post.
+    * DeleteCompetency post.
     *
     * @return Action
     */

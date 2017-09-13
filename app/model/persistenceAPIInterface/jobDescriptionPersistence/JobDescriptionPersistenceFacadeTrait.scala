@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.jobDescriptionPersistence
 import persistenceAPI.DataBaseConnection.objects.JobDescription
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Trait for Job Description Facade.
   */
 trait JobDescriptionPersistenceFacadeTrait {
 
@@ -36,6 +36,7 @@ trait JobDescriptionPersistenceFacadeTrait {
 
   /**
     * Method for deleting job descriptions by id
+    *
     * @param jobDescriptionID job description id
     */
   def deleteJobDescription(jobDescriptionID: Int): Unit

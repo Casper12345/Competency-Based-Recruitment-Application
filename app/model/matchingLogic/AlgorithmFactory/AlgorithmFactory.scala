@@ -3,9 +3,9 @@ package model.matchingLogic.AlgorithmFactory
 import model.matchingLogic.{SimilarityFacade, UnCappedSimilarityFacade, AllCappedSimilarityFacade}
 
 /**
-  * Factory method for manual dependency injection
+  * Factory Operation method for manual dependency injection.
   */
-object AlgorithmFactory extends AlgorithmFactoryTrait{
+object AlgorithmFactory extends AlgorithmFactoryTrait {
 
   def factory(instance: String): SimilarityFacade = instance match {
 

@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.candidateProfilePersistence
 import persistenceAPI.DataBaseConnection.objects.Candidate
 
 /**
-  * Trait for candiate persistence facade
+  * Trait for candiate persistence facade.
   */
 trait CandidatePersistenceFacadeTrait {
 

@@ -7,6 +7,12 @@ import com.github.t3hnar.bcrypt._
   */
 object EncryptionForDataBase {
 
+  /**
+    * Method for encryption password string.
+    *
+    * @param password
+    * @return
+    */
   def encryptPassword(password: String): String = password.bcrypt
 
 }

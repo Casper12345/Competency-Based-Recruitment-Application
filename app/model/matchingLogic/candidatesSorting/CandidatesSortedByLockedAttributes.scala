@@ -1,11 +1,11 @@
 package model.matchingLogic.candidatesSorting
 
 import model.persistenceAPIInterface.matchingPersistence.MatchingQueriesPersistenceFacade
-import persistenceAPI.DataBaseConnection.objects.{Candidate, JobDescriptionCompetency,
-JobDescriptionSkill}
+import persistenceAPI.DataBaseConnection.objects.
+{Candidate, JobDescriptionCompetency, JobDescriptionSkill}
 
 /**
-  * Candidates sorted by locked attributes
+  * Candidates sorted by locked attributes.
   */
 case class CandidatesSortedByLockedAttributes() extends CandidatesSortingTrait {
 
@@ -21,6 +21,12 @@ case class CandidatesSortedByLockedAttributes() extends CandidatesSortingTrait {
 
   }
 
+  /**
+    * Method for returning candidates by job description.
+    *
+    * @param jobDescriptionID job description id.
+    * @return list of candidates
+    */
   override def returnCandidatesByJobDescriptionID(jobDescriptionID: Int): List[Candidate] = {
 
     val matchingQueriesFacade = MatchingQueriesPersistenceFacade

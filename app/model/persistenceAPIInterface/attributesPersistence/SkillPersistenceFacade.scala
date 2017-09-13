@@ -4,7 +4,7 @@ import persistenceAPI.DataBaseConnection.connectSkill.DBSkill
 import persistenceAPI.DataBaseConnection.objects.Skill
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Facade for Skill Persistence.
   */
 object SkillPersistenceFacade extends SkillPersistenceFacadeTrait {
 

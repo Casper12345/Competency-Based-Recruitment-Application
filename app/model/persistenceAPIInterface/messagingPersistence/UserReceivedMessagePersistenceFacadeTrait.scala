@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.messagingPersistence
 import persistenceAPI.DataBaseConnection.objects.ChatMessage
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Trait for User Recieved Message Persistence Facade.
   */
 trait UserReceivedMessagePersistenceFacadeTrait {
 

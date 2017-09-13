@@ -1,7 +1,7 @@
 package controllers
 
 /**
-  * Created by Casper on 05/09/2017.
+  * String factory for defining privilege as a string.
   */
 object PrivilegeStringFactory {
 

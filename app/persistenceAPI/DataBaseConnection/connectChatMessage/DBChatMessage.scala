@@ -1,7 +1,5 @@
 package persistenceAPI.DataBaseConnection.connectChatMessage
 
-import java.sql.Time
-
 import model.messageSystemLogic.DateTimeGet
 import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.connectUser.{DBUserRecievedMessage, DBUserSentMessage}

@@ -4,7 +4,7 @@ import persistenceAPI.DataBaseConnection.objects.Candidate
 import persistenceAPI.DataBaseConnection.sqlQueries.DBQueries
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Matching Queries Persistence Facade.
   */
 object MatchingQueriesPersistenceFacade extends MatchingQueriesPersistenceFacadeTrait {
 

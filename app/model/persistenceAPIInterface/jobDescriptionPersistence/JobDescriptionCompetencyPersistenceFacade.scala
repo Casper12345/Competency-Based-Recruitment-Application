@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.jobDescriptionPersistence
 import persistenceAPI.DataBaseConnection.connectJobProfile.DBJobProfileCompetency
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Job Description Competency Facade.
   */
 object JobDescriptionCompetencyPersistenceFacade extends JobDescriptionCompetencyPersistenceFacadeTrait {
 

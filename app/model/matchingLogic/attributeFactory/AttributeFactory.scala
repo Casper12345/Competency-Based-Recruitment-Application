@@ -4,7 +4,7 @@ import model.persistenceAPIInterface.attributesPersistence.{CompetencyPersistenc
 
 
 /**
-  * Attribute factory
+  * Attribute factory for DI.
   */
 object AttributeFactory {
 

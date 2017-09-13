@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.attributesPersistence
 import persistenceAPI.DataBaseConnection.objects.Skill
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Trait for Skill persistence facade.
   */
 trait SkillPersistenceFacadeTrait {
 
@@ -31,6 +31,7 @@ trait SkillPersistenceFacadeTrait {
 
   /**
     * Method for deleting skill by id.
+    *
     * @param skillId skill id
     */
   def deleteSkill(skillId: Int): Unit

@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.matchingPersistence
 import persistenceAPI.DataBaseConnection.objects.Candidate
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Trait for Matching Queries Persistence Facade.
   */
 trait MatchingQueriesPersistenceFacadeTrait {
 

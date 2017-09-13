@@ -1,7 +1,7 @@
 package model.persistenceAPIInterface.jobDescriptionPersistence
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Trait for Job Description Skill Persistence Facade.
   */
 trait JobDescriptionSkillPersistenceFacadeTrait {
 

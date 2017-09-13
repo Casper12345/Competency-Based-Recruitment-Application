@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.candidateProfilePersistence
 import persistenceAPI.DataBaseConnection.connectCandidate.DBCandidateSkill
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Candidate Skill Persistence facade.
   */
 object CandidateSkillPersistenceFacade extends CandidateSkillPersistenceFacadeTrait {
 

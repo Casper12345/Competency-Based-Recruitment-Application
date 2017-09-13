@@ -3,10 +3,9 @@ package persistenceAPI.DataBaseConnection
 import java.sql.{Connection, DriverManager, SQLException}
 
 /**
-  * Created by Casper on 06/07/2017.
+  * Connection to Main DB
+  * Can easily be swapped out when deploying.
   */
-
-
 object DBMain {
 
   private val driver = "com.mysql.cj.jdbc.Driver"
@@ -30,6 +29,9 @@ object DBMain {
 
   }
 
+  /**
+    * Method for closing database connection.
+    */
   def closeConnection(): Unit = {
     connection.close()
   }

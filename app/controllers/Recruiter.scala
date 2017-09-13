@@ -1,6 +1,5 @@
 package controllers
 
-import controllers.SuperUser.Redirect
 import model.persistenceAPIInterface.attributesPersistence.{CompetencyPersistenceFacade, SkillPersistenceFacade}
 import model.persistenceAPIInterface.candidateProfilePersistence.{CandidateCompetencyPersistenceFacade, CandidatePersistenceFacade, CandidateSkillPersistenceFacade}
 import model.persistenceAPIInterface.messagingPersistence.{ChatMessagePersistenceFacade, UserReceivedMessagePersistenceFacade, UserSentMessagePersistenceFacade}
@@ -12,15 +11,15 @@ import play.api.data.Forms._
 
 
 /**
-  * Controller methods for the recruiter part of the application
+  * Controller methods for the recruiter part of the application.
   */
 
 object Recruiter extends Controller {
 
   /**
-    * Actopn for rendering recruiterMain template
+    * Action for rendering recruiterMain template.
     *
-    * @return
+    * @return Action
     */
   def recruiterMain = Action {
     implicit request =>
@@ -39,9 +38,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Action for rendering createCandidateProfile template
+    * Action for rendering createCandidateProfile template.
     *
-    * @return
+    * @return Action
     */
   def createCandidateProfile = Action {
     implicit request =>
@@ -58,7 +57,7 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Form for sending candidate post request
+    * Form for sending candidate post request.
     */
   val candidateForm = Form(
     tuple(
@@ -72,9 +71,9 @@ object Recruiter extends Controller {
   )
 
   /**
-    * Action for form request Candidate
+    * Action for form request Candidate.
     *
-    * @return
+    * @return Action
     */
   def candidateFormSubmit = Action {
     implicit request =>
@@ -92,9 +91,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Action for rendering viewCandidate template
+    * Action for rendering viewCandidate template.
     *
-    * @return
+    * @return Action
     */
   def viewCandidate() = Action {
     implicit request =>
@@ -114,9 +113,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Action for rendering candidate template
+    * Action for rendering candidate template.
     *
-    * @return
+    * @return Action
     */
   def candidate() = Action {
     implicit request =>
@@ -143,9 +142,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Action for rendering addSkillCandidate template
+    * Action for rendering addSkillCandidate template.
     *
-    * @return
+    * @return Action
     */
   def addSkillCandidate() = Action {
 
@@ -173,7 +172,7 @@ object Recruiter extends Controller {
       }
   }
 
-  /* Form for addSkill post request
+  /* Form for addSkill post request.
    */
   val skillAddForm = Form {
     tuple("skillID" -> text,
@@ -183,9 +182,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Action for addSkillCandidate post request
+    * Action for addSkillCandidate post request.
     *
-    * @return
+    * @return Action
     */
   def addSkillCandidatePost() = Action {
 
@@ -202,9 +201,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Action for rendering addCompetencyCandidate template
+    * Action for rendering addCompetencyCandidate template.
     *
-    * @return
+    * @return Action
     */
   def addCompetencyCandidate() = Action {
 
@@ -233,7 +232,7 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Form for addCompetency post request
+    * Form for addCompetency post request.
     */
   val competencyAddForm = Form {
     tuple("competencyID" -> text,
@@ -243,9 +242,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * addCompetencyCandidate post request
+    * AddCompetencyCandidate post request.
     *
-    * @return
+    * @return Action
     */
   def addCompetencyCandidatePost() = Action {
 
@@ -262,9 +261,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Check db if there are any messages
+    * Action for rendering inbox template.
     *
-    * @return
+    * @return Action.
     */
   def inbox() = Action {
 
@@ -293,8 +292,9 @@ object Recruiter extends Controller {
   }
 
   /**
+    * Action for rendering sendInbox template.
     *
-    * @return
+    * @return Action
     */
   def sentInbox() = Action {
 
@@ -324,8 +324,9 @@ object Recruiter extends Controller {
   }
 
   /**
+    * Action for rendering readMessage template.
     *
-    * @return
+    * @return Action
     */
   def readMessage() = Action {
 
@@ -362,8 +363,9 @@ object Recruiter extends Controller {
   }
 
   /**
+    * Action for rendering sendMessage template.
     *
-    * @return
+    * @return Action
     */
   def sendMessage() = Action {
     implicit request =>
@@ -384,7 +386,9 @@ object Recruiter extends Controller {
       }
   }
 
-
+  /**
+    * SendMessageForm.
+    */
   val sendMessageForm = Form {
     tuple(
       "subject" -> text,
@@ -395,9 +399,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Send message post form
+    * Send message post form.
     *
-    * @return
+    * @return Action
     */
   def sendMessagePost() = Action {
 
@@ -416,9 +420,9 @@ object Recruiter extends Controller {
   }
 
   /**
-    * Method for rendering delete candidate.
+    * Method for rendering delete candidate template.
     *
-    * @return Action.
+    * @return Action
     */
   def deleteCandidate = Action {
 
@@ -440,6 +444,9 @@ object Recruiter extends Controller {
 
   }
 
+  /**
+    * DeleteCandidateForm.
+    */
   val deleteCandidateForm = Form {
     "candidateID" -> text
   }

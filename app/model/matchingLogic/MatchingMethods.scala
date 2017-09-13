@@ -21,8 +21,8 @@ class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade, c
   /**
     * Method for getting all candidates that match on one skill.
     *
-    * @param jobDescriptionID
-    * @return
+    * @param jobDescriptionID job description id
+    * @return list of candidates
     */
   def matchingOnOneSkill(jobDescriptionID: Int): List[Candidate] = {
 
@@ -35,8 +35,8 @@ class MatchingMethods(jobDescriptionID: Int, matchingMethod: SimilarityFacade, c
   /**
     * Method for getting jobDescription by ID from Data Base API.
     *
-    * @param jobDescriptionID
-    * @return
+    * @param jobDescriptionID job description id
+    * @return job description
     */
   def getJobDescriptionByID(jobDescriptionID: Int): JobDescription = {
 

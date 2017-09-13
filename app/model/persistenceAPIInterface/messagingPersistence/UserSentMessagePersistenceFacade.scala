@@ -4,7 +4,7 @@ import persistenceAPI.DataBaseConnection.connectUser.DBUserSentMessage
 import persistenceAPI.DataBaseConnection.objects.ChatMessage
 
 /**
-  * Created by Casper on 07/09/2017.
+  * User Sent Messages Persistence Facade.
   */
 object UserSentMessagePersistenceFacade extends UserSentMessagePersistenceFacadeTrait {
 

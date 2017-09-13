@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.userPersistence
 import persistenceAPI.DataBaseConnection.objects.{HRManagerUser, RecruiterUser}
 
 /**
-  * Created by Casper on 07/09/2017.
+  * User Persistence Facade Trait.
   */
 trait UserPersistenceFacadeTrait {
 

@@ -3,7 +3,7 @@ package model.persistenceAPIInterface.attributesPersistence
 import persistenceAPI.DataBaseConnection.objects.Competency
 
 /**
-  * Created by Casper on 07/09/2017.
+  * Facade for Competency facade.
   */
 trait CompetencyPersistenceFacadeTrait {
 

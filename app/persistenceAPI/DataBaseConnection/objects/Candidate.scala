@@ -4,7 +4,6 @@ package persistenceAPI.DataBaseConnection.objects
   * Case class for representation of candidate
   * The creation of objects should belong to a factory
   *
-  *
   */
 case class Candidate(
 

@@ -1,6 +1,5 @@
 package persistenceAPI.DataBaseConnection.connectCandidate
 
-import controllers.MainApp
 import persistenceAPI.DataBaseConnection.DBMain
 import persistenceAPI.DataBaseConnection.objects.{Candidate, CandidateCompetency, CandidateSkill, Skill}
 

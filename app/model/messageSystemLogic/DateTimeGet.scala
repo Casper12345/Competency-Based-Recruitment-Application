@@ -3,10 +3,15 @@ package model.messageSystemLogic
 import java.util.Calendar
 
 /**
-  * Created by Casper on 07/08/2017.
+  * Class for getting dateTime
   */
 object DateTimeGet {
 
+  /**
+    * Method for getting dateTime
+    *
+    * @return Timestamp for SQL
+    */
   def getTimeAsTimeStamp: java.sql.Timestamp = {
 
     val now = Calendar.getInstance()

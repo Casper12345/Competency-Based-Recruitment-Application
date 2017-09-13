@@ -10,10 +10,6 @@ POST        /                                                                con
 # logout
 GET         /logout                                                          controllers.MainApp.logout
 
-# Helper
-
-GET         /helper                                                          controllers.MainApp.helper
-
 
 # Map static resources from the /public folder to the /assets URL path
 
