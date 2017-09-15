@@ -34,14 +34,13 @@ class MainAppTests extends Specification {
       println(contentAsString(withBadPass))
 
 
-      /*
+
       status(withoutSession) must equalTo(303)
       status(withInValidSession) must equalTo(303)
       status(withValidSession) must equalTo(200)
 
       contentAsString(withoutSession) must not contain "<title>Recruiter Main</title>"
       contentAsString(withValidSession) must contain("<title>Recruiter Main</title>")
-      */
 
     }
 
