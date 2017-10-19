@@ -12,7 +12,12 @@ Bootstrap 3 and 4, D3.js, JQuery, CSS and Java Script was used at the front end.
 
 ### How to Run the Program:
 The application is run using the following command: 
+
 $ SBT run
 
 ### Tests:
 The application is build using TDD and unit tests are created with JUnit3 and integration tests with Selenium.
+
+Test are run with: 
+
+$ SBT test
